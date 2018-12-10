@@ -7,14 +7,18 @@ import ImgSection from './ImgSection'
 
 function Aside(props) {
 	const store = useContext(AppContext)
-	console.log(store)
-	const imgFile = store.state.stories[0].backgroundImg
+	const { currentStory } = store.state
+	const { backgroundImg } = store.state.stories[currentStory]
+
 	const handleFileChange = useCallback(function(event) {
-		const newImgFile = event.target.files[0]
+		const file = event.target.files[0]
+		// set backgroundImg with image file
+		store.dispatch({ type: 'SET_BG_IMG', file })
 	}, [])
 
 	const handleDeleteImg = useCallback(function(event) {
-		// delete imgfile
+		// set backgroundImg as null
+		store.dispatch({ type: 'SET_BG_IMG', file: null })
 	}, [])
 
 	return (
@@ -31,9 +35,9 @@ function Aside(props) {
 
 				<AsideSection>
 					<Par>Background Image</Par>
-					{imgFile ? (
+					{backgroundImg ? (
 						<ImgSection
-							imgFile={imgFile}
+							imgFile={backgroundImg}
 							handleDeleteImg={handleDeleteImg}
 						/>
 					) : (
