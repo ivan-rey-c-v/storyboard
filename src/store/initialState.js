@@ -8,7 +8,7 @@ export default {
 				{
 					value: 'Add Text',
 					color: 'black',
-					fontSize: '36'
+					fontSize: 36
 				}
 			]
 		}

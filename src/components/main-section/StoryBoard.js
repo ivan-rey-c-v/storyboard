@@ -24,6 +24,7 @@ function StoryBoard(props) {
 						height={canvasHeight}
 						width={canvasWidth}
 						backgroundImg={props.backgroundImg}
+						texts={props.texts}
 					/>
 				</Suspense>
 			</CanvasContainer>
