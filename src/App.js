@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 import GlobalStyle from './GlobalStyle'
 import Aside from './components/aside/Aside'
+import MainSection from './components/main-section/MainSection'
 
 function App(props) {
 	return (
@@ -10,6 +11,7 @@ function App(props) {
 			<GlobalStyle />
 
 			<Aside />
+			<MainSection />
 		</AppLayout>
 	)
 }
