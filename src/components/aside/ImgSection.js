@@ -4,10 +4,10 @@ import styled from 'styled-components'
 function ImgSection(props) {
 	return (
 		<Layout>
-			<Img />
+			<Img src={window.URL.createObjectURL(props.imgFile)} />
 			<ImgDesc>
-				<p>my-image-name.png</p>
-				<Delete>Delete</Delete>
+				<p>{props.imgFile.name}</p>
+				<Delete onClick={props.handleDeleteImg}>Delete</Delete>
 			</ImgDesc>
 		</Layout>
 	)

@@ -9,6 +9,8 @@ const mainColor = 'rgb(101, 88, 119)'
 
 const ButtonDiv = styled.div`
 	padding: 0.5rem 1.25rem;
+	display: block;
+	min-width: 100%;
 	font-weight: 600;
 	text-align: center;
 	border-radius: 4px;

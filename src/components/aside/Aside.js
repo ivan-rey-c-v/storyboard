@@ -1,28 +1,59 @@
-import React from 'react'
+import React, { useContext, useCallback } from 'react'
+import { AppContext } from '../../store/AppContext'
 import styled from 'styled-components'
 
 import Button from '../Button'
 import ImgSection from './ImgSection'
 
 function Aside(props) {
+	const store = useContext(AppContext)
+	console.log(store)
+	const imgFile = store.state.stories[0].backgroundImg
+	const handleFileChange = useCallback(function(event) {
+		const newImgFile = event.target.files[0]
+	}, [])
+
+	const handleDeleteImg = useCallback(function(event) {
+		// delete imgfile
+	}, [])
+
 	return (
 		<AsideLayout>
 			<TopSection>
 				<Title>storyboard</Title>
+
 				<AsideSection>
 					<ScreenSelect>
 						<option>Story 1</option>
 						<option>Story 2</option>
 					</ScreenSelect>
 				</AsideSection>
+
 				<AsideSection>
 					<Par>Background Image</Par>
-					<ImgSection />
+					{imgFile ? (
+						<ImgSection
+							imgFile={imgFile}
+							handleDeleteImg={handleDeleteImg}
+						/>
+					) : (
+						<Button as="label" htmlFor="file-input">
+							Set background
+							<HiddenFileInput
+								type="file"
+								id="file-input"
+								name="file-input"
+								onChange={handleFileChange}
+							/>
+						</Button>
+					)}
 				</AsideSection>
+
 				<AsideSection>
 					<Par>Text</Par>
 					<Button> Add Text </Button>
 				</AsideSection>
+
 				<AsideSection>
 					<Par>Additional Graphics</Par>
 					<Button> Upload Image </Button>
@@ -79,6 +110,9 @@ const Par = styled.p`
 	font-size: 0.9rem;
 	color: rgb(62, 56, 71);
 	font-weight: 600;
+`
+const HiddenFileInput = styled.input`
+	display: none;
 `
 
 export default React.memo(Aside)
