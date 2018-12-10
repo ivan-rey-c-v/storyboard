@@ -1,12 +1,17 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { AppContext } from '../../store/AppContext'
 import styled from 'styled-components'
 
 import StoryBoard from './StoryBoard'
 
 function MainSection(props) {
+	const store = useContext(AppContext)
+
 	return (
 		<MainLayout>
-			<StoryBoard />
+			{store.state.stories.map(story => (
+				<StoryBoard key={story.id} {...story} />
+			))}
 		</MainLayout>
 	)
 }

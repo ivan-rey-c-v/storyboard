@@ -20,7 +20,11 @@ function StoryBoard(props) {
 			{/* suspend loading <Canvas /> , if not loaded, use <EmptyDiv/> instead  */}
 			<CanvasContainer>
 				<Suspense fallback={<EmptyDiv />}>
-					<Canvas />
+					<Canvas
+						height={canvasHeight}
+						width={canvasWidth}
+						backgroundImg={props.backgroundImg}
+					/>
 				</Suspense>
 			</CanvasContainer>
 		</Board>
