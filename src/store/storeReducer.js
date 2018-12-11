@@ -1,16 +1,10 @@
 export default function storeReducer(state, action) {
 	switch (action.type) {
 		case 'SET_BG_IMG': {
-			const { currentStory, stories } = state
-			const newStories = stories.map((story, index) => {
-				// story.id is equal to index
-				if (currentStory === story.id) {
-					story.backgroundImg = action.file
-				}
-				return story
-			})
+			const { currentStoryIndex, stories } = state
+			stories[currentStoryIndex].backgroundImg = action.file
 
-			return { ...state, stories: newStories }
+			return { ...state, stories }
 		}
 
 		case 'SET_SELECTED_SHAPE_NAME': {

@@ -27,6 +27,7 @@ function Aside(props) {
 	const { backgroundImg } = store.state.stories[currentStoryIndex]
 
 	const handleFileChange = useCallback(function(event) {
+		event.stopPropagation()
 		const file = event.target.files[0]
 		// set backgroundImg with image file
 		store.dispatch({ type: 'SET_BG_IMG', file })
