@@ -74,7 +74,7 @@ function Canvas(props) {
 
 	const handleOnTextDrag = useCallback(function(pos) {
 		const scaleX = this.scaleX()
-		const scaleY = this.scaleY()
+		//	const scaleY = this.scaleY()
 		const width = this.width()
 		const height = this.height()
 

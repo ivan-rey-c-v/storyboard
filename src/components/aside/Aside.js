@@ -97,12 +97,20 @@ function Aside(props) {
 					<div className="upload-div">
 						<Button className="image"> Upload Image </Button>
 						<div className="emoji-container">
-							<Emoji onClick={handleToggleEmoji}> ☺️ </Emoji>
+							<Emoji
+								onClick={handleToggleEmoji}
+								role="img"
+								aria-label="emoji"
+							>
+								☺️
+							</Emoji>
 
 							{isEmojiActive && (
 								<div className="emoji-selector">
 									{emojiList.map((emoji, index) => (
 										<Emoji
+											role="img"
+											aria-label="emoji"
 											key={`emoji-${index}`}
 											data-emoji={emoji}
 											onClick={handleAddEmoji}
@@ -214,7 +222,7 @@ const Button = styled.div`
 		transform: scale(0.95);
 	}
 `
-const Emoji = styled.div`
+const Emoji = styled.span`
 	${buttonMixin};
 	padding: 0;
 	padding-bottom: 0.25rem;
