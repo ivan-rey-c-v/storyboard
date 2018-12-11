@@ -26,29 +26,6 @@ function Canvas(props) {
 		[props.backgroundImg]
 	)
 
-	useEffect(
-		function() {
-			if (selectedShapeName && transformerRef) {
-				// here we need to manually attach or detach Transformer node
-				const stage = transformerRef.current.getStage()
-				const selectedNode = stage.findOne(`.${selectedShapeName}`)
-				// do nothing if selected node is already attached
-				if (selectedNode === transformerRef.current.node()) {
-					return
-				}
-				if (selectedNode) {
-					// attach to another node
-					transformerRef.current.attachTo(selectedNode)
-				} else {
-					// remove transformer
-					transformerRef.current.detach()
-				}
-				transformerRef.current.getLayer().batchDraw()
-			}
-		},
-		[selectedShapeName]
-	)
-
 	const dragOnHorizontally = useCallback(function(pos) {
 		return {
 			x: pos.x,
@@ -57,31 +34,31 @@ function Canvas(props) {
 	}, [])
 
 	const handleStageMouseDown = useCallback(function(e) {
-		// clicked on <Stage /> - clear selection
-		if (e.target === e.target.getStage()) {
+		const { name } = e.target.attrs
+		// clicked on <Stage /> or <BackgroundImage /> - clear selection
+		if (name === 'canvas-stage' || name === 'background-image') {
+			transformerRef.current.detach()
+			// re-draw
+			transformerRef.current.getLayer().batchDraw()
 			setSelectedShapeName('')
 			return
 		}
-		// clicked on transformer - do nothing
+
 		const clickedOnTransformer =
 			e.target.getParent().className === 'Transformer'
-		if (clickedOnTransformer) {
-			return
+		if (clickedOnTransformer || name === selectedShapeName) {
+			return // do nothing if it is transformer or current shape
 		}
 
-		const name = e.target.name()
-		console.log({ name })
-
-		if (name === 'background-image') {
-			transformerRef.current.detach()
-			setSelectedShapeName('')
-		} else {
-			setSelectedShapeName(name)
-		}
+		transformerRef.current.detach()
+		// attach transfer to new shape - e.target node
+		transformerRef.current.attachTo(e.target)
+		setSelectedShapeName(name)
 	}, [])
 
 	return (
 		<Stage
+			name="canvas-stage"
 			height={props.height}
 			width={props.width}
 			onMouseDown={handleStageMouseDown}
