@@ -6,11 +6,25 @@ import ImgSection from './ImgSection'
 import { buttonMixin } from '../../mixins/styledComponent'
 
 const acceptedImages = 'image/x-png,image/gif,image/jpeg'
+const emojiList = [
+	'☺️',
+	'☺️',
+	'☺️',
+	'☺️',
+	'☺️',
+	'☺️',
+	'☺️',
+	'☺️',
+	'☺️',
+	'☺️',
+	'☺️',
+	'☺️'
+]
 
 function Aside(props) {
 	const store = useContext(AppContext)
-	const { currentStory } = store.state
-	const { backgroundImg } = store.state.stories[currentStory]
+	const { currentStoryIndex, isEmojiActive } = store.state
+	const { backgroundImg } = store.state.stories[currentStoryIndex]
 
 	const handleFileChange = useCallback(function(event) {
 		const file = event.target.files[0]
@@ -21,6 +35,21 @@ function Aside(props) {
 	const handleDeleteImg = useCallback(function(event) {
 		// set backgroundImg as null
 		store.dispatch({ type: 'SET_BG_IMG', file: null })
+	}, [])
+
+	const handleAddText = useCallback(function(event) {
+		store.dispatch({ type: 'ADD_TEXT' })
+	}, [])
+
+	const handleToggleEmoji = useCallback(function(event) {
+		event.stopPropagation()
+		store.dispatch({ type: 'TOGGLE_EMOJI', toggle: true })
+	}, [])
+
+	const handleAddEmoji = useCallback(function(event) {
+		event.stopPropagation()
+		const emoji = event.target.textContent
+		store.dispatch({ type: 'ADD_EMOJI', emoji })
 	}, [])
 
 	return (
@@ -59,7 +88,7 @@ function Aside(props) {
 
 				<div className="inner-container">
 					<p className="name">Text</p>
-					<Button> Add Text </Button>
+					<Button onClick={handleAddText}> Add Text </Button>
 				</div>
 
 				<div className="inner-container">
@@ -67,7 +96,23 @@ function Aside(props) {
 
 					<div className="upload-div">
 						<Button className="image"> Upload Image </Button>
-						<Emoji> ☺️ </Emoji>
+						<div className="emoji-container">
+							<Emoji onClick={handleToggleEmoji}> ☺️ </Emoji>
+
+							{isEmojiActive && (
+								<div className="emoji-selector">
+									{emojiList.map((emoji, index) => (
+										<Emoji
+											key={`emoji-${index}`}
+											data-emoji={emoji}
+											onClick={handleAddEmoji}
+										>
+											{emoji}
+										</Emoji>
+									))}
+								</div>
+							)}
+						</div>
 					</div>
 				</div>
 			</div>
@@ -82,9 +127,11 @@ function Aside(props) {
 const AsideLayout = styled.aside`
 	height: 100%;
 	width: 270px;
+	min-width: 270px;
 	border-right: 1px solid lightgray;
 	display: flex;
 	flex-direction: column;
+	overflow-y: auto;
 
 	.title {
 		align-self: center;
@@ -114,6 +161,7 @@ const AsideLayout = styled.aside`
 
 	.bottom-section {
 		flex: 1;
+		min-height: 100px;
 		max-height: 500px;
 		padding: 1rem;
 		display: flex;
@@ -131,6 +179,22 @@ const AsideLayout = styled.aside`
 
 		.image {
 			flex: 1;
+		}
+	}
+
+	.emoji-container {
+		position: relative;
+		margin-left: 1rem;
+
+		.emoji-selector {
+			position: absolute;
+			right: -1rem;
+			top: calc(100% + 0.5rem);
+			width: calc(4 * 2.5rem);
+			background-color: #f7f7f7;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
 		}
 	}
 `
@@ -154,9 +218,9 @@ const Emoji = styled.div`
 	${buttonMixin};
 	padding: 0;
 	padding-bottom: 0.25rem;
-	width: 3rem;
+	width: 2.5rem;
 	max-height: 2.25rem;
-	margin-left: 1rem;
+
 	display: flex;
 	justify-content: center;
 	align-items: center;

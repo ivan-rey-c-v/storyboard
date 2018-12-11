@@ -1,5 +1,6 @@
 export default {
-	currentStory: 0,
+	isEmojiActive: false,
+	currentStoryIndex: 0,
 	selectedShapeName: '',
 	stories: [
 		{
