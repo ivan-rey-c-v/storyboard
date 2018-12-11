@@ -6,13 +6,13 @@ import React, {
 	useContext
 } from 'react'
 import { AppContext } from '../../store/AppContext'
-// Konva is needed for react-konva
-import Konva from 'konva'
+// Konva is needed for react-konva as dependency
 import { Stage, Layer, Image, Text, Transformer } from 'react-konva'
 
 function Canvas(props) {
 	const transformerRef = useRef(null)
 	const [image, setImage] = useState(null)
+	const [imageSize, setImageSize] = useState(null)
 	const store = useContext(AppContext)
 	const { selectedShapeName } = store.state
 
@@ -23,6 +23,13 @@ function Canvas(props) {
 				newImage.src = window.URL.createObjectURL(props.backgroundImg)
 				newImage.onload = () => {
 					// render konva Image when ready
+					const { height, width } = newImage
+					const aspectRatio = width / height
+
+					setImageSize({
+						height: props.height,
+						width: props.height * aspectRatio
+					})
 					setImage(newImage)
 				}
 			} else {
@@ -78,8 +85,9 @@ function Canvas(props) {
 						image={image}
 						name={'background-image'}
 						draggable
-						height={props.height}
 						dragBoundFunc={dragOnHorizontally}
+						// height and width
+						{...imageSize}
 					/>
 				)}
 

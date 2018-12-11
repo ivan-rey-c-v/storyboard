@@ -19,8 +19,11 @@ function MainSection(props) {
 const MainLayout = styled.main`
 	flex: 1;
 	background-color: #f7f7f7;
-	padding-top: 5rem;
-	padding-left: 5rem;
+	padding-top: 1rem;
+	padding-left: 4rem;
+
+	display: flex;
+	align-items: center;
 `
 
 export default React.memo(MainSection)
