@@ -2,8 +2,10 @@ import React, { useContext, useCallback } from 'react'
 import { AppContext } from '../../store/AppContext'
 import styled from 'styled-components'
 
-import Button from '../Button'
 import ImgSection from './ImgSection'
+import { buttonMixin } from '../../mixins/styledComponent'
+
+const acceptedImages = 'image/x-png,image/gif,image/jpeg'
 
 function Aside(props) {
 	const store = useContext(AppContext)
@@ -23,18 +25,18 @@ function Aside(props) {
 
 	return (
 		<AsideLayout>
-			<TopSection>
-				<Title>storyboard</Title>
+			<div className="top-section">
+				<h1 className="title">storyboard</h1>
 
-				<AsideSection>
+				<div className="inner-container">
 					<ScreenSelect>
 						<option>Story 1</option>
 						<option>Story 2</option>
 					</ScreenSelect>
-				</AsideSection>
+				</div>
 
-				<AsideSection>
-					<Par>Background Image</Par>
+				<div className="inner-container">
+					<p className="name">Background Image</p>
 					{backgroundImg ? (
 						<ImgSection
 							imgFile={backgroundImg}
@@ -43,30 +45,32 @@ function Aside(props) {
 					) : (
 						<Button as="label" htmlFor="file-input">
 							Set background
-							<HiddenFileInput
+							<input
+								className="hidden"
 								type="file"
 								id="file-input"
 								name="file-input"
 								onChange={handleFileChange}
+								accept={acceptedImages}
 							/>
 						</Button>
 					)}
-				</AsideSection>
+				</div>
 
-				<AsideSection>
-					<Par>Text</Par>
+				<div className="inner-container">
+					<p className="name">Text</p>
 					<Button> Add Text </Button>
-				</AsideSection>
+				</div>
 
-				<AsideSection>
-					<Par>Additional Graphics</Par>
+				<div className="inner-container">
+					<p className="name">Additional Graphics</p>
 					<Button> Upload Image </Button>
-				</AsideSection>
-			</TopSection>
+				</div>
+			</div>
 
-			<BottomSection>
+			<div className="bottom-section">
 				<Button primary>Download Story</Button>
-			</BottomSection>
+			</div>
 		</AsideLayout>
 	)
 }
@@ -77,46 +81,58 @@ const AsideLayout = styled.aside`
 	border-right: 1px solid lightgray;
 	display: flex;
 	flex-direction: column;
-`
-const TopSection = styled.div`
-	display: flex;
-	flex-direction: column;
-`
-const BottomSection = styled.div`
-	flex: 1;
-	max-height: 500px;
-	padding: 1rem;
-	display: flex;
-	flex-direction: column;
-	justify-content: flex-end;
-`
-const AsideSection = styled.div`
-	padding: 1rem;
-	border-bottom: 1px solid lightgray;
+
+	.title {
+		align-self: center;
+		color: rebeccapurple;
+		font-size: 1.25rem;
+		margin-top: 0.5rem;
+	}
+
+	.top-section {
+		display: flex;
+		flex-direction: column;
+
+		.inner-container {
+			padding: 1rem;
+			border-bottom: 1px solid lightgray;
+
+			.name {
+				padding-bottom: 1rem;
+				font-size: 0.9rem;
+				color: rgb(62, 56, 71);
+				font-weight: 600;
+			}
+		}
+	}
+
+	.bottom-section {
+		flex: 1;
+		max-height: 500px;
+		padding: 1rem;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-end;
+	}
+
+	.hidden {
+		display: none;
+	}
 `
 const ScreenSelect = styled.select`
-	width: 100%;
+	${buttonMixin};
 	appearance: none;
-	padding: 0.5rem 1rem;
-	font-weight: 600;
-	color: rgb(62, 56, 71);
-	border-radius: 4px;
-	border: 1px solid rgb(62, 56, 71);
+	text-align: left;
 `
-const Title = styled.h1`
-	align-self: center;
-	color: rebeccapurple;
-	font-size: 1.25rem;
-	margin-top: 0.5rem;
-`
-const Par = styled.p`
-	padding-bottom: 1rem;
-	font-size: 0.9rem;
-	color: rgb(62, 56, 71);
-	font-weight: 600;
-`
-const HiddenFileInput = styled.input`
-	display: none;
+const Button = styled.div`
+	${buttonMixin};
+
+	:hover {
+		opacity: 0.75;
+	}
+	:active {
+		transform: scale(0.95);
+	}
 `
 
 export default React.memo(Aside)
