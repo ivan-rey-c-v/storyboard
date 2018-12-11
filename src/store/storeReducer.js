@@ -13,6 +13,10 @@ export default function storeReducer(state, action) {
 			return { ...state, stories: newStories }
 		}
 
+		case 'SET_SELECTED_SHAPE_NAME': {
+			return { ...state, selectedShapeName: action.name }
+		}
+
 		default: {
 			return state
 		}

@@ -1,4 +1,11 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react'
+import React, {
+	useState,
+	useEffect,
+	useCallback,
+	useRef,
+	useContext
+} from 'react'
+import { AppContext } from '../../store/AppContext'
 // Konva is needed for react-konva
 import Konva from 'konva'
 import { Stage, Layer, Image, Text, Transformer } from 'react-konva'
@@ -6,7 +13,8 @@ import { Stage, Layer, Image, Text, Transformer } from 'react-konva'
 function Canvas(props) {
 	const transformerRef = useRef(null)
 	const [image, setImage] = useState(null)
-	const [selectedShapeName, setSelectedShapeName] = useState('')
+	const store = useContext(AppContext)
+	const { selectedShapeName } = store.state
 
 	useEffect(
 		function() {
@@ -40,7 +48,8 @@ function Canvas(props) {
 			transformerRef.current.detach()
 			// re-draw
 			transformerRef.current.getLayer().batchDraw()
-			setSelectedShapeName('')
+			// only one active object globally
+			store.dispatch({ type: 'SET_SELECTED_SHAPE_NAME', name: '' })
 			return
 		}
 
@@ -53,7 +62,7 @@ function Canvas(props) {
 		transformerRef.current.detach()
 		// attach transfer to new shape - e.target node
 		transformerRef.current.attachTo(e.target)
-		setSelectedShapeName(name)
+		store.dispatch({ type: 'SET_SELECTED_SHAPE_NAME', name })
 	}, [])
 
 	return (

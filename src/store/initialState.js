@@ -1,5 +1,6 @@
 export default {
 	currentStory: 0,
+	selectedShapeName: '',
 	stories: [
 		{
 			id: 0,
