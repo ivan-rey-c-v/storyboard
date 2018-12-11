@@ -4,22 +4,9 @@ import styled from 'styled-components'
 
 import ImgSection from './ImgSection'
 import { buttonMixin } from '../../mixins/styledComponent'
+import Emojies from './Emojies'
 
 const acceptedImages = 'image/x-png,image/gif,image/jpeg'
-const emojiList = [
-	'☺️',
-	'☺️',
-	'☺️',
-	'☺️',
-	'☺️',
-	'☺️',
-	'☺️',
-	'☺️',
-	'☺️',
-	'☺️',
-	'☺️',
-	'☺️'
-]
 
 function Aside(props) {
 	const store = useContext(AppContext)
@@ -40,17 +27,6 @@ function Aside(props) {
 
 	const handleAddText = useCallback(function(event) {
 		store.dispatch({ type: 'ADD_TEXT' })
-	}, [])
-
-	const handleToggleEmoji = useCallback(function(event) {
-		event.stopPropagation()
-		store.dispatch({ type: 'TOGGLE_EMOJI', toggle: true })
-	}, [])
-
-	const handleAddEmoji = useCallback(function(event) {
-		event.stopPropagation()
-		const emoji = event.target.textContent
-		store.dispatch({ type: 'ADD_EMOJI', emoji })
 	}, [])
 
 	return (
@@ -97,31 +73,11 @@ function Aside(props) {
 
 					<div className="upload-div">
 						<Button className="image"> Upload Image </Button>
-						<div className="emoji-container">
-							<Emoji
-								onClick={handleToggleEmoji}
-								role="img"
-								aria-label="emoji"
-							>
-								☺️
-							</Emoji>
 
-							{isEmojiActive && (
-								<div className="emoji-selector">
-									{emojiList.map((emoji, index) => (
-										<Emoji
-											role="img"
-											aria-label="emoji"
-											key={`emoji-${index}`}
-											data-emoji={emoji}
-											onClick={handleAddEmoji}
-										>
-											{emoji}
-										</Emoji>
-									))}
-								</div>
-							)}
-						</div>
+						<Emojies
+							dispatch={store.dispatch}
+							isEmojiActive={isEmojiActive}
+						/>
 					</div>
 				</div>
 			</div>
@@ -192,19 +148,6 @@ const AsideLayout = styled.aside`
 	}
 
 	.emoji-container {
-		position: relative;
-		margin-left: 1rem;
-
-		.emoji-selector {
-			position: absolute;
-			right: -1rem;
-			top: calc(100% + 0.5rem);
-			width: calc(4 * 2.5rem);
-			background-color: #f7f7f7;
-			display: flex;
-			flex-wrap: wrap;
-			justify-content: center;
-		}
 	}
 `
 
@@ -215,25 +158,6 @@ const ScreenSelect = styled.select`
 `
 const Button = styled.div`
 	${buttonMixin};
-
-	:hover {
-		opacity: 0.75;
-	}
-	:active {
-		transform: scale(0.95);
-	}
-`
-const Emoji = styled.span`
-	${buttonMixin};
-	padding: 0;
-	padding-bottom: 0.25rem;
-	width: 2.5rem;
-	max-height: 2.25rem;
-
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	font-size: 2rem;
 
 	:hover {
 		opacity: 0.75;
