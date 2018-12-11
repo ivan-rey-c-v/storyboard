@@ -64,7 +64,11 @@ function Aside(props) {
 
 				<div className="inner-container">
 					<p className="name">Additional Graphics</p>
-					<Button> Upload Image </Button>
+
+					<div className="upload-div">
+						<Button className="image"> Upload Image </Button>
+						<Emoji> ☺️ </Emoji>
+					</div>
 				</div>
 			</div>
 
@@ -96,6 +100,8 @@ const AsideLayout = styled.aside`
 		.inner-container {
 			padding: 1rem;
 			border-bottom: 1px solid lightgray;
+			display: flex;
+			flex-direction: column;
 
 			.name {
 				padding-bottom: 1rem;
@@ -118,7 +124,17 @@ const AsideLayout = styled.aside`
 	.hidden {
 		display: none;
 	}
+
+	.upload-div {
+		display: flex;
+		max-width: 100%;
+
+		.image {
+			flex: 1;
+		}
+	}
 `
+
 const ScreenSelect = styled.select`
 	${buttonMixin};
 	appearance: none;
@@ -126,6 +142,25 @@ const ScreenSelect = styled.select`
 `
 const Button = styled.div`
 	${buttonMixin};
+
+	:hover {
+		opacity: 0.75;
+	}
+	:active {
+		transform: scale(0.95);
+	}
+`
+const Emoji = styled.div`
+	${buttonMixin};
+	padding: 0;
+	padding-bottom: 0.25rem;
+	width: 3rem;
+	max-height: 2.25rem;
+	margin-left: 1rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 2rem;
 
 	:hover {
 		opacity: 0.75;
