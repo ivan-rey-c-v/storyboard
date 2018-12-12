@@ -7,6 +7,7 @@ import React, {
 	useEffect
 } from 'react'
 import { AppContext } from '../../store/AppContext'
+import { Emoji } from 'emoji-mart'
 import styled from 'styled-components'
 
 import { buttonMixin } from '../../mixins/styledComponent'
@@ -50,14 +51,9 @@ function Emojies(props) {
 
 	return (
 		<EmojiContainer>
-			<Emoji
-				onClick={handleToggleEmojiOn}
-				role="img"
-				aria-label="img"
-				aria-labelledby="img"
-			>
-				☺️
-			</Emoji>
+			<div className="emoji-button" onClick={handleToggleEmojiOn}>
+				<Emoji emoji="heart_eyes" size={24} />
+			</div>
 
 			{isEmojiPickerActive && (
 				<div className="overlay" onClick={handleToggleEmojiOff}>
@@ -101,25 +97,25 @@ const EmojiContainer = styled.div`
 			width: 355px;
 		}
 	}
-`
 
-const Emoji = styled.span`
-	${buttonMixin};
-	padding: 0;
-	padding-bottom: 0.25rem;
-	width: 2.5rem;
-	max-height: 2.25rem;
+	.emoji-button {
+		${buttonMixin};
+		padding: 0;
+		min-width: 2.5rem;
+		min-height: 2.25rem;
+		max-height: 2.25rem;
 
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	font-size: 2rem;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-size: 2rem;
 
-	:hover {
-		opacity: 0.75;
-	}
-	:active {
-		transform: scale(0.95);
+		:hover {
+			opacity: 0.75;
+		}
+		:active {
+			transform: scale(0.95);
+		}
 	}
 `
 
