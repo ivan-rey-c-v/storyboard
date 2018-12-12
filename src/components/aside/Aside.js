@@ -2,6 +2,7 @@ import React, { useContext, useCallback } from 'react'
 import { AppContext } from '../../store/AppContext'
 import styled from 'styled-components'
 import FileSaver from 'file-saver'
+import JSZip from 'jszip'
 
 import ImgSection from './ImgSection'
 import { buttonMixin } from '../../mixins/styledComponent'
@@ -37,7 +38,9 @@ function Aside(props) {
 
 		const canvasses = [...document.getElementsByTagName('canvas')]
 
-		canvasses.forEach(canvas => {
+		const zip = new JSZip()
+
+		canvasses.forEach((canvas, index) => {
 			const { height, width } = canvas
 			const aspectRatio = width / height
 
@@ -55,7 +58,16 @@ function Aside(props) {
 			context.drawImage(canvas, 0, 0, newWidth, newHeight)
 
 			const src = newCanvas.toDataURL()
-			FileSaver.saveAs(src, 'image.jpg')
+			zip.file(
+				`storyboard${index + 1}.png`,
+				src
+				// { base64: true}
+			)
+		})
+
+		zip.generateAsync({ type: 'blob' }).then(function(content) {
+			console.log({ content })
+			FileSaver.saveAs(content, 'storyboard.zip')
 		})
 	}, [])
 
