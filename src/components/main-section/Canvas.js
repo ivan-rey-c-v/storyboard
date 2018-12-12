@@ -7,7 +7,8 @@ import React, {
 } from 'react'
 import { AppContext } from '../../store/AppContext'
 // Konva is needed for react-konva as dependency
-import { Stage, Layer, Image, Text, Transformer } from 'react-konva'
+import { Stage, Layer, Text, Transformer } from 'react-konva'
+import BackgroundImage from './BackgroundImage'
 
 function Canvas(props) {
 	const transformerRef = useRef(null)
@@ -40,13 +41,6 @@ function Canvas(props) {
 		// called everytime props.backgroundImg changes
 		[props.backgroundImg]
 	)
-
-	const dragOnHorizontally = useCallback(function(pos) {
-		return {
-			x: pos.x,
-			y: this.getAbsolutePosition().y
-		}
-	}, [])
 
 	const handleStageMouseDown = useCallback(function(e) {
 		const { name } = e.target.attrs
@@ -121,13 +115,10 @@ function Canvas(props) {
 		>
 			<Layer>
 				{image && (
-					<Image
+					<BackgroundImage
 						image={image}
-						name={'background-image'}
-						draggable
-						dragBoundFunc={dragOnHorizontally}
-						// performance boost: no transformation, only posX and posY
-						transformsEnabled="position"
+						name="background-image"
+						containerWidth={props.width}
 						// height and width
 						{...imageSize}
 					/>
@@ -145,7 +136,7 @@ function Canvas(props) {
 						dragBoundFunc={handleOnTextDrag}
 					/>
 				))}
-				<Transformer ref={transformerRef} />
+				<Transformer ref={transformerRef} name="my-transformer" />
 			</Layer>
 		</Stage>
 	)

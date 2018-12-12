@@ -31,7 +31,7 @@ function Emojies(props) {
 
 	return (
 		<EmojiContainer>
-			<Emoji onClick={handleToggleEmoji} role="img" aria-label="emoji">
+			<Emoji onClick={handleToggleEmoji} role="img" aria-label="img" aria-labelledby="img">
 				☺️
 			</Emoji>
 
@@ -40,7 +40,8 @@ function Emojies(props) {
 					{emojiList.map((emoji, index) => (
 						<Emoji
 							role="img"
-							aria-label="emoji"
+							aria-label="img"
+							aria-labelledby="img"
 							key={`emoji-${index}`}
 							data-emoji={emoji}
 							onClick={handleAddEmoji}
