@@ -71,9 +71,15 @@ function Aside(props) {
 
 				<div className="inner-container">
 					<ScreenSelect onChange={handleStorySelect}>
-						<option value="0">Story 1</option>
-						<option value="1">Story 2</option>
-						<option value="2">Story 3</option>
+						{[0, 1, 2].map(val => (
+							<option
+								key={`story-${val + 1}`}
+								value={val}
+								selected={currentStoryIndex === val}
+							>
+								{`Story ${val + 1}`}
+							</option>
+						))}
 					</ScreenSelect>
 				</div>
 
