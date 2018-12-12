@@ -94,11 +94,6 @@ function Aside(props) {
 				</div>
 
 				<div className="inner-container">
-					<p className="name">Text</p>
-					<Button onClick={handleAddText}> Add Text </Button>
-				</div>
-
-				<div className="inner-container">
 					<p className="name">Additional Graphics</p>
 
 					<div className="upload-div">
@@ -109,6 +104,11 @@ function Aside(props) {
 							isEmojiActive={isEmojiActive}
 						/>
 					</div>
+				</div>
+
+				<div className="inner-container">
+					<p className="name">Text</p>
+					<Button onClick={handleAddText}> Add Text </Button>
 				</div>
 			</div>
 
@@ -158,7 +158,6 @@ const AsideLayout = styled.aside`
 
 	.bottom-section {
 		flex: 1;
-		min-height: 100px;
 		max-height: 500px;
 		padding: 1rem;
 		display: flex;

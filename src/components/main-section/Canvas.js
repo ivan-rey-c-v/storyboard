@@ -8,6 +8,8 @@ import ShapeTransformer from './ShapeTransformer'
 function Canvas(props) {
 	const [image, setImage] = useState(null)
 	const [imageSize, setImageSize] = useState(null)
+	const [withCenterAnchors, setWithCenterAnchors] = useState(true)
+
 	const store = useContext(AppContext)
 	const { selectedShapeName } = store.state
 
@@ -50,7 +52,13 @@ function Canvas(props) {
 			return // do nothing if it is transformer or current shape
 		}
 
-		// attach transfer to new shape - e.target node
+		if (name.includes('text')) {
+			setWithCenterAnchors(true)
+		}
+		if (name.includes('object')) {
+			setWithCenterAnchors(false)
+		}
+
 		store.dispatch({ type: 'SET_SELECTED_SHAPE_NAME', name })
 	}, [])
 
@@ -115,16 +123,20 @@ function Canvas(props) {
 				{props.texts.map((text, index) => (
 					<Text
 						key={`text-${index}`}
-						name={`text-${index}`}
+						// 'text' name used for having center anchors in transformer
+						name={`${props.id}-text-${index}`}
 						text={text.value}
 						draggable
-						x={20}
-						y={index * 20}
+						x={props.width / 2 - 70}
+						y={index * 50 + 10}
 						fontSize={text.fontSize}
 						dragBoundFunc={handleOnTextDrag}
 					/>
 				))}
-				<ShapeTransformer selectedShapeName={selectedShapeName} />
+				<ShapeTransformer
+					selectedShapeName={selectedShapeName}
+					withCenterAnchors={withCenterAnchors}
+				/>
 			</Layer>
 		</Stage>
 	)

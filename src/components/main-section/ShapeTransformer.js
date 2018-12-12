@@ -1,6 +1,27 @@
 import React, { Component } from 'react'
 import { Transformer } from 'react-konva'
 
+const withCenterAnchors = [
+	'top-left',
+	'top-center',
+	'top-right',
+	'middle-right',
+	'middle-left',
+	'bottom-left',
+	'bottom-center',
+	'bottom-right'
+]
+const noCenterAnchors = [
+	'top-left',
+	//'top-center',
+	'top-right',
+	//'middle-right',
+	//'middle-left',
+	'bottom-left',
+	//'bottom-center',
+	'bottom-right'
+]
+
 class ShapeTransformer extends Component {
 	componentDidMount() {
 		this.checkNode()
@@ -31,6 +52,11 @@ class ShapeTransformer extends Component {
 				ref={node => {
 					this.transformer = node
 				}}
+				enabledAnchors={
+					this.props.withCenterAnchors
+						? withCenterAnchors
+						: noCenterAnchors
+				}
 			/>
 		)
 	}

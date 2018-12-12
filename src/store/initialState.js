@@ -4,7 +4,7 @@ export default {
 	selectedShapeName: '',
 	stories: [
 		{
-			id: 0,
+			id: 'story-1',
 			backgroundImg: null,
 			texts: [
 				{
