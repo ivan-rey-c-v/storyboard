@@ -13,19 +13,15 @@ export default {
 					fontSize: 36
 				}
 			],
+			emojies: [],
 			objects: []
 		},
 		{
 			id: 'Screen 2',
 			name: 'screen-2',
 			backgroundImg: null,
-			texts: [
-				{
-					value: 'Add Text',
-					color: 'black',
-					fontSize: 36
-				}
-			],
+			texts: [],
+			emojies: [],
 			objects: []
 		},
 		{
@@ -33,6 +29,7 @@ export default {
 			name: 'screen-3',
 			backgroundImg: null,
 			texts: [],
+			emojies: [],
 			objects: []
 		}
 	]

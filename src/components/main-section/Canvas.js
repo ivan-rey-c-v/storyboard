@@ -40,7 +40,6 @@ function Canvas(props) {
 
 	const handleStageMouseDown = useCallback(function(e) {
 		const { name } = e.target.attrs
-		console.log({ name })
 		// clicked on <Stage /> or <BackgroundImage /> - clear selection
 		if (name === 'canvas-stage' || name === 'background-image') {
 			store.dispatch({ type: 'SET_SELECTED_SHAPE_NAME', name: '' })
@@ -134,6 +133,19 @@ function Canvas(props) {
 						dragBoundFunc={handleOnTextDrag}
 					/>
 				))}
+				{props.emojies.map((object, index) => (
+					<Text
+						key={`object-emoji-${index}`}
+						{...object}
+						name={`${props.name}-object-emoji-${index}`}
+						text={object.emoji}
+						draggable
+						x={props.width / 2 - 70}
+						y={100}
+						dragBoundFunc={handleOnTextDrag}
+					/>
+				))}
+
 				<ShapeTransformer
 					selectedShapeName={selectedShapeName}
 					withCenterAnchors={withCenterAnchors}

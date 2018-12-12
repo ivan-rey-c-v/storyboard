@@ -31,12 +31,11 @@ export default function storeReducer(state, action) {
 		case 'ADD_EMOJI': {
 			const { currentStoryIndex, stories } = state
 			const emoji = {
-				type: 'text',
-				value: action.emoji,
-				color: 'black',
-				fontSize: 54
+				emoji: action.emoji,
+				fontSize: 46
 			}
-			stories[currentStoryIndex].texts.push(emoji)
+
+			stories[currentStoryIndex].emojies.push(emoji)
 
 			return { ...state, stories }
 		}

@@ -1,4 +1,12 @@
-import React, { lazy, Suspense, useState, useCallback, useEffect } from 'react'
+import React, {
+	useContext,
+	lazy,
+	Suspense,
+	useState,
+	useCallback,
+	useEffect
+} from 'react'
+import { AppContext } from '../../store/AppContext'
 import styled from 'styled-components'
 
 import { buttonMixin } from '../../mixins/styledComponent'
@@ -7,6 +15,13 @@ const EmojiPicker = lazy(_ => import('./EmojiPicker'))
 
 function Emojies(props) {
 	const [isEmojiPickerActive, setIsEmojiPickerActive] = useState(false)
+	const store = useContext(AppContext)
+
+	const handleEmojiClick = useCallback(function(emoji) {
+		// this callback gets `emoji` obj instead of `event`
+		store.dispatch({ type: 'ADD_EMOJI', emoji: emoji.native })
+		setIsEmojiPickerActive(false)
+	}, [])
 
 	const handleToggleEmojiOn = useCallback(function(event) {
 		event.stopPropagation()
@@ -18,10 +33,9 @@ function Emojies(props) {
 		setIsEmojiPickerActive(false)
 	}, [])
 
-	const handleAddEmoji = useCallback(function(event) {
+	const handleOnPickerClick = useCallback(function(event) {
+		// prevents triggering App's event
 		event.stopPropagation()
-		const emoji = event.target.textContent
-		props.dispatch({ type: 'ADD_EMOJI', emoji })
 	}, [])
 
 	useEffect(function() {
@@ -48,9 +62,12 @@ function Emojies(props) {
 			{isEmojiPickerActive && (
 				<div className="overlay" onClick={handleToggleEmojiOff}>
 					{/* emoji-mart is styled in globastyles */}
-					<div className="picker-container">
+					<div
+						className="picker-container"
+						onClick={handleOnPickerClick}
+					>
 						<Suspense fallback={<EmptyDiv />}>
-							<EmojiPicker />
+							<EmojiPicker handleEmojiClick={handleEmojiClick} />
 						</Suspense>
 					</div>
 				</div>
