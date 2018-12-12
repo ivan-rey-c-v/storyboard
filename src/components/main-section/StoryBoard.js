@@ -14,6 +14,10 @@ function StoryBoard(props) {
 	const canvasHeight = height * 0.704
 	const canvasWidth = height * 0.396
 
+	function onClick(event) {
+		event.stopPropagation()
+	}
+
 	return (
 		<Board canvasHeight={canvasHeight} canvasWidth={canvasWidth}>
 			<Header>
@@ -22,7 +26,7 @@ function StoryBoard(props) {
 			</Header>
 
 			{/* suspend loading <Canvas /> , if not loaded, use <EmptyDiv/> instead  */}
-			<CanvasContainer>
+			<CanvasContainer onClick={onClick}>
 				<Suspense fallback={<EmptyDiv />}>
 					<Canvas
 						height={canvasHeight}
