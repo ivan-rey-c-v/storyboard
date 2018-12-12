@@ -42,8 +42,13 @@ class ShapeTransformer extends Component {
 		}
 
 		const selectedNode = stage.findOne('.' + selectedShapeName)
-		this.transformer.attachTo(selectedNode)
-		this.transformer.getLayer().batchDraw()
+		if (selectedNode) {
+			this.transformer.attachTo(selectedNode)
+			this.transformer.getLayer().batchDraw()
+		} else {
+			this.transformer.detach()
+			this.transformer.getLayer().batchDraw()
+		}
 	}
 
 	render() {

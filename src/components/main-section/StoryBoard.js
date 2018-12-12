@@ -23,7 +23,7 @@ function StoryBoard(props) {
 	return (
 		<Board canvasHeight={canvasHeight} canvasWidth={canvasWidth}>
 			<Header isCurrentStory={props.isCurrentStory}>
-				<span>{props.name}</span>
+				<span>{props.id}</span>
 				<span className="editing">Editing</span>
 			</Header>
 

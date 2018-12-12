@@ -40,6 +40,7 @@ function Canvas(props) {
 
 	const handleStageMouseDown = useCallback(function(e) {
 		const { name } = e.target.attrs
+		console.log({ name })
 		// clicked on <Stage /> or <BackgroundImage /> - clear selection
 		if (name === 'canvas-stage' || name === 'background-image') {
 			store.dispatch({ type: 'SET_SELECTED_SHAPE_NAME', name: '' })
@@ -124,7 +125,7 @@ function Canvas(props) {
 					<Text
 						key={`text-${index}`}
 						// 'text' name used for having center anchors in transformer
-						name={`${props.id}-text-${index}`}
+						name={`${props.name}-text-${index}`}
 						text={text.value}
 						draggable
 						x={props.width / 2 - 70}

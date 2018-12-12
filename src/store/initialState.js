@@ -4,7 +4,8 @@ export default {
 	selectedShapeName: '',
 	stories: [
 		{
-			name: 'Screen 1',
+			id: 'Screen 1',
+			name: 'screen-1',
 			backgroundImg: null,
 			texts: [
 				{
@@ -15,7 +16,8 @@ export default {
 			]
 		},
 		{
-			name: 'Screen 2',
+			id: 'Screen 2',
+			name: 'screen-2',
 			backgroundImg: null,
 			texts: [
 				{
@@ -26,7 +28,8 @@ export default {
 			]
 		},
 		{
-			name: 'Screen 3',
+			id: 'Screen 3',
+			name: 'screen-3',
 			backgroundImg: null,
 			texts: []
 		}
