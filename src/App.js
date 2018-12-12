@@ -11,8 +11,8 @@ function App(props) {
 
 	const handleOnClick = useCallback(function(event) {
 		event.stopPropagation()
-		store.dispatch({ type: 'TOGGLE_EMOJI', toggle: false })
-		store.dispatch({ type: 'SET_SELECTED_SHAPE_NAME', name: '' })
+		// reset toggles: emoji, selectedShape etc
+		store.dispatch({ type: 'RESET_ACTIVES' })
 	}, [])
 
 	return (

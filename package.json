@@ -5,6 +5,7 @@
 	"version": "0.1.0",
 	"private": true,
 	"dependencies": {
+		"file-saver": "^2.0.0",
 		"konva": "^2.5.1",
 		"react": "^16.7.0-alpha.2",
 		"react-dom": "^16.7.0-alpha.2",

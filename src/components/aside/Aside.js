@@ -1,6 +1,7 @@
 import React, { useContext, useCallback } from 'react'
 import { AppContext } from '../../store/AppContext'
 import styled from 'styled-components'
+import FileSaver from 'file-saver'
 
 import ImgSection from './ImgSection'
 import { buttonMixin } from '../../mixins/styledComponent'
@@ -27,6 +28,35 @@ function Aside(props) {
 
 	const handleAddText = useCallback(function(event) {
 		store.dispatch({ type: 'ADD_TEXT' })
+	}, [])
+
+	const handleDownload = useCallback(function(event) {
+		event.stopPropagation()
+		// remove Transformer selection
+		store.dispatch({ type: 'SET_SELECTED_SHAPE_NAME', name: '' })
+
+		const canvasses = [...document.getElementsByTagName('canvas')]
+
+		canvasses.forEach(canvas => {
+			const { height, width } = canvas
+			const aspectRatio = width / height
+
+			//create a new canvas
+			const newCanvas = document.createElement('canvas')
+			const context = newCanvas.getContext('2d')
+
+			//set dimensions
+			const newHeight = 1980
+			const newWidth = newHeight * aspectRatio
+			newCanvas.height = newHeight
+			newCanvas.width = newWidth
+
+			//apply the old canvas to the new one
+			context.drawImage(canvas, 0, 0, newWidth, newHeight)
+
+			const src = newCanvas.toDataURL()
+			FileSaver.saveAs(src, 'image.jpg')
+		})
 	}, [])
 
 	return (
@@ -83,7 +113,9 @@ function Aside(props) {
 			</div>
 
 			<div className="bottom-section">
-				<Button primary>Download Story</Button>
+				<Button primary onClick={handleDownload}>
+					Download Story
+				</Button>
 			</div>
 		</AsideLayout>
 	)

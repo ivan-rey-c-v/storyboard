@@ -41,6 +41,14 @@ export default function storeReducer(state, action) {
 			return { ...state, stories }
 		}
 
+		case 'RESET_ACTIVES': {
+			return {
+				...state,
+				isEmojiActive: false,
+				selectedShapeName: ''
+			}
+		}
+
 		default: {
 			return state
 		}
