@@ -59,15 +59,21 @@ function Aside(props) {
 		})
 	}, [])
 
+	const handleStorySelect = useCallback(function(event) {
+		const { value } = event.target
+		store.dispatch({ type: 'SET_STORY_BOARD', index: Number(value) })
+	}, [])
+
 	return (
 		<AsideLayout>
 			<div className="top-section">
 				<h1 className="title">storyboard</h1>
 
 				<div className="inner-container">
-					<ScreenSelect>
-						<option>Story 1</option>
-						<option>Story 2</option>
+					<ScreenSelect onChange={handleStorySelect}>
+						<option value="0">Story 1</option>
+						<option value="1">Story 2</option>
+						<option value="2">Story 3</option>
 					</ScreenSelect>
 				</div>
 

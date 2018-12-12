@@ -4,7 +4,7 @@ export default {
 	selectedShapeName: '',
 	stories: [
 		{
-			id: 'story-1',
+			name: 'Screen 1',
 			backgroundImg: null,
 			texts: [
 				{
@@ -13,6 +13,22 @@ export default {
 					fontSize: 36
 				}
 			]
+		},
+		{
+			name: 'Screen 2',
+			backgroundImg: null,
+			texts: [
+				{
+					value: 'Add Text',
+					color: 'black',
+					fontSize: 36
+				}
+			]
+		},
+		{
+			name: 'Screen 3',
+			backgroundImg: null,
+			texts: []
 		}
 	]
 }

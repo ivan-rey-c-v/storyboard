@@ -1,5 +1,9 @@
 export default function storeReducer(state, action) {
 	switch (action.type) {
+		case 'SET_STORY_BOARD': {
+			return { ...state, currentStoryIndex: action.index }
+		}
+
 		case 'SET_BG_IMG': {
 			const { currentStoryIndex, stories } = state
 			stories[currentStoryIndex].backgroundImg = action.file

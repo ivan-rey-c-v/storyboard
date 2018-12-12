@@ -15,18 +15,23 @@ function StoryBoard(props) {
 	const canvasWidth = height * 0.396
 
 	function onClick(event) {
+		// not to trigger App's event when clicking inside canvas
 		event.stopPropagation()
+		props.storeDispatch({ type: 'SET_STORY_BOARD', index: props.index })
 	}
 
 	return (
 		<Board canvasHeight={canvasHeight} canvasWidth={canvasWidth}>
-			<Header>
-				<span>Screen</span>
-				<span>Editing</span>
+			<Header isCurrentStory={props.isCurrentStory}>
+				<span>{props.name}</span>
+				<span className="editing">Editing</span>
 			</Header>
 
 			{/* suspend loading <Canvas /> , if not loaded, use <EmptyDiv/> instead  */}
-			<CanvasContainer onClick={onClick}>
+			<CanvasContainer
+				onClick={onClick}
+				isCurrentStory={props.isCurrentStory}
+			>
 				<Suspense fallback={<EmptyDiv />}>
 					<Canvas
 						height={canvasHeight}
@@ -51,13 +56,27 @@ const Board = styled.article`
 const Header = styled.header`
 	padding: 0 1rem;
 	height: ${headerHeight}px;
+	font-size: 0.9rem;
+	font-weight: 600;
+	color: ${props => (props.isCurrentStory ? '545454' : 'gray')};
+	letter-spacing: 1px;
+
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+
+	.editing {
+		color: rebeccapurple;
+		display: ${props => (props.isCurrentStory ? 'inherit' : 'none')};
+	}
 `
 const CanvasContainer = styled.div`
+	cursor: pointer;
 	flex: 1;
-	border: 1px solid lightgray;
+	border-width: 1px;
+	border-style: solid;
+	border-color: ${props =>
+		props.isCurrentStory ? 'rebeccapurple' : 'lightgray'};
 `
 const EmptyDiv = styled.div`
 	height: 100%;

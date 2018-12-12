@@ -7,10 +7,18 @@ import StoryBoard from './StoryBoard'
 function MainSection(props) {
 	const store = useContext(AppContext)
 
+	const { stories, currentStoryIndex } = store.state
+
 	return (
 		<MainLayout>
-			{store.state.stories.map(story => (
-				<StoryBoard key={story.id} {...story} />
+			{stories.map((story, index) => (
+				<StoryBoard
+					key={story.name}
+					{...story}
+					storeDispatch={store.dispatch}
+					index={index}
+					isCurrentStory={currentStoryIndex === index ? true : false}
+				/>
 			))}
 		</MainLayout>
 	)
