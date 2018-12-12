@@ -1,26 +1,21 @@
-import React, { useCallback } from 'react'
+import React, { lazy, Suspense, useState, useCallback, useEffect } from 'react'
 import styled from 'styled-components'
 
 import { buttonMixin } from '../../mixins/styledComponent'
-const emojiList = [
-	'☺️',
-	'☺️',
-	'☺️',
-	'☺️',
-	'☺️',
-	'☺️',
-	'☺️',
-	'☺️',
-	'☺️',
-	'☺️',
-	'☺️',
-	'☺️'
-]
+
+const EmojiPicker = lazy(_ => import('./EmojiPicker'))
 
 function Emojies(props) {
-	const handleToggleEmoji = useCallback(function(event) {
+	const [isEmojiPickerActive, setIsEmojiPickerActive] = useState(false)
+
+	const handleToggleEmojiOn = useCallback(function(event) {
 		event.stopPropagation()
-		props.dispatch({ type: 'TOGGLE_EMOJI', toggle: true })
+		setIsEmojiPickerActive(true)
+	}, [])
+
+	const handleToggleEmojiOff = useCallback(function(event) {
+		event.stopPropagation()
+		setIsEmojiPickerActive(false)
 	}, [])
 
 	const handleAddEmoji = useCallback(function(event) {
@@ -29,26 +24,35 @@ function Emojies(props) {
 		props.dispatch({ type: 'ADD_EMOJI', emoji })
 	}, [])
 
+	useEffect(function() {
+		// `Esc` key should toggle off emoji overlay
+		const removeOverlay = function(event) {
+			return event.key === 'Escape' ? setIsEmojiPickerActive(false) : null
+		}
+		window.addEventListener('keyup', removeOverlay)
+
+		return () => window.removeEventListener('keyup', removeOverlay)
+	}, [])
+
 	return (
 		<EmojiContainer>
-			<Emoji onClick={handleToggleEmoji} role="img" aria-label="img" aria-labelledby="img">
+			<Emoji
+				onClick={handleToggleEmojiOn}
+				role="img"
+				aria-label="img"
+				aria-labelledby="img"
+			>
 				☺️
 			</Emoji>
 
-			{props.isEmojiActive && (
-				<div className="emoji-selector">
-					{emojiList.map((emoji, index) => (
-						<Emoji
-							role="img"
-							aria-label="img"
-							aria-labelledby="img"
-							key={`emoji-${index}`}
-							data-emoji={emoji}
-							onClick={handleAddEmoji}
-						>
-							{emoji}
-						</Emoji>
-					))}
+			{isEmojiPickerActive && (
+				<div className="overlay" onClick={handleToggleEmojiOff}>
+					{/* emoji-mart is styled in globastyles */}
+					<div className="picker-container">
+						<Suspense fallback={<EmptyDiv />}>
+							<EmojiPicker />
+						</Suspense>
+					</div>
 				</div>
 			)}
 		</EmojiContainer>
@@ -56,18 +60,29 @@ function Emojies(props) {
 }
 
 const EmojiContainer = styled.div`
-	position: relative;
 	margin-left: 1rem;
 
-	.emoji-selector {
-		position: absolute;
-		right: -1rem;
-		top: calc(100% + 0.5rem);
-		width: calc(4 * 2.5rem);
-		background-color: #f7f7f7;
+	.overlay {
+		position: fixed;
+		top: 0;
+		bottom: 0;
+		right: 0;
+		left: 0;
+		z-index: 500;
+
+		max-height: 100vh;
+		max-width: 100vw;
+		overflow: hidden;
+
+		background-color: rgba(177, 169, 180, 0.8);
 		display: flex;
-		flex-wrap: wrap;
 		justify-content: center;
+		align-items: center;
+
+		.picker-container {
+			height: 425px;
+			width: 355px;
+		}
 	}
 `
 
@@ -89,6 +104,12 @@ const Emoji = styled.span`
 	:active {
 		transform: scale(0.95);
 	}
+`
+
+const EmptyDiv = styled.div`
+	height: 100%;
+	width: 100%;
+	background-color: white;
 `
 
 export default React.memo(Emojies)

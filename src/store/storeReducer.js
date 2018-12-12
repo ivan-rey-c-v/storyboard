@@ -28,10 +28,6 @@ export default function storeReducer(state, action) {
 			return { ...state, stories }
 		}
 
-		case 'TOGGLE_EMOJI': {
-			return { ...state, isEmojiActive: action.toggle }
-		}
-
 		case 'ADD_EMOJI': {
 			const { currentStoryIndex, stories } = state
 			const emoji = {
@@ -48,7 +44,6 @@ export default function storeReducer(state, action) {
 		case 'RESET_ACTIVES': {
 			return {
 				...state,
-				isEmojiActive: false,
 				selectedShapeName: ''
 			}
 		}

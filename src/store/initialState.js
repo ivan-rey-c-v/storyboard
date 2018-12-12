@@ -1,5 +1,4 @@
 export default {
-	isEmojiActive: false,
 	currentStoryIndex: 0,
 	selectedShapeName: '',
 	stories: [
@@ -13,7 +12,8 @@ export default {
 					color: 'black',
 					fontSize: 36
 				}
-			]
+			],
+			objects: []
 		},
 		{
 			id: 'Screen 2',
@@ -25,13 +25,15 @@ export default {
 					color: 'black',
 					fontSize: 36
 				}
-			]
+			],
+			objects: []
 		},
 		{
 			id: 'Screen 3',
 			name: 'screen-3',
 			backgroundImg: null,
-			texts: []
+			texts: [],
+			objects: []
 		}
 	]
 }

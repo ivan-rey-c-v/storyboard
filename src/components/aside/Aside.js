@@ -11,7 +11,7 @@ const acceptedImages = 'image/x-png,image/gif,image/jpeg'
 
 function Aside(props) {
 	const store = useContext(AppContext)
-	const { currentStoryIndex, isEmojiActive } = store.state
+	const { currentStoryIndex } = store.state
 	const { backgroundImg } = store.state.stories[currentStoryIndex]
 
 	const handleFileChange = useCallback(function(event) {
@@ -105,10 +105,7 @@ function Aside(props) {
 					<div className="upload-div">
 						<Button className="image"> Upload Image </Button>
 
-						<Emojies
-							dispatch={store.dispatch}
-							isEmojiActive={isEmojiActive}
-						/>
+						<Emojies dispatch={store.dispatch} />
 					</div>
 				</div>
 

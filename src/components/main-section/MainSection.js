@@ -29,6 +29,7 @@ const MainLayout = styled.main`
 	background-color: #f7f7f7;
 	padding-top: 1rem;
 	padding-left: 4rem;
+	overflow: hidden;
 
 	display: flex;
 	align-items: center;
