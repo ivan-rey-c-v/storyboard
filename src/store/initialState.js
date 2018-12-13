@@ -12,6 +12,7 @@ export default {
 			texts: [
 				{
 					fontSize: 48,
+					fontStyle: 'normal',
 					text: 'Hello!',
 					align: 'left',
 					padding: 10,

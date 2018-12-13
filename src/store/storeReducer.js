@@ -34,12 +34,12 @@ export default function storeReducer(state, action) {
 		case 'ADD_TEXT': {
 			const { currentStoryIndex, stories } = state
 			const text = {
-				type: 'text',
-				text: 'Modify Text',
-				fill: '#232323',
-				fontFamily: 'Arial',
-				fontSize: 36,
+				fontSize: 48,
+				fontStyle: 'normal',
+				text: 'Hello!',
+				align: 'left',
 				padding: 10,
+				fill: '#232323',
 				opacity: 1
 			}
 

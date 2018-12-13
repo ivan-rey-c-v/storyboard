@@ -12,6 +12,7 @@ function TextProperties(props) {
 				handleOnTextInputChange={props.handleOnTextInputChange}
 			/>
 			<AdditionalProperties
+				handleOnFontStyleChange={props.handleOnFontStyleChange}
 				handleOnColorChange={props.handleOnColorChange}
 				currentText={props.currentText}
 			/>

@@ -1,28 +1,29 @@
-import React from 'react'
+import React, { lazy, Suspense } from 'react'
 import styled from 'styled-components'
-import ColorPicker from 'rc-color-picker'
 
-import '../../../rc-color-picker.css'
+const ColorPicker = lazy(_ => import('./ColorPicker'))
+const FontStyle = lazy(_ => import('./FontStyle'))
 
 function AdditionalProperties(props) {
-	const { fill, opacity } = props.currentText
-
 	return (
 		<Container>
 			<Card />
 			<Card />
-			<Card />
 			<Card>
-				<ColorPicker
-					className="color-picker"
-					color={fill}
-					alpha={opacity * 100}
-					onChange={props.handleOnColorChange}
-					placement="topLeft"
-					defaultColor={fill}
-				>
-					<ColorPickerTrigger color={fill} />
-				</ColorPicker>
+				<Suspense fallback={<Card />}>
+					<FontStyle
+						fontStyle={props.currentText.fontStyle}
+						handleOnFontStyleChange={props.handleOnFontStyleChange}
+					/>
+				</Suspense>
+			</Card>
+			<Card>
+				<Suspense fallback={<Card />}>
+					<ColorPicker
+						currentText={props.currentText}
+						handleOnColorChange={props.handleOnColorChange}
+					/>
+				</Suspense>
 			</Card>
 		</Container>
 	)
@@ -38,13 +39,6 @@ const Card = styled.div`
 	height: 2.5rem;
 	width: 2.5rem;
 	background-color: lightgray;
-`
-const ColorPickerTrigger = styled.div`
-	height: 2rem;
-	width: 2rem;
-	margin: 0.25rem;
-	border-radius: 4px;
-	cursor: pointer;
 `
 
 export default React.memo(AdditionalProperties)

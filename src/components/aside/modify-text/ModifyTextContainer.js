@@ -40,6 +40,22 @@ function ModifyTextContainer(props) {
 		props.storeDispatch({ type: 'MODIFY_TEXT', properties })
 	}, [])
 
+	const handleOnFontStyleChange = useCallback(
+		currentFontStyle => event => {
+			const fontStyles = ['italic', 'normal', 'bold']
+			const lastIndex = fontStyles.indexOf(currentFontStyle)
+
+			// loop over
+			const newIndex = (lastIndex + 1) % fontStyles.length
+
+			const properties = {
+				fontStyle: fontStyles[newIndex]
+			}
+			props.storeDispatch({ type: 'MODIFY_TEXT', properties })
+		},
+		[]
+	)
+
 	return (
 		<ContainerDiv>
 			<Header>
@@ -59,6 +75,7 @@ function ModifyTextContainer(props) {
 					currentText={props.texts[textIndex]}
 					handleOnTextInputChange={handleOnTextInputChange}
 					handleOnColorChange={handleOnColorChange}
+					handleOnFontStyleChange={handleOnFontStyleChange}
 				/>
 			)}
 		</ContainerDiv>
