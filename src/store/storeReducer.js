@@ -12,7 +12,14 @@ export default function storeReducer(state, action) {
 		}
 
 		case 'SET_SELECTED_SHAPE_NAME': {
-			return { ...state, selectedShapeName: action.name }
+			return {
+				...state,
+				actives: {
+					...state.actives,
+					selectedShapeName: action.name,
+					textIndex: action.textIndex
+				}
+			}
 		}
 
 		case 'ADD_TEXT': {

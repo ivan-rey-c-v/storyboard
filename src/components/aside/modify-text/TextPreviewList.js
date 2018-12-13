@@ -5,7 +5,14 @@ function TextPreviewList(props) {
 	return (
 		<List>
 			{props.textList.map((text, index) => (
-				<TextCard key={`preview-text-${index}`}>
+				<TextCard
+					key={`preview-text-${index}`}
+					onClick={props.handleSelectText(index)}
+					activetext={
+						props.selectedShapeName ===
+						`${props.storyName}-text-${index}`
+					}
+				>
 					<p>Aa</p>
 				</TextCard>
 			))}
@@ -30,6 +37,8 @@ const TextCard = styled.li`
 	margin-right: 1rem;
 	display: flex;
 	padding: 0 0.2rem;
+
+	box-shadow: ${props => (props.activetext ? '2px 2px 2px purple' : 'none')};
 
 	p {
 		font-size: 0.8rem;

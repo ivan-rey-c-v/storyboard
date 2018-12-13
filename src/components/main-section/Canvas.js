@@ -11,7 +11,7 @@ function Canvas(props) {
 	const [withCenterAnchors, setWithCenterAnchors] = useState(true)
 
 	const store = useContext(AppContext)
-	const { selectedShapeName } = store.state
+	const { selectedShapeName } = store.state.actives
 
 	useEffect(
 		function() {
@@ -39,7 +39,7 @@ function Canvas(props) {
 	)
 
 	const handleStageMouseDown = useCallback(function(e) {
-		const { name } = e.target.attrs
+		const { name, textIndex } = e.target.attrs
 		// clicked on <Stage /> or <BackgroundImage /> - clear selection
 		if (name === 'canvas-stage' || name === 'background-image') {
 			store.dispatch({ type: 'SET_SELECTED_SHAPE_NAME', name: '' })
@@ -58,8 +58,11 @@ function Canvas(props) {
 		if (name.includes('object')) {
 			setWithCenterAnchors(false)
 		}
+		if (name.includes('emoji')) {
+			setWithCenterAnchors(false)
+		}
 
-		store.dispatch({ type: 'SET_SELECTED_SHAPE_NAME', name })
+		store.dispatch({ type: 'SET_SELECTED_SHAPE_NAME', name, textIndex })
 	}, [])
 
 	const handleOnTextDrag = useCallback(function(pos) {
@@ -125,6 +128,8 @@ function Canvas(props) {
 						key={`text-${index}`}
 						// 'text' name used for having center anchors in transformer
 						name={`${props.name}-text-${index}`}
+						// textIndex used for changing properties
+						textIndex={index}
 						text={text.value}
 						draggable
 						x={props.width / 2 - 70}
@@ -135,10 +140,11 @@ function Canvas(props) {
 				))}
 				{props.emojies.map((object, index) => (
 					<Text
-						key={`object-emoji-${index}`}
+						key={`emoji-${index}`}
 						{...object}
-						name={`${props.name}-object-emoji-${index}`}
+						name={`${props.name}-emoji-${index}`}
 						text={object.emoji}
+						textIndex={null}
 						draggable
 						x={props.width / 2 - 70}
 						y={100}

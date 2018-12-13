@@ -7,7 +7,7 @@ import JSZip from 'jszip'
 import { buttonMixin } from '../../mixins/styledComponent'
 import ImgSection from './ImgSection'
 import Emojies from './Emojies'
-import TextProperties from './text-properties/TextProperties'
+import ModifyTextContainer from './modify-text/ModifyTextContainer'
 
 const acceptedImages = 'image/x-png,image/gif,image/jpeg'
 
@@ -15,7 +15,8 @@ function Aside(props) {
 	const store = useContext(AppContext)
 	const { currentStoryIndex } = store.state
 	const currentStory = store.state.stories[currentStoryIndex]
-	const { backgroundImg, texts, id } = currentStory
+	const { backgroundImg, texts, id: storyID, name: storyName } = currentStory
+	const { selectedShapeName, textIndex } = store.state.actives
 
 	const handleFileChange = useCallback(function(event) {
 		event.stopPropagation()
@@ -134,7 +135,14 @@ function Aside(props) {
 					<Button onClick={handleAddText}> Add Text </Button>
 
 					{texts.length > 0 && (
-						<TextProperties texts={texts} id={id} />
+						<ModifyTextContainer
+							texts={texts}
+							storyID={storyID}
+							storyName={storyName}
+							storeDispatch={store.dispatch}
+							textIndex={textIndex}
+							selectedShapeName={selectedShapeName}
+						/>
 					)}
 				</div>
 			</div>

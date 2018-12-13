@@ -1,32 +1,15 @@
 export default {
 	currentStoryIndex: 0,
-	selectedShapeName: '',
+	actives: {
+		textIndex: null,
+		selectedShapeName: ''
+	},
 	stories: [
 		{
 			id: 'Screen 1',
 			name: 'screen-1',
 			backgroundImg: null,
 			texts: [
-				{
-					fontSize: 54,
-					value: 'asdf'
-				},
-				{
-					fontSize: 54,
-					value: 'asdf'
-				},
-				{
-					fontSize: 54,
-					value: 'asdf'
-				},
-				{
-					fontSize: 54,
-					value: 'asdf'
-				},
-				{
-					fontSize: 54,
-					value: 'asdf'
-				},
 				{
 					fontSize: 54,
 					value: 'asdf'

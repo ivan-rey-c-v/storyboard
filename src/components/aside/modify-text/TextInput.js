@@ -1,7 +1,11 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import styled from 'styled-components'
 
 function TextInput(props) {
+	const handleTextChange = useCallback(function(event) {
+		//
+	}, [])
+
 	return <Input value="Add Text" />
 }
 
