@@ -7,6 +7,7 @@
 	"dependencies": {
 		"emoji-mart": "^2.9.2",
 		"file-saver": "^2.0.0",
+		"immer": "^1.8.2",
 		"jszip": "^3.1.5",
 		"konva": "^2.5.1",
 		"rc-color-picker": "^1.2.6",

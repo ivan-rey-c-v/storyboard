@@ -1,38 +1,26 @@
-export default function storeReducer(state, action) {
+import produce from 'immer'
+
+export default produce((draftState, action) => {
 	switch (action.type) {
 		case 'SET_STORY_BOARD': {
-			return { ...state, currentStoryIndex: action.index }
+			draftState.currentStoryIndex = action.index
+			return
 		}
 
 		case 'SET_BG_IMG': {
-			const { currentStoryIndex, stories } = state
-			const newStories = stories.map((story, index) => {
-				if (currentStoryIndex === index) {
-					return {
-						...story,
-						backgroundImg: action.file
-					}
-				}
-
-				return story
-			})
-
-			return { ...state, stories: newStories }
+			const { currentStoryIndex } = draftState
+			draftState.stories[currentStoryIndex].backgroundImg = action.file
+			return
 		}
 
 		case 'SET_SELECTED_SHAPE_NAME': {
-			return {
-				...state,
-				actives: {
-					...state.actives,
-					selectedShapeName: action.name,
-					textIndex: action.textIndex
-				}
-			}
+			draftState.actives.selectedShapeName = action.name
+			draftState.actives.textIndex = action.textIndex
+			return
 		}
 
 		case 'ADD_TEXT': {
-			const { currentStoryIndex, stories } = state
+			const { currentStoryIndex } = draftState
 			const text = {
 				fontSize: 48,
 				fontStyle: 'normal',
@@ -42,82 +30,44 @@ export default function storeReducer(state, action) {
 				fill: '#232323',
 				opacity: 1
 			}
+			console.log('setting text...', currentStoryIndex)
 
-			const newStories = stories.map((story, index) => {
-				if (currentStoryIndex === index) {
-					return {
-						...story,
-						texts: [...story.texts, text]
-					}
-				}
-
-				return story
-			})
-
-			return { ...state, stories: newStories }
+			draftState.stories[currentStoryIndex].texts.push(text)
+			return
 		}
 
 		case 'ADD_EMOJI': {
-			const { currentStoryIndex, stories } = state
+			const { currentStoryIndex } = draftState
 			const emoji = {
 				emoji: action.emoji,
 				fontSize: 46
 			}
 
-			const newStories = stories.map((story, index) => {
-				if (currentStoryIndex === index) {
-					return {
-						...story,
-						emojies: [...story.emojies, emoji]
-					}
-				}
-
-				return story
-			})
-
-			return { ...state, stories: newStories }
+			draftState.stories[currentStoryIndex].emojies.push(emoji)
+			return
 		}
 
 		case 'MODIFY_TEXT': {
-			const { currentStoryIndex, stories } = state
-			const { textIndex } = state.actives
+			const { currentStoryIndex } = draftState
+			const { textIndex } = draftState.actives
 
-			const newStories = stories.map((story, index) => {
-				if (currentStoryIndex === index) {
-					const newTexts = story.texts.map((text, idx) => {
-						if (textIndex === idx) {
-							return {
-								...text,
-								...action.properties
-							}
-						}
+			const lastText =
+				draftState.stories[currentStoryIndex].texts[textIndex]
 
-						return text
-					})
-					return {
-						...story,
-						texts: newTexts
-					}
-				}
-
-				return story
-			})
-
-			return {
-				...state,
-				stories: newStories
+			draftState.stories[currentStoryIndex].texts[textIndex] = {
+				...lastText,
+				...action.properties
 			}
+			return
 		}
 
 		case 'RESET_ACTIVES': {
-			return {
-				...state,
-				selectedShapeName: ''
-			}
+			draftState.actives.selectedShapeName = ''
+			return
 		}
 
 		default: {
-			return state
+			return draftState
 		}
 	}
-}
+})
