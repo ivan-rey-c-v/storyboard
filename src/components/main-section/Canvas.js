@@ -125,16 +125,15 @@ function Canvas(props) {
 
 				{props.texts.map((text, index) => (
 					<Text
+						{...text}
 						key={`text-${index}`}
 						// 'text' name used for having center anchors in transformer
 						name={`${props.name}-text-${index}`}
 						// textIndex used for changing properties
 						textIndex={index}
-						text={text.value}
 						draggable
 						x={props.width / 2 - 70}
 						y={index * 50 + 10}
-						fontSize={text.fontSize}
 						dragBoundFunc={handleOnTextDrag}
 					/>
 				))}

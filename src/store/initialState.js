@@ -12,15 +12,15 @@ export default {
 			texts: [
 				{
 					fontSize: 54,
-					value: 'asdf'
+					text: 'asdf'
 				},
 				{
 					fontSize: 54,
-					value: 'asdf'
+					text: 'asdf'
 				},
 				{
 					fontSize: 54,
-					value: 'asdf'
+					text: 'asdf'
 				}
 			],
 			emojies: [],

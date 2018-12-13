@@ -8,12 +8,14 @@ function TextProperties(props) {
 	return (
 		<div>
 			<TextInput
-				storeDispatch={props.storeDispatch}
 				textValue={props.textValue}
-				handleOnTextChange={props.handleOnTextChange}
+				handleOnTextInputChange={props.handleOnTextInputChange}
 			/>
 			<AdditionalProperties />
-			<FontSelect />
+			<FontSelect
+				fontFamily={props.fontFamily}
+				handleOnTextInputChange={props.handleOnTextInputChange}
+			/>
 		</div>
 	)
 }

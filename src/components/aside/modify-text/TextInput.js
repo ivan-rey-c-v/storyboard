@@ -2,7 +2,13 @@ import React from 'react'
 import styled from 'styled-components'
 
 function TextInput(props) {
-	return <Input value={props.textValue} onChange={props.handleOnTextChange} />
+	return (
+		<Input
+			value={props.textValue}
+			name="text"
+			onChange={props.handleOnTextInputChange}
+		/>
+	)
 }
 
 const Input = styled.input`

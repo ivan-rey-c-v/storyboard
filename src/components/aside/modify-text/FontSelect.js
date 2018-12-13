@@ -13,9 +13,15 @@ const fonts = [
 function FontSelect(props) {
 	return (
 		<Container>
-			<Select>
+			<Select
+				font={props.fontFamily}
+				name="fontFamily"
+				onChange={props.handleOnTextInputChange}
+			>
 				{fonts.map((font, index) => (
-					<Option key={font}> {font} </Option>
+					<Option key={font} font={font}>
+						{font}
+					</Option>
 				))}
 			</Select>
 
@@ -35,9 +41,11 @@ const Select = styled.select`
 	font-size: 0.9rem;
 	padding: 0 0.25rem;
 	color: #707070;
+
+	font-family: ${props => `${props.font}, sans-serif`};
 `
 const Option = styled.option`
-	/* styles */
+	font-family: ${props => `${props.font}, sans-serif`};
 `
 
 export default React.memo(FontSelect)

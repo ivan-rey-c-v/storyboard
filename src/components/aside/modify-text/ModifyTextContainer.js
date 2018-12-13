@@ -20,11 +20,12 @@ function ModifyTextContainer(props) {
 		[]
 	)
 
-	const handleOnTextChange = useCallback(function(event) {
+	const handleOnTextInputChange = useCallback(function(event) {
 		event.stopPropagation()
-		const { value } = event.target
+		const { value, name } = event.target
+
 		const properties = {
-			value
+			[name]: value
 		}
 		props.storeDispatch({ type: 'MODIFY_TEXT', properties })
 	}, [])
@@ -45,8 +46,9 @@ function ModifyTextContainer(props) {
 				<TextProperties
 					storyID={props.storyID}
 					storeDispatch={props.storeDispatch}
-					textValue={props.texts[textIndex].value}
-					handleOnTextChange={handleOnTextChange}
+					textValue={props.texts[textIndex].text}
+					fontFamily={props.texts[textIndex].fontFamily}
+					handleOnTextInputChange={handleOnTextInputChange}
 				/>
 			)}
 		</ContainerDiv>
