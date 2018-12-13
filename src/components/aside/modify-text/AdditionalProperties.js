@@ -7,8 +7,8 @@ const FontStyle = lazy(_ => import('./FontStyle'))
 function AdditionalProperties(props) {
 	return (
 		<Container>
-			<Card />
-			<Card />
+			<Card onClick={props.preventPropagation} />
+			<Card onClick={props.preventPropagation} />
 			<Card>
 				<Suspense fallback={<Card />}>
 					<FontStyle
@@ -17,7 +17,7 @@ function AdditionalProperties(props) {
 					/>
 				</Suspense>
 			</Card>
-			<Card>
+			<Card onClick={props.preventPropagation}>
 				<Suspense fallback={<Card />}>
 					<ColorPicker
 						currentText={props.currentText}

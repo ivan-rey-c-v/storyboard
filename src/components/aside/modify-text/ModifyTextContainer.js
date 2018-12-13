@@ -42,6 +42,7 @@ function ModifyTextContainer(props) {
 
 	const handleOnFontStyleChange = useCallback(
 		currentFontStyle => event => {
+			event.stopPropagation()
 			const fontStyles = ['italic', 'normal', 'bold']
 			const lastIndex = fontStyles.indexOf(currentFontStyle)
 
@@ -68,7 +69,7 @@ function ModifyTextContainer(props) {
 				selectedShapeName={selectedShapeName}
 				handleSelectText={handleSelectText}
 			/>
-			{textIndex != null && (
+			{selectedShapeName && (
 				<TextProperties
 					storyID={props.storyID}
 					storeDispatch={props.storeDispatch}
@@ -86,7 +87,6 @@ const ContainerDiv = styled.div`
 	padding-top: 0.75rem;
 `
 const Header = styled.header`
-	padding-bottom: 0.5rem;
 	font-size: 0.75rem;
 	font-weight: 600;
 	color: darkgray;

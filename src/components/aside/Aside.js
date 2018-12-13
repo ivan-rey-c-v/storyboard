@@ -16,7 +16,7 @@ function Aside(props) {
 	const { currentStoryIndex } = store.state
 	const currentStory = store.state.stories[currentStoryIndex]
 	const { backgroundImg, texts, id: storyID, name: storyName } = currentStory
-	const { selectedShapeName, textIndex } = store.state.actives
+	const { textIndex, selectedShapeName } = store.state.actives
 
 	const handleFileChange = useCallback(function(event) {
 		event.stopPropagation()
@@ -31,6 +31,7 @@ function Aside(props) {
 	}, [])
 
 	const handleAddText = useCallback(function(event) {
+		event.stopPropagation()
 		store.dispatch({ type: 'ADD_TEXT' })
 	}, [])
 

@@ -23,9 +23,8 @@ function TextPreviewList(props) {
 }
 
 const List = styled.ol`
-	margin: 0;
 	list-style: none;
-	padding-bottom: 0.5rem;
+	padding: 0.5rem;
 	display: flex;
 
 	overflow: auto;
@@ -48,10 +47,12 @@ const TextCard = styled.li`
 
 	${props => {
 		const { activetext, color, opacity } = props
+
 		return {
 			color,
 			opacity,
-			border: activetext ? '2px 2px 2px purple' : 'none'
+			outline: activetext ? 'dashed purple' : 'none',
+			boxShadow: activetext ? '1px 1px 4px gray' : 'none'
 		}
 	}};
 `

@@ -21,6 +21,10 @@ export default produce((draftState, action) => {
 
 		case 'ADD_TEXT': {
 			const { currentStoryIndex } = draftState
+			const { name: storyName } = draftState.stories[currentStoryIndex]
+			const { length } = draftState.stories[currentStoryIndex].texts
+			const newTextName = `${storyName}-text-${length}`
+
 			const text = {
 				fontSize: 48,
 				fontStyle: 'normal',
@@ -30,9 +34,12 @@ export default produce((draftState, action) => {
 				fill: '#232323',
 				opacity: 1
 			}
-			console.log('setting text...', currentStoryIndex)
 
 			draftState.stories[currentStoryIndex].texts.push(text)
+			draftState.actives = {
+				textIndex: length,
+				selectedShapeName: newTextName
+			}
 			return
 		}
 

@@ -12,11 +12,11 @@ const fonts = [
 
 function FontSelect(props) {
 	return (
-		<Container>
+		<Container font={props.fontFamily}>
 			<Select
-				font={props.fontFamily}
 				name="fontFamily"
 				onChange={props.handleOnTextInputChange}
+				onClick={props.preventPropagation}
 			>
 				{fonts.map((font, index) => (
 					<Option key={font} font={font}>
@@ -33,6 +33,7 @@ function FontSelect(props) {
 const Container = styled.div`
 	padding-top: 0.5rem;
 	position: relative;
+	font-family: ${props => `${props.font}, sans-serif`};
 `
 
 const Select = styled.select`
@@ -41,8 +42,8 @@ const Select = styled.select`
 	font-size: 0.9rem;
 	padding: 0 0.25rem;
 	color: #707070;
-
-	font-family: ${props => `${props.font}, sans-serif`};
+	cursor: pointer;
+	font-family: inherit;
 `
 const Option = styled.option`
 	font-family: ${props => `${props.font}, sans-serif`};

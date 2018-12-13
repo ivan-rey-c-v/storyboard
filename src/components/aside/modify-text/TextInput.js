@@ -7,6 +7,7 @@ function TextInput(props) {
 			value={props.textValue}
 			name="text"
 			onChange={props.handleOnTextInputChange}
+			onClick={props.preventPropagation}
 			placeholder="No text value!"
 		/>
 	)
