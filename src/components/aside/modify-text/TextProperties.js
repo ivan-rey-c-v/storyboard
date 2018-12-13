@@ -5,11 +5,13 @@ import FontSelect from './FontSelect'
 import AdditionalProperties from './AdditionalProperties'
 
 function TextProperties(props) {
-	console.log(props.textValue)
-
 	return (
 		<div>
-			<TextInput storeDispatch={props.storeDispatch} />
+			<TextInput
+				storeDispatch={props.storeDispatch}
+				textValue={props.textValue}
+				handleOnTextChange={props.handleOnTextChange}
+			/>
 			<AdditionalProperties />
 			<FontSelect />
 		</div>

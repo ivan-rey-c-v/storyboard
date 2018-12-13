@@ -6,9 +6,18 @@ export default function storeReducer(state, action) {
 
 		case 'SET_BG_IMG': {
 			const { currentStoryIndex, stories } = state
-			stories[currentStoryIndex].backgroundImg = action.file
+			const newStories = stories.map((story, index) => {
+				if (currentStoryIndex === index) {
+					return {
+						...story,
+						backgroundImg: action.file
+					}
+				}
 
-			return { ...state, stories }
+				return story
+			})
+
+			return { ...state, stories: newStories }
 		}
 
 		case 'SET_SELECTED_SHAPE_NAME': {
@@ -30,9 +39,19 @@ export default function storeReducer(state, action) {
 				color: 'black',
 				fontSize: 36
 			}
-			stories[currentStoryIndex].texts.push(text)
 
-			return { ...state, stories }
+			const newStories = stories.map((story, index) => {
+				if (currentStoryIndex === index) {
+					return {
+						...story,
+						texts: [...story.texts, text]
+					}
+				}
+
+				return story
+			})
+
+			return { ...state, stories: newStories }
 		}
 
 		case 'ADD_EMOJI': {
@@ -42,9 +61,49 @@ export default function storeReducer(state, action) {
 				fontSize: 46
 			}
 
-			stories[currentStoryIndex].emojies.push(emoji)
+			const newStories = stories.map((story, index) => {
+				if (currentStoryIndex === index) {
+					return {
+						...story,
+						emojies: [...story.emojies, emoji]
+					}
+				}
 
-			return { ...state, stories }
+				return story
+			})
+
+			return { ...state, stories: newStories }
+		}
+
+		case 'MODIFY_TEXT': {
+			const { currentStoryIndex, stories } = state
+			const { textIndex } = state.actives
+
+			const newStories = stories.map((story, index) => {
+				if (currentStoryIndex === index) {
+					const newTexts = story.texts.map((text, idx) => {
+						if (textIndex === idx) {
+							return {
+								...text,
+								...action.properties
+							}
+						}
+
+						return text
+					})
+					return {
+						...story,
+						texts: newTexts
+					}
+				}
+
+				return story
+			})
+
+			return {
+				...state,
+				stories: newStories
+			}
 		}
 
 		case 'RESET_ACTIVES': {

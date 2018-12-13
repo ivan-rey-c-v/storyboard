@@ -20,16 +20,14 @@ function ModifyTextContainer(props) {
 		[]
 	)
 
-	const handleOnTextChange = useCallback(
-		index => event => {
-			event.stopPropagation()
-			const { value } = event.target
-			//props.storeDispatch({ type: 'SET_SELECTED_SHAPE_NAME', value })
-		},
-		[]
-	)
-
-	console.log({ textIndex })
+	const handleOnTextChange = useCallback(function(event) {
+		event.stopPropagation()
+		const { value } = event.target
+		const properties = {
+			value
+		}
+		props.storeDispatch({ type: 'MODIFY_TEXT', properties })
+	}, [])
 
 	return (
 		<ContainerDiv>
@@ -48,6 +46,7 @@ function ModifyTextContainer(props) {
 					storyID={props.storyID}
 					storeDispatch={props.storeDispatch}
 					textValue={props.texts[textIndex].value}
+					handleOnTextChange={handleOnTextChange}
 				/>
 			)}
 		</ContainerDiv>
