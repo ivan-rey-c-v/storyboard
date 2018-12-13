@@ -4,16 +4,18 @@ import styled from 'styled-components'
 import FileSaver from 'file-saver'
 import JSZip from 'jszip'
 
-import ImgSection from './ImgSection'
 import { buttonMixin } from '../../mixins/styledComponent'
+import ImgSection from './ImgSection'
 import Emojies from './Emojies'
+import TextProperties from './text-properties/TextProperties'
 
 const acceptedImages = 'image/x-png,image/gif,image/jpeg'
 
 function Aside(props) {
 	const store = useContext(AppContext)
 	const { currentStoryIndex } = store.state
-	const { backgroundImg } = store.state.stories[currentStoryIndex]
+	const currentStory = store.state.stories[currentStoryIndex]
+	const { backgroundImg, texts, id } = currentStory
 
 	const handleFileChange = useCallback(function(event) {
 		event.stopPropagation()
@@ -130,6 +132,10 @@ function Aside(props) {
 				<div className="inner-container">
 					<p className="name">Text</p>
 					<Button onClick={handleAddText}> Add Text </Button>
+
+					{texts.length > 0 && (
+						<TextProperties texts={texts} id={id} />
+					)}
 				</div>
 			</div>
 
@@ -169,8 +175,8 @@ const AsideLayout = styled.aside`
 			flex-direction: column;
 
 			.name {
-				padding-bottom: 1rem;
-				font-size: 0.9rem;
+				padding-bottom: 0.5rem;
+				font-size: 0.75rem;
 				color: rgb(62, 56, 71);
 				font-weight: 600;
 			}

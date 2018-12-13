@@ -8,9 +8,36 @@ export default {
 			backgroundImg: null,
 			texts: [
 				{
-					value: 'Add Text',
-					color: 'black',
-					fontSize: 36
+					fontSize: 54,
+					value: 'asdf'
+				},
+				{
+					fontSize: 54,
+					value: 'asdf'
+				},
+				{
+					fontSize: 54,
+					value: 'asdf'
+				},
+				{
+					fontSize: 54,
+					value: 'asdf'
+				},
+				{
+					fontSize: 54,
+					value: 'asdf'
+				},
+				{
+					fontSize: 54,
+					value: 'asdf'
+				},
+				{
+					fontSize: 54,
+					value: 'asdf'
+				},
+				{
+					fontSize: 54,
+					value: 'asdf'
 				}
 			],
 			emojies: [],
