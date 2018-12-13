@@ -30,6 +30,16 @@ function ModifyTextContainer(props) {
 		props.storeDispatch({ type: 'MODIFY_TEXT', properties })
 	}, [])
 
+	const handleOnColorChange = useCallback(function(colors) {
+		const { color, alpha } = colors
+
+		const properties = {
+			fill: color,
+			opacity: alpha / 100
+		}
+		props.storeDispatch({ type: 'MODIFY_TEXT', properties })
+	}, [])
+
 	return (
 		<ContainerDiv>
 			<Header>
@@ -46,9 +56,9 @@ function ModifyTextContainer(props) {
 				<TextProperties
 					storyID={props.storyID}
 					storeDispatch={props.storeDispatch}
-					textValue={props.texts[textIndex].text}
-					fontFamily={props.texts[textIndex].fontFamily}
+					currentText={props.texts[textIndex]}
 					handleOnTextInputChange={handleOnTextInputChange}
+					handleOnColorChange={handleOnColorChange}
 				/>
 			)}
 		</ContainerDiv>

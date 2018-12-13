@@ -12,6 +12,8 @@ function TextPreviewList(props) {
 						props.selectedShapeName ===
 						`${props.storyName}-text-${index}`
 					}
+					color={text.fill}
+					opacity={text.opacity}
 				>
 					<p>Aa</p>
 				</TextCard>
@@ -32,19 +34,26 @@ const TextCard = styled.li`
 	flex: 0 0 auto;
 	height: 2rem;
 	width: 2rem;
-	background-color: lightgray;
+	background-color: #f2f2f2;
 	cursor: pointer;
 	margin-right: 1rem;
 	display: flex;
 	justify-content: center;
-
-	box-shadow: ${props => (props.activetext ? '2px 2px 2px purple' : 'none')};
 
 	p {
 		font-weight: 600;
 		display: block;
 		margin: auto 0;
 	}
+
+	${props => {
+		const { activetext, color, opacity } = props
+		return {
+			color,
+			opacity,
+			border: activetext ? '2px 2px 2px purple' : 'none'
+		}
+	}};
 `
 
 export default React.memo(TextPreviewList)

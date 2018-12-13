@@ -15,7 +15,8 @@ export default {
 					text: 'Hello!',
 					align: 'left',
 					padding: 10,
-					fill: 'purple'
+					fill: '#800080',
+					opacity: 1
 				}
 			],
 			emojies: [],
