@@ -32,16 +32,16 @@ const TextCard = styled.li`
 	flex: 0 0 auto;
 	height: 2rem;
 	width: 2rem;
-	background-color: gray;
+	background-color: lightgray;
 	cursor: pointer;
 	margin-right: 1rem;
 	display: flex;
-	padding: 0 0.2rem;
+	justify-content: center;
 
 	box-shadow: ${props => (props.activetext ? '2px 2px 2px purple' : 'none')};
 
 	p {
-		font-size: 0.8rem;
+		font-weight: 600;
 		display: block;
 		margin: auto 0;
 	}

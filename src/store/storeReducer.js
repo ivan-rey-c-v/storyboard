@@ -35,9 +35,11 @@ export default function storeReducer(state, action) {
 			const { currentStoryIndex, stories } = state
 			const text = {
 				type: 'text',
-				value: 'Add Text',
-				color: 'black',
-				fontSize: 36
+				text: 'Modify Text',
+				fill: 'black',
+				fontFamily: 'Arial',
+				fontSize: 36,
+				padding: 10
 			}
 
 			const newStories = stories.map((story, index) => {

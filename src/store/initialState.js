@@ -11,16 +11,11 @@ export default {
 			backgroundImg: null,
 			texts: [
 				{
-					fontSize: 54,
-					text: 'asdf'
-				},
-				{
-					fontSize: 54,
-					text: 'asdf'
-				},
-				{
-					fontSize: 54,
-					text: 'asdf'
+					fontSize: 48,
+					text: 'Hello!',
+					align: 'left',
+					padding: 10,
+					fill: 'purple'
 				}
 			],
 			emojies: [],

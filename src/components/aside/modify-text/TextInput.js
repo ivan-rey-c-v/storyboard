@@ -7,6 +7,7 @@ function TextInput(props) {
 			value={props.textValue}
 			name="text"
 			onChange={props.handleOnTextInputChange}
+			placeholder="No text value!"
 		/>
 	)
 }
@@ -18,8 +19,12 @@ const Input = styled.input`
 	font-size: 1rem;
 	padding: 0 0.25rem;
 	border-radius: 3px;
-	color: #707070;
+	color: #565656;
 	border: 1px solid lightgray;
+
+	:focus {
+		border: 1px solid rebeccapurple;
+	}
 `
 
 export default React.memo(TextInput)
