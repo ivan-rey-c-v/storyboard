@@ -69,7 +69,7 @@ function ModifyTextContainer(props) {
 				selectedShapeName={selectedShapeName}
 				handleSelectText={handleSelectText}
 			/>
-			{selectedShapeName && (
+			{textIndex != null && (
 				<TextProperties
 					storyID={props.storyID}
 					storeDispatch={props.storeDispatch}
