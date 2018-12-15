@@ -64,8 +64,8 @@ function Aside(props) {
 			const src = newCanvas.toDataURL()
 			zip.file(
 				`storyboard${index + 1}.png`,
-				src
-				// { base64: true}
+				src,
+				{ binary: true}
 			)
 		})
 
@@ -86,12 +86,11 @@ function Aside(props) {
 				<h1 className="title">storyboard</h1>
 
 				<div className="inner-container">
-					<ScreenSelect onChange={handleStorySelect}>
+					<ScreenSelect onChange={handleStorySelect} value={currentStoryIndex}>
 						{[0, 1, 2].map(val => (
 							<option
 								key={`story-${val + 1}`}
 								value={val}
-								selected={currentStoryIndex === val}
 							>
 								{`Story ${val + 1}`}
 							</option>

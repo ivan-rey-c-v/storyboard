@@ -34,8 +34,8 @@ function StoryBoard(props) {
 			>
 				<Suspense fallback={<EmptyDiv />}>
 					<Canvas
-						height={canvasHeight}
-						width={canvasWidth}
+						canvasHeight={canvasHeight}
+						canvasWidth={canvasWidth}
 						// story props, id, backgroundImg etc...
 						{...props}
 					/>

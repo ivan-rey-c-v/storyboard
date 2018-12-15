@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react'
 import { AppContext } from '../../store/AppContext'
 // Konva is needed for react-konva as dependency
-import { Stage, Layer, Text } from 'react-konva'
+import { Stage, Layer, Text, Label, Tag } from 'react-konva'
+
 import BackgroundImage from './BackgroundImage'
 import ShapeTransformer from './ShapeTransformer'
 
@@ -9,6 +10,10 @@ function Canvas(props) {
 	const [image, setImage] = useState(null)
 	const [imageSize, setImageSize] = useState(null)
 	const [withCenterAnchors, setWithCenterAnchors] = useState(true)
+	const [labelBox, setLabelBox] = useState({
+		height: 50,
+		width: 100
+	})
 
 	const store = useContext(AppContext)
 	const { selectedShapeName } = store.state.actives
@@ -24,8 +29,8 @@ function Canvas(props) {
 					const aspectRatio = width / height
 
 					setImageSize({
-						height: props.height,
-						width: props.height * aspectRatio
+						height: props.canvasHeight,
+						width: props.canvasHeight * aspectRatio
 					})
 					setImage(newImage)
 				}
@@ -52,33 +57,36 @@ function Canvas(props) {
 			return // do nothing if it is transformer or current shape
 		}
 
-		if (name.includes('text')) {
-			setWithCenterAnchors(true)
-		}
-		if (name.includes('object')) {
+		if (name.includes('object') || name.includes('emoji')) {
 			setWithCenterAnchors(false)
-		}
-		if (name.includes('emoji')) {
-			setWithCenterAnchors(false)
+			store.dispatch({ type: 'SET_SELECTED_SHAPE_NAME', name, textIndex })
+			return
 		}
 
-		store.dispatch({ type: 'SET_SELECTED_SHAPE_NAME', name, textIndex })
+		if (name.includes('text')) {
+			setWithCenterAnchors(true)
+			store.dispatch({
+				name: name.includes('label') ? name : `${name}-label`,
+				type: 'SET_SELECTED_SHAPE_NAME',
+				textIndex
+			})
+			return
+		}
 	}, [])
 
 	const handleOnTextDrag = useCallback(function(pos) {
 		const scaleX = this.scaleX()
-		//	const scaleY = this.scaleY()
 		const width = this.width()
 		const height = this.height()
 
 		const limit = 0.5
 		const axisXLimit = width * scaleX * limit
 		const leftBoundary = -axisXLimit
-		const rightBoundary = props.width - axisXLimit
+		const rightBoundary = props.canvasWidth - axisXLimit
 
 		const axisYLimit = height * scaleX * limit
 		const topBoundary = -axisYLimit
-		const bottomBoundary = props.height - axisYLimit
+		const bottomBoundary = props.canvasHeight - axisYLimit
 
 		// The new coordinate (x',y') is a result of the standard rotation formula:
 
@@ -89,27 +97,39 @@ function Canvas(props) {
 		// This assumes the (x,y) is given with respect to the center of rotation.
 		// In other words, (0,0) is the center of rotation.
 
+		const newPosX =
+			pos.x < leftBoundary
+				? leftBoundary
+				: pos.x > rightBoundary
+				? rightBoundary
+				: pos.x
+
+		const newPosY =
+			pos.y < topBoundary
+				? topBoundary
+				: pos.y > bottomBoundary
+				? bottomBoundary
+				: pos.y
+
 		return {
-			x:
-				pos.x < leftBoundary
-					? leftBoundary
-					: pos.x > rightBoundary
-					? rightBoundary
-					: pos.x,
-			y:
-				pos.y < topBoundary
-					? topBoundary
-					: pos.y > bottomBoundary
-					? bottomBoundary
-					: pos.y
+			x: newPosX,
+			y: newPosY
 		}
+	}, [])
+
+	const onTransform = useCallback(function(oldBox, newBox) {
+		setLabelBox({
+			...labelBox,
+			...newBox
+		})
+		return newBox
 	}, [])
 
 	return (
 		<Stage
 			name="canvas-stage"
-			height={props.height}
-			width={props.width}
+			height={props.canvasHeight}
+			width={props.canvasWidth}
 			onMouseDown={handleStageMouseDown}
 		>
 			<Layer>
@@ -117,43 +137,50 @@ function Canvas(props) {
 					<BackgroundImage
 						image={image}
 						name="background-image"
-						containerWidth={props.width}
+						canvasWidth={props.canvasWidth}
 						// height and width
 						{...imageSize}
 					/>
 				)}
 
 				{props.texts.map((text, index) => (
-					<Text
-						{...text}
+					<Label
 						key={`text-${index}`}
-						// 'text' name used for having center anchors in transformer
-						name={`${props.name}-text-${index}`}
-						// textIndex used for changing properties
-						textIndex={index}
 						draggable
-						x={props.width / 2 - 70}
-						y={index * 50 + 10}
-						dragBoundFunc={handleOnTextDrag}
-					/>
+						name={`${props.canvasName}-text-${index}-label`}
+						handleOnTextDrag={handleOnTextDrag}
+						x={100}
+						{...labelBox}
+					>
+						<Tag fill={'yellow'} />
+						<Text
+							{...text}
+							name={`${props.canvasName}-text-${index}`}
+							x={50}
+							scaleX={1}
+							scaleY={1}
+							width={labelBox.width}
+						/>
+					</Label>
 				))}
 				{props.emojies.map((object, index) => (
 					<Text
 						key={`emoji-${index}`}
 						{...object}
-						name={`${props.name}-emoji-${index}`}
+						name={`${props.canvasName}-emoji-${index}`}
 						text={object.emoji}
 						textIndex={null}
 						draggable
 						x={props.width / 2 - 70}
 						y={100}
-						dragBoundFunc={handleOnTextDrag}
+						dragBoundFunc={handleOnTextDrag(null)}
 					/>
 				))}
 
 				<ShapeTransformer
 					selectedShapeName={selectedShapeName}
 					withCenterAnchors={withCenterAnchors}
+					onTransform={onTransform}
 				/>
 			</Layer>
 		</Stage>

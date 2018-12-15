@@ -13,7 +13,7 @@ function MainSection(props) {
 		<MainLayout>
 			{stories.map((story, index) => (
 				<StoryBoard
-					key={story.name}
+					key={story.canvasName}
 					{...story}
 					storeDispatch={store.dispatch}
 					index={index}

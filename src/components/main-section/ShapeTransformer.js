@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { Transformer } from 'react-konva'
 
 const withCenterAnchors = [
@@ -22,7 +22,7 @@ const noCenterAnchors = [
 	'bottom-right'
 ]
 
-class ShapeTransformer extends Component {
+class ShapeTransformer extends PureComponent {
 	componentDidMount() {
 		this.checkNode()
 	}
@@ -34,6 +34,7 @@ class ShapeTransformer extends Component {
 		// here we need to manually attach or detach Transformer node
 		const stage = this.transformer.getStage()
 		const { selectedShapeName } = this.props
+		console.log({ selectedShapeName })
 
 		if (!selectedShapeName) {
 			this.transformer.detach()
@@ -42,6 +43,7 @@ class ShapeTransformer extends Component {
 		}
 
 		const selectedNode = stage.findOne('.' + selectedShapeName)
+
 		if (selectedNode) {
 			this.transformer.attachTo(selectedNode)
 			this.transformer.getLayer().batchDraw()
@@ -62,6 +64,7 @@ class ShapeTransformer extends Component {
 						? withCenterAnchors
 						: noCenterAnchors
 				}
+				boundBoxFunc={this.props.onTransform}
 			/>
 		)
 	}
