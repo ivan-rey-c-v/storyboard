@@ -70,6 +70,7 @@ export default produce((draftState, action) => {
 
 		case 'RESET_ACTIVES': {
 			draftState.actives.selectedShapeName = ''
+			draftState.actives.textIndex = null
 			return
 		}
 

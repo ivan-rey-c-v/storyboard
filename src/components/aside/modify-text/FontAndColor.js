@@ -13,14 +13,13 @@ const fonts = [
 ]
 
 function FontAndColor(props) {
-	console.log('props', props.currentText)
-
 	return (
 		<Container>
 			<Select
 				name="fontFamily"
 				onChange={props.handleOnTextInputChange}
 				onClick={props.preventPropagation}
+				font={props.currentText.fontFamily}
 			>
 				{fonts.map((font, index) => (
 					<Option key={font} font={font}>
@@ -48,7 +47,7 @@ function FontAndColor(props) {
 					<span className="picker-name">text</span>
 				</div>
 
-				<div className="color-div">
+				<div className="color-div" onClick={props.preventPropagation}>
 					<Suspense fallback={<div />}>
 						<ColorPicker
 							fillName="boxFill"
@@ -122,15 +121,15 @@ const PickerBoxDiv = styled.div`
 
 const Select = styled.select`
 	width: 100%;
-	height: 1.5rem;
-	font-size: 0.9rem;
+	height: 2rem;
+	font-size: 1rem;
 	padding: 0 0.25rem;
 	color: #707070;
 	cursor: pointer;
-	font-family: inherit;
+	font-family: ${props => `${props.font}, sans-serif`};
 `
 const Option = styled.option`
-	font-family: ${props => `${props.font}, sans-serif`};
+	font-family: ${props => `${props.font}`};
 `
 
 export default React.memo(FontAndColor)

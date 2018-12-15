@@ -24,18 +24,17 @@ function TextPreviewList(props) {
 
 const List = styled.ol`
 	list-style: none;
-	padding: 0.5rem;
 	display: flex;
-
-	overflow: auto;
+	flex-wrap: wrap;
 `
 const TextCard = styled.li`
 	flex: 0 0 auto;
 	height: 2rem;
 	width: 2rem;
+	margin-top: 0.5rem;
+	margin-right: 0.75rem;
 	background-color: #f2f2f2;
 	cursor: pointer;
-	margin-right: 1rem;
 	display: flex;
 	justify-content: center;
 
