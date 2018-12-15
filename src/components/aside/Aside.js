@@ -15,7 +15,7 @@ function Aside(props) {
 	const store = useContext(AppContext)
 	const { currentStoryIndex } = store.state
 	const currentStory = store.state.stories[currentStoryIndex]
-	const { backgroundImg, texts, id: storyID, name: storyName } = currentStory
+	const { backgroundImg, texts, id: storyID, canvasName } = currentStory
 	const { textIndex, selectedShapeName } = store.state.actives
 
 	const handleFileChange = useCallback(function(event) {
@@ -62,11 +62,7 @@ function Aside(props) {
 			context.drawImage(canvas, 0, 0, newWidth, newHeight)
 
 			const src = newCanvas.toDataURL()
-			zip.file(
-				`storyboard${index + 1}.png`,
-				src,
-				{ binary: true}
-			)
+			zip.file(`storyboard${index + 1}.png`, src, { binary: true })
 		})
 
 		zip.generateAsync({ type: 'blob' }).then(function(content) {
@@ -86,12 +82,12 @@ function Aside(props) {
 				<h1 className="title">storyboard</h1>
 
 				<div className="inner-container">
-					<ScreenSelect onChange={handleStorySelect} value={currentStoryIndex}>
+					<ScreenSelect
+						onChange={handleStorySelect}
+						value={currentStoryIndex}
+					>
 						{[0, 1, 2].map(val => (
-							<option
-								key={`story-${val + 1}`}
-								value={val}
-							>
+							<option key={`story-${val + 1}`} value={val}>
 								{`Story ${val + 1}`}
 							</option>
 						))}
@@ -138,7 +134,7 @@ function Aside(props) {
 						<ModifyTextContainer
 							texts={texts}
 							storyID={storyID}
-							storyName={storyName}
+							canvasName={canvasName}
 							storeDispatch={store.dispatch}
 							textIndex={textIndex}
 							selectedShapeName={selectedShapeName}

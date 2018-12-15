@@ -34,7 +34,6 @@ class ShapeTransformer extends PureComponent {
 		// here we need to manually attach or detach Transformer node
 		const stage = this.transformer.getStage()
 		const { selectedShapeName } = this.props
-		console.log({ selectedShapeName })
 
 		if (!selectedShapeName) {
 			this.transformer.detach()

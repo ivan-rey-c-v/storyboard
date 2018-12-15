@@ -10,7 +10,7 @@ function TextPreviewList(props) {
 					onClick={props.handleSelectText(index)}
 					activetext={
 						props.selectedShapeName ===
-						`${props.storyName}-text-${index}`
+						`${props.canvasName}-text-${index}-label`
 					}
 					color={text.fill}
 					opacity={text.opacity}

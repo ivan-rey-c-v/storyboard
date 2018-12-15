@@ -14,9 +14,10 @@ export default {
 					fontSize: 48,
 					fontStyle: 'normal',
 					text: 'Hello!',
-					align: 'left',
+					align: 'center',
 					padding: 10,
 					fill: '#800080',
+					tagFill: 'yellow',
 					opacity: 1
 				}
 			],

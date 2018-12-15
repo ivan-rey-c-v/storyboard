@@ -21,9 +21,9 @@ export default produce((draftState, action) => {
 
 		case 'ADD_TEXT': {
 			const { currentStoryIndex } = draftState
-			const { name: storyName } = draftState.stories[currentStoryIndex]
+			const { canvasName } = draftState.stories[currentStoryIndex]
 			const { length } = draftState.stories[currentStoryIndex].texts
-			const newTextName = `${storyName}-text-${length}`
+			const newTextName = `${canvasName}-text-${length}-label`
 
 			const text = {
 				fontSize: 48,

@@ -10,13 +10,13 @@ function Canvas(props) {
 	const [image, setImage] = useState(null)
 	const [imageSize, setImageSize] = useState(null)
 	const [withCenterAnchors, setWithCenterAnchors] = useState(true)
-	const [labelBox, setLabelBox] = useState({
-		height: 50,
-		width: 100
-	})
 
-	const store = useContext(AppContext)
-	const { selectedShapeName } = store.state.actives
+	const {
+		state: {
+			actives: { selectedShapeName }
+		},
+		dispatch
+	} = useContext(AppContext)
 
 	useEffect(
 		function() {
@@ -43,11 +43,12 @@ function Canvas(props) {
 		[props.backgroundImg]
 	)
 
-	const handleStageMouseDown = useCallback(function(e) {
+	const onStageMouseDown = useCallback(function(e) {
 		const { name, textIndex } = e.target.attrs
+
 		// clicked on <Stage /> or <BackgroundImage /> - clear selection
 		if (name === 'canvas-stage' || name === 'background-image') {
-			store.dispatch({ type: 'SET_SELECTED_SHAPE_NAME', name: '' })
+			dispatch({ type: 'SET_SELECTED_SHAPE_NAME', name: '' })
 			return
 		}
 
@@ -59,13 +60,13 @@ function Canvas(props) {
 
 		if (name.includes('object') || name.includes('emoji')) {
 			setWithCenterAnchors(false)
-			store.dispatch({ type: 'SET_SELECTED_SHAPE_NAME', name, textIndex })
+			dispatch({ type: 'SET_SELECTED_SHAPE_NAME', name, textIndex })
 			return
 		}
 
 		if (name.includes('text')) {
 			setWithCenterAnchors(true)
-			store.dispatch({
+			dispatch({
 				name: name.includes('label') ? name : `${name}-label`,
 				type: 'SET_SELECTED_SHAPE_NAME',
 				textIndex
@@ -74,7 +75,7 @@ function Canvas(props) {
 		}
 	}, [])
 
-	const handleOnTextDrag = useCallback(function(pos) {
+	const onDragKonvaShape = useCallback(function(pos) {
 		const scaleX = this.scaleX()
 		const width = this.width()
 		const height = this.height()
@@ -118,10 +119,7 @@ function Canvas(props) {
 	}, [])
 
 	const onTransform = useCallback(function(oldBox, newBox) {
-		setLabelBox({
-			...labelBox,
-			...newBox
-		})
+		dispatch({ type: 'MODIFY_TEXT', properties: newBox })
 		return newBox
 	}, [])
 
@@ -130,7 +128,7 @@ function Canvas(props) {
 			name="canvas-stage"
 			height={props.canvasHeight}
 			width={props.canvasWidth}
-			onMouseDown={handleStageMouseDown}
+			onMouseDown={onStageMouseDown}
 		>
 			<Layer>
 				{image && (
@@ -143,26 +141,32 @@ function Canvas(props) {
 					/>
 				)}
 
-				{props.texts.map((text, index) => (
-					<Label
-						key={`text-${index}`}
-						draggable
-						name={`${props.canvasName}-text-${index}-label`}
-						handleOnTextDrag={handleOnTextDrag}
-						x={100}
-						{...labelBox}
-					>
-						<Tag fill={'yellow'} />
-						<Text
-							{...text}
-							name={`${props.canvasName}-text-${index}`}
-							x={50}
-							scaleX={1}
-							scaleY={1}
-							width={labelBox.width}
-						/>
-					</Label>
-				))}
+				{props.texts.map((text, index) => {
+					const { x, y, rotation, ...textProperties } = text
+					return (
+						<Label
+							key={`text-${index}`}
+							{...textProperties}
+							draggable
+							name={`${props.canvasName}-text-${index}-label`}
+							dragBoundFunc={onDragKonvaShape}
+							x={props.canvasWidth / 2 - 50}
+							y={index * 70 + 10}
+						>
+							<Tag
+								fill={text.tagFill}
+								height={text.height}
+								width={text.width}
+							/>
+							<Text
+								textIndex={index}
+								{...textProperties}
+								name={`${props.canvasName}-text-${index}`}
+							/>
+						</Label>
+					)
+				})}
+
 				{props.emojies.map((object, index) => (
 					<Text
 						key={`emoji-${index}`}
@@ -173,7 +177,7 @@ function Canvas(props) {
 						draggable
 						x={props.width / 2 - 70}
 						y={100}
-						dragBoundFunc={handleOnTextDrag(null)}
+						dragBoundFunc={onDragKonvaShape}
 					/>
 				))}
 

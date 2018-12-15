@@ -5,12 +5,12 @@ import TextPreviewList from './TextPreviewList'
 import TextProperties from './TextProperties'
 
 function ModifyTextContainer(props) {
-	const { selectedShapeName, storyName, textIndex } = props
+	const { selectedShapeName, canvasName, textIndex } = props
 
 	const handleSelectText = useCallback(
 		index => event => {
 			event.stopPropagation()
-			const name = `${storyName}-text-${index}`
+			const name = `${canvasName}-text-${index}-label`
 			props.storeDispatch({
 				type: 'SET_SELECTED_SHAPE_NAME',
 				name,
@@ -65,7 +65,7 @@ function ModifyTextContainer(props) {
 
 			<TextPreviewList
 				textList={props.texts}
-				storyName={storyName}
+				canvasName={canvasName}
 				selectedShapeName={selectedShapeName}
 				handleSelectText={handleSelectText}
 			/>
