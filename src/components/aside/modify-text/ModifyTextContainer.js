@@ -30,15 +30,18 @@ function ModifyTextContainer(props) {
 		props.storeDispatch({ type: 'MODIFY_TEXT', properties })
 	}, [])
 
-	const handleOnColorChange = useCallback(function(colors) {
-		const { color, alpha } = colors
+	const handleOnColorChange = useCallback(
+		(fillName, opacityName) => colors => {
+			const { color, alpha } = colors
 
-		const properties = {
-			fill: color,
-			opacity: alpha / 100
-		}
-		props.storeDispatch({ type: 'MODIFY_TEXT', properties })
-	}, [])
+			const properties = {
+				[fillName]: color,
+				[opacityName]: alpha / 100
+			}
+			props.storeDispatch({ type: 'MODIFY_TEXT', properties })
+		},
+		[]
+	)
 
 	const handleOnFontStyleChange = useCallback(
 		currentFontStyle => event => {

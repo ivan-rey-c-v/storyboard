@@ -16,9 +16,10 @@ export default {
 					text: 'Hello!',
 					align: 'center',
 					padding: 10,
-					fill: '#800080',
-					tagFill: 'yellow',
-					opacity: 1
+					fill: 'black',
+					opacity: 1,
+					boxFill: 'yellow',
+					boxOpacity: 1
 				}
 			],
 			emojies: [],

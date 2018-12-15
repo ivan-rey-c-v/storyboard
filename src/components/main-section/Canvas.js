@@ -143,10 +143,13 @@ function Canvas(props) {
 
 				{props.texts.map((text, index) => {
 					const { x, y, rotation, ...textProperties } = text
+
 					return (
 						<Label
 							key={`text-${index}`}
-							{...textProperties}
+							height={text.height}
+							width={text.width}
+							alpha={100}
 							draggable
 							name={`${props.canvasName}-text-${index}-label`}
 							dragBoundFunc={onDragKonvaShape}
@@ -154,13 +157,15 @@ function Canvas(props) {
 							y={index * 70 + 10}
 						>
 							<Tag
-								fill={text.tagFill}
+								fill={text.boxFill}
+								alpha={text.boxOpacity * 100}
 								height={text.height}
 								width={text.width}
 							/>
 							<Text
 								textIndex={index}
 								{...textProperties}
+								alpha={text.opacity * 100}
 								name={`${props.canvasName}-text-${index}`}
 							/>
 						</Label>

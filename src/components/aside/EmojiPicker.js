@@ -1,7 +1,7 @@
 import React from 'react'
 import { Picker } from 'emoji-mart'
 
-import '../../emoji-mart.css'
+import '../../css/emoji-mart.css'
 
 function EmojiPicker(props) {
 	return (

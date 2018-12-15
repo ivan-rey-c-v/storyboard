@@ -1,7 +1,6 @@
 import React, { lazy, Suspense } from 'react'
 import styled from 'styled-components'
 
-const ColorPicker = lazy(_ => import('./ColorPicker'))
 const FontStyle = lazy(_ => import('./FontStyle'))
 
 function AdditionalProperties(props) {
@@ -17,14 +16,7 @@ function AdditionalProperties(props) {
 					/>
 				</Suspense>
 			</Card>
-			<Card onClick={props.preventPropagation}>
-				<Suspense fallback={<Card />}>
-					<ColorPicker
-						currentText={props.currentText}
-						handleOnColorChange={props.handleOnColorChange}
-					/>
-				</Suspense>
-			</Card>
+			<Card onClick={props.preventPropagation} />
 		</Container>
 	)
 }

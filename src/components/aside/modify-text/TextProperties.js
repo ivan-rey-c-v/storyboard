@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 
 import TextInput from './TextInput'
-import FontSelect from './FontSelect'
+import FontAndColor from './FontAndColor'
 import AdditionalProperties from './AdditionalProperties'
 
 function TextProperties(props) {
@@ -18,14 +18,15 @@ function TextProperties(props) {
 			/>
 			<AdditionalProperties
 				handleOnFontStyleChange={props.handleOnFontStyleChange}
-				handleOnColorChange={props.handleOnColorChange}
 				currentText={props.currentText}
 				preventPropagation={preventPropagation}
 			/>
-			<FontSelect
+			<FontAndColor
 				fontFamily={props.currentText.fontFamily}
 				handleOnTextInputChange={props.handleOnTextInputChange}
 				preventPropagation={preventPropagation}
+				currentText={props.currentText}
+				handleOnColorChange={props.handleOnColorChange}
 			/>
 		</div>
 	)
