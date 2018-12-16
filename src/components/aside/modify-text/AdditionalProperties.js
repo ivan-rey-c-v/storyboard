@@ -21,11 +21,17 @@ function AdditionalProperties(props) {
 	return (
 		<Container>
 			<PropertyDiv onClick={props.preventPropagation}>
-				<Property onClick={props.handleToggleFontStyle('bold')}>
+				<Property
+					onClick={props.handleToggleFontStyle('isBold')}
+					active={props.currentText.isBold}
+				>
 					<BoldSVG />
 					<span>bold</span>
 				</Property>
-				<Property onClick={props.handleToggleFontStyle('italic')}>
+				<Property
+					onClick={props.handleToggleFontStyle('isItalic')}
+					active={props.currentText.isItalic}
+				>
 					<ItalicSVG />
 					<span>italic</span>
 				</Property>

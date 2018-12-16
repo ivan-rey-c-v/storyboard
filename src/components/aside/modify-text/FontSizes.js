@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const sizes = [16, 24, 32, 40]
+const sizes = [24, 34, 44, 54]
 
 function FontSizes(props) {
 	return (
@@ -29,10 +29,9 @@ const Div = styled.div`
 `
 const Font = styled.p`
 	height: 100%;
-	line-height: 1rem;
-	font-size: ${props => `${props.size * 0.7}px`};
-	padding: 0 0.2rem;
-	transition: all 75ms ease-in-out;
+	line-height: 1.25rem;
+	font-size: ${props => `${props.size / 2}px`};
+	padding: 0 0.15rem;
 	color: ${props => (props.iscurrentsize ? 'black' : 'gray')};
 	font-weight: ${props => (props.iscurrentsize ? 900 : 600)};
 `

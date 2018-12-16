@@ -11,7 +11,7 @@ export default {
 			backgroundImg: null,
 			texts: [
 				{
-					fontSize: 16,
+					fontSize: 34,
 					fontStyle: 'normal',
 					text: 'Hello!',
 					align: 'center',
@@ -19,7 +19,9 @@ export default {
 					fill: 'black',
 					opacity: 1,
 					boxFill: 'yellow',
-					boxOpacity: 1
+					boxOpacity: 1,
+					isBold: false,
+					isItalic: false
 				}
 			],
 			emojies: [],

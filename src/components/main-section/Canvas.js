@@ -166,6 +166,9 @@ function Canvas(props) {
 								textIndex={index}
 								{...textProperties}
 								alpha={text.opacity * 100}
+								stroke={text.isBold ? text.fill : 'transparent'}
+								strokeWidth={1.25}
+								fontStyle={text.isItalic ? 'italic' : 'normal'}
 								name={`${props.canvasName}-text-${index}`}
 							/>
 						</Label>

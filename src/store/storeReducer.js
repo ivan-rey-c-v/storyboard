@@ -68,6 +68,20 @@ export default produce((draftState, action) => {
 			return
 		}
 
+		case 'TOGGLE_FONT_STYLE': {
+			const { currentStoryIndex } = draftState
+			const { textIndex } = draftState.actives
+
+			const lastText =
+				draftState.stories[currentStoryIndex].texts[textIndex]
+
+			draftState.stories[currentStoryIndex].texts[textIndex] = {
+				...lastText,
+				[action.styleName]: !lastText[action.styleName]
+			}
+			return
+		}
+
 		case 'CHANGE_TEXT_ALIGN': {
 			const { currentStoryIndex } = draftState
 			const { textIndex } = draftState.actives
@@ -95,7 +109,7 @@ export default produce((draftState, action) => {
 				draftState.stories[currentStoryIndex].texts[textIndex]
 
 			const { fontSize } = lastText
-			const fontSizes = [16, 24, 32, 40]
+			const fontSizes = [24, 34, 44, 54]
 			const lastFontSizeIndex = fontSizes.indexOf(fontSize)
 			const newFontSizeIndex = (lastFontSizeIndex + 1) % fontSizes.length
 
