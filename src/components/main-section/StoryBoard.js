@@ -74,6 +74,7 @@ const CanvasContainer = styled.div`
 	cursor: pointer;
 	flex: 1;
 	border-style: solid;
+	transition: all 100ms ease-in-out;
 	${props =>
 		props.isCurrentStory
 			? {
