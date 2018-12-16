@@ -72,8 +72,8 @@ export default produce((draftState, action) => {
 			const length = draftState.stories.length
 
 			const newBoard = {
-				id: `Screen ${length}`,
-				canvasName: `screen-${length}`,
+				id: `Screen ${length + 1}`,
+				canvasName: `screen-${length + 1}`,
 				backgroundImg: null,
 				texts: [],
 				emojies: [],
@@ -81,6 +81,7 @@ export default produce((draftState, action) => {
 			}
 
 			draftState.stories.push(newBoard)
+			draftState.currentStoryIndex = length
 
 			return
 		}
