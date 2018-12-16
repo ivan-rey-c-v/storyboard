@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 import { ReactComponent as BoldSVG } from '../../../icons/bold.svg'

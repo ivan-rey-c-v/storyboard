@@ -22,6 +22,7 @@ function MainSection(props) {
 					{...story}
 					storeDispatch={dispatch}
 					index={index}
+					currentStoryIndex={currentStoryIndex}
 					isCurrentStory={currentStoryIndex === index ? true : false}
 				/>
 			))}
@@ -65,13 +66,18 @@ const MainLayout = styled.main`
 			cursor: pointer;
 			fill: darkgray;
 
+			display: flex;
+			align-items: center;
+			justify-content: center;
+
 			> svg {
-				height: 100%;
-				width: 100%;
+				height: 50%;
+				width: 50%;
 			}
 
 			:hover {
 				fill: #8d7993;
+				box-shadow: -1px 1px 4px lightgray;
 			}
 			:active {
 				transform: scale(0.97);

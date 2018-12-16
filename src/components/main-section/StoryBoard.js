@@ -1,5 +1,7 @@
-import React, { lazy, Suspense } from 'react'
+import React, { lazy, Suspense, useCallback } from 'react'
 import styled from 'styled-components'
+
+import { ReactComponent as TrashSVG } from '../../icons/trash.svg'
 
 import useWindowSize from '../../hooks/useWindowSize'
 
@@ -14,22 +16,44 @@ function StoryBoard(props) {
 	const canvasHeight = height * 0.704
 	const canvasWidth = height * 0.396
 
-	function onClick(event) {
-		// not to trigger App's event when clicking inside canvas
-		event.stopPropagation()
-		props.storeDispatch({ type: 'SET_STORY_BOARD', index: props.index })
-	}
+	const handleSetStoryBoard = useCallback(
+		function(event) {
+			// not to trigger App's event when clicking inside canvas
+			event.stopPropagation()
+			props.storeDispatch({ type: 'SET_STORY_BOARD', index: props.index })
+		},
+		[props.index]
+	)
+
+	const handleDeleteBoard = useCallback(
+		function(event) {
+			// not to trigger App's event when clicking inside canvas
+			event.stopPropagation()
+			props.storeDispatch({
+				type: 'DELETE_STORY_BOARD',
+				index: props.index
+			})
+		},
+		[props.index]
+	)
 
 	return (
 		<Board canvasHeight={canvasHeight} canvasWidth={canvasWidth}>
 			<Header isCurrentStory={props.isCurrentStory}>
-				<span>{props.id}</span>
-				<span className="editing">Editing</span>
+				<div>{props.id}</div>
+				<div className="actions-div">
+					<span className="editing">Editing</span>
+					{props.currentStoryIndex > 0 && (
+						<span className="delete" onClick={handleDeleteBoard}>
+							<TrashSVG />
+						</span>
+					)}
+				</div>
 			</Header>
 
 			{/* suspend loading <Canvas /> , if not loaded, use <EmptyDiv/> instead  */}
 			<CanvasContainer
-				onClick={onClick}
+				onClick={handleSetStoryBoard}
 				isCurrentStory={props.isCurrentStory}
 			>
 				<Suspense fallback={<EmptyDiv />}>
@@ -54,7 +78,7 @@ const Board = styled.article`
 	flex-direction: column;
 `
 const Header = styled.header`
-	padding: 0 1rem;
+	padding: 0 0.5rem;
 	height: ${headerHeight}px;
 	font-size: 0.9rem;
 	font-weight: 600;
@@ -65,9 +89,33 @@ const Header = styled.header`
 	justify-content: space-between;
 	align-items: center;
 
-	.editing {
-		color: rebeccapurple;
-		display: ${props => (props.isCurrentStory ? 'inherit' : 'none')};
+	.actions-div {
+		display: ${props => (props.isCurrentStory ? 'flex' : 'none')};
+
+		.editing {
+			color: rebeccapurple;
+			display: ${props => (props.isCurrentStory ? 'inherit' : 'none')};
+		}
+
+		.delete {
+			margin-left: 0.5rem;
+			height: 0.9rem;
+			width: 1rem;
+			fill: #ff4949;
+			cursor: pointer;
+
+			svg {
+				height: 100%;
+				width: 100%;
+			}
+
+			:hover {
+				fill: firebrick;
+			}
+			:active {
+				transform: scale(0.95);
+			}
+		}
 	}
 `
 const CanvasContainer = styled.div`

@@ -7,6 +7,17 @@ export default produce((draftState, action) => {
 			return
 		}
 
+		case 'DELETE_STORY_BOARD': {
+			const { stories } = draftState
+			draftState.stories = stories.filter(
+				(story, index) => index !== action.index
+			)
+			draftState.currentStoryIndex = 0
+			draftState.actives.textIndex = null
+
+			return
+		}
+
 		case 'SET_BG_IMG': {
 			const { currentStoryIndex } = draftState
 			draftState.stories[currentStoryIndex].backgroundImg = action.file
