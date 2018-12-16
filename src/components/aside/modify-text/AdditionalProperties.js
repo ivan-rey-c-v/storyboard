@@ -16,31 +16,31 @@ const alignsTuple = {
 }
 
 function AdditionalProperties(props) {
-	const AlignSVG = alignsTuple['center']
+	const AlignSVG = alignsTuple[props.currentText.align]
 
 	return (
 		<Container>
 			<PropertyDiv onClick={props.preventPropagation}>
-				<Property>
+				<Property onClick={props.handleToggleFontStyle('bold')}>
 					<BoldSVG />
 					<span>bold</span>
 				</Property>
-				<Property>
+				<Property onClick={props.handleToggleFontStyle('italic')}>
 					<ItalicSVG />
 					<span>italic</span>
 				</Property>
 			</PropertyDiv>
 
 			<PropertyDiv onClick={props.preventPropagation}>
-				<Property>
+				<Property active onClick={props.handleChangeAlign}>
 					<AlignSVG />
 					<span>align</span>
 				</Property>
 			</PropertyDiv>
 
 			<PropertyDiv onClick={props.preventPropagation}>
-				<Property>
-					<FontSizes />
+				<Property onClick={props.handleChangeFontSize}>
+					<FontSizes currentSize={props.currentText.fontSize} />
 					<span>font size</span>
 				</Property>
 			</PropertyDiv>
@@ -56,7 +56,7 @@ const Container = styled.div`
 const PropertyDiv = styled.div`
 	display: flex;
 	border-radius: 4px;
-	background-color: lightgray;
+	background-color: #f2f2f2;
 	font-size: 0.7rem;
 	font-weight: 600;
 	color: gray;
@@ -71,7 +71,7 @@ const Property = styled.div`
 	> svg {
 		height: 1.25rem;
 		width: 1.25rem;
-		fill: gray;
+		fill: ${props => (props.active ? 'black' : 'gray')};
 	}
 `
 

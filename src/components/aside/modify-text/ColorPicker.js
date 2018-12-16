@@ -5,10 +5,11 @@ import '../../../css/rc-color-picker.css'
 
 function ColorPicker(props) {
 	const { fillName, opacityName } = props
-	const { [fill]: fill, [opacityName]: opacity } = props.currentText
+	const { [fillName]: fill, [opacityName]: opacity } = props.currentText
 
 	return (
 		<Picker
+			defaultColor="black"
 			className="color-picker"
 			color={fill}
 			alpha={opacity * 100}

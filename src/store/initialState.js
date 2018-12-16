@@ -11,7 +11,7 @@ export default {
 			backgroundImg: null,
 			texts: [
 				{
-					fontSize: 48,
+					fontSize: 16,
 					fontStyle: 'normal',
 					text: 'Hello!',
 					align: 'center',

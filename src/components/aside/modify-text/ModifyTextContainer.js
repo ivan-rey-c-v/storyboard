@@ -43,22 +43,20 @@ function ModifyTextContainer(props) {
 		[]
 	)
 
-	const handleOnFontStyleChange = useCallback(
-		currentFontStyle => event => {
-			event.stopPropagation()
-			const fontStyles = ['italic', 'normal', 'bold']
-			const lastIndex = fontStyles.indexOf(currentFontStyle)
-
-			// loop over
-			const newIndex = (lastIndex + 1) % fontStyles.length
-
-			const properties = {
-				fontStyle: fontStyles[newIndex]
-			}
-			props.storeDispatch({ type: 'MODIFY_TEXT', properties })
+	const handleToggleFontStyle = useCallback(
+		styleName => event => {
+			props.storeDispatch({ type: 'TOGGLE_FONT_STYLE', styleName })
 		},
 		[]
 	)
+
+	const handleChangeAlign = useCallback(function(event) {
+		props.storeDispatch({ type: 'CHANGE_TEXT_ALIGN' })
+	}, [])
+
+	const handleChangeFontSize = useCallback(function(event) {
+		props.storeDispatch({ type: 'CHANGE_FONT_SIZE' })
+	}, [])
 
 	return (
 		<ContainerDiv>
@@ -79,7 +77,9 @@ function ModifyTextContainer(props) {
 					currentText={props.texts[textIndex]}
 					handleOnTextInputChange={handleOnTextInputChange}
 					handleOnColorChange={handleOnColorChange}
-					handleOnFontStyleChange={handleOnFontStyleChange}
+					handleToggleFontStyle={handleToggleFontStyle}
+					handleChangeAlign={handleChangeAlign}
+					handleChangeFontSize={handleChangeFontSize}
 				/>
 			)}
 		</ContainerDiv>

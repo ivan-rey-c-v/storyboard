@@ -115,6 +115,7 @@ const PickerBoxDiv = styled.div`
 	> div {
 		height: 90%;
 		width: 90%;
+		border: 1px solid lightgray;
 		background-color: ${props => props.color};
 	}
 `

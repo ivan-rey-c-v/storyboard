@@ -68,6 +68,44 @@ export default produce((draftState, action) => {
 			return
 		}
 
+		case 'CHANGE_TEXT_ALIGN': {
+			const { currentStoryIndex } = draftState
+			const { textIndex } = draftState.actives
+
+			const lastText =
+				draftState.stories[currentStoryIndex].texts[textIndex]
+
+			const { align } = lastText
+			const aligns = ['left', 'center', 'right']
+			const lastAlignIndex = aligns.indexOf(align)
+			const newAlignIndex = (lastAlignIndex + 1) % aligns.length
+
+			draftState.stories[currentStoryIndex].texts[textIndex] = {
+				...lastText,
+				align: aligns[newAlignIndex]
+			}
+			return
+		}
+
+		case 'CHANGE_FONT_SIZE': {
+			const { currentStoryIndex } = draftState
+			const { textIndex } = draftState.actives
+
+			const lastText =
+				draftState.stories[currentStoryIndex].texts[textIndex]
+
+			const { fontSize } = lastText
+			const fontSizes = [16, 24, 32, 40]
+			const lastFontSizeIndex = fontSizes.indexOf(fontSize)
+			const newFontSizeIndex = (lastFontSizeIndex + 1) % fontSizes.length
+
+			draftState.stories[currentStoryIndex].texts[textIndex] = {
+				...lastText,
+				fontSize: fontSizes[newFontSizeIndex]
+			}
+			return
+		}
+
 		case 'ADD_STORY_BOARD': {
 			const length = draftState.stories.length
 

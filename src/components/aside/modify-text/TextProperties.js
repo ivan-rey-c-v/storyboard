@@ -17,9 +17,11 @@ function TextProperties(props) {
 				preventPropagation={preventPropagation}
 			/>
 			<AdditionalProperties
-				handleOnFontStyleChange={props.handleOnFontStyleChange}
 				currentText={props.currentText}
 				preventPropagation={preventPropagation}
+				handleToggleFontStyle={props.handleToggleFontStyle}
+				handleChangeAlign={props.handleChangeAlign}
+				handleChangeFontSize={props.handleChangeFontSize}
 			/>
 			<FontAndColor
 				fontFamily={props.currentText.fontFamily}
