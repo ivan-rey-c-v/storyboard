@@ -95,7 +95,7 @@ function Aside(props) {
 				</div>
 
 				<div className="inner-container">
-					<p className="name">Background Image</p>
+					<p className="name">Background image</p>
 					{backgroundImg ? (
 						<ImgSection
 							imgFile={backgroundImg}
@@ -117,10 +117,10 @@ function Aside(props) {
 				</div>
 
 				<div className="inner-container">
-					<p className="name">Additional Graphics</p>
+					<p className="name">Additional graphics</p>
 
 					<div className="upload-div">
-						<Button className="image"> Upload Image </Button>
+						<Button className="image"> Upload image </Button>
 
 						<Emojies dispatch={store.dispatch} />
 					</div>
@@ -128,7 +128,7 @@ function Aside(props) {
 
 				<div className="inner-container">
 					<p className="name">Text</p>
-					<Button onClick={handleAddText}> Add Text </Button>
+					<Button onClick={handleAddText}> Add text </Button>
 
 					{texts.length > 0 && (
 						<ModifyTextContainer

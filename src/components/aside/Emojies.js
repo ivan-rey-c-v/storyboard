@@ -100,10 +100,7 @@ const EmojiContainer = styled.div`
 
 	.emoji-button {
 		${buttonMixin};
-		padding: 0;
-		min-width: 2.5rem;
-		min-height: 2.25rem;
-		max-height: 2.25rem;
+		width: 2.5rem;
 
 		display: flex;
 		justify-content: center;

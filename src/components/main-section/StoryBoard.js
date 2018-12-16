@@ -73,10 +73,18 @@ const Header = styled.header`
 const CanvasContainer = styled.div`
 	cursor: pointer;
 	flex: 1;
-	border-width: 1px;
 	border-style: solid;
-	border-color: ${props =>
-		props.isCurrentStory ? 'rebeccapurple' : 'lightgray'};
+	${props =>
+		props.isCurrentStory
+			? {
+					borderColor: 'rebeccapurple',
+					borderWidth: '2px',
+					boxShadow: '-4px 4px 8px rgba(115, 94, 122, 0.50)'
+			  }
+			: {
+					borderColor: 'lightgray',
+					borderWidth: '1px'
+			  }}
 `
 const EmptyDiv = styled.div`
 	height: 100%;

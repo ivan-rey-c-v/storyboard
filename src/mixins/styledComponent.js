@@ -10,6 +10,7 @@ export const buttonMixin = css`
 	border-radius: 4px;
 	border: 1px solid gray;
 	cursor: pointer;
+	height: 2.25rem;
 
 	color: ${props => (props.primary ? 'white' : 'rgb(62, 56, 71)')};
 	background-color: ${props => (props.primary ? mainColor : 'transparent')};

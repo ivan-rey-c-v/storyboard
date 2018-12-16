@@ -68,6 +68,23 @@ export default produce((draftState, action) => {
 			return
 		}
 
+		case 'ADD_STORY_BOARD': {
+			const length = draftState.stories.length
+
+			const newBoard = {
+				id: `Screen ${length}`,
+				canvasName: `screen-${length}`,
+				backgroundImg: null,
+				texts: [],
+				emojies: [],
+				objects: []
+			}
+
+			draftState.stories.push(newBoard)
+
+			return
+		}
+
 		case 'RESET_ACTIVES': {
 			draftState.actives.selectedShapeName = ''
 			draftState.actives.textIndex = null

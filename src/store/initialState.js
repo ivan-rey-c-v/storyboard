@@ -24,22 +24,6 @@ export default {
 			],
 			emojies: [],
 			objects: []
-		},
-		{
-			id: 'Screen 2',
-			canvasName: 'screen-2',
-			backgroundImg: null,
-			texts: [],
-			emojies: [],
-			objects: []
-		},
-		{
-			id: 'Screen 3',
-			canvasName: 'screen-3',
-			backgroundImg: null,
-			texts: [],
-			emojies: [],
-			objects: []
 		}
 	]
 }
