@@ -1,35 +1,32 @@
-import React, { useContext, useCallback } from 'react'
-import { AppContext } from './store/AppContext'
-import styled from 'styled-components'
-
+import React, { lazy, Suspense } from 'react'
+import styled from 'styled-components/macro'
 import GlobalStyle from './GlobalStyle'
-import Aside from './components/aside/Aside'
-import MainSection from './components/main-section/MainSection'
+
+const Home = lazy(_ => import('./pages/Home'))
 
 function App(props) {
-	const store = useContext(AppContext)
-
-	const handleOnClick = useCallback(function(event) {
-		event.stopPropagation()
-		// reset toggles: emoji, selectedShape etc
-		store.dispatch({ type: 'RESET_ACTIVES' })
-	}, [])
-
 	return (
-		<AppLayout onClick={handleOnClick}>
-			<GlobalStyle />
+		<AppStoreProvider>
+			<AppLayout>
+				{/* GlobalStyle does not render any div/element */}
+				<GlobalStyle />
 
-			<Aside />
-			<MainSection />
-		</AppLayout>
+				<Suspense fallback={<EmptyDiv />}>
+					<Home />
+				</Suspense>
+			</AppLayout>
+		</AppStoreProvider>
 	)
 }
 
 const AppLayout = styled.div`
-	margin: 0;
 	height: 100vh;
 	width: 100vw;
-	display: flex;
+`
+const EmptyDiv = styled.div`
+	height: 100%;
+	width: 100%;
+	background-color: #f7f7f7;
 `
 
 export default React.memo(App)
