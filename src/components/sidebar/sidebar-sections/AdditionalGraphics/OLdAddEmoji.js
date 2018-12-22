@@ -1,26 +1,19 @@
-import React, {
-	useContext,
-	lazy,
-	Suspense,
-	useState,
-	useCallback,
-	useEffect
-} from 'react'
-import { AppContext } from '../../store/AppContext'
+import React, { lazy, Suspense, useState, useCallback, useEffect } from 'react'
 import { Emoji } from 'emoji-mart'
 import styled from 'styled-components'
 
-import { buttonMixin } from '../../mixins/styledComponent'
+import { buttonMixin } from '../../../../mixins/styledComponent'
 
 const EmojiPicker = lazy(_ => import('./EmojiPicker'))
 
 function Emojies(props) {
 	const [isEmojiPickerActive, setIsEmojiPickerActive] = useState(false)
-	const store = useContext(AppContext)
+	//const store = useContext(AppContext)
+	console.log('rendering emojies...')
 
 	const handleEmojiClick = useCallback(function(emoji) {
 		// this callback gets `emoji` obj instead of `event`
-		store.dispatch({ type: 'ADD_EMOJI', emoji: emoji.native })
+		props.dispatch({ type: 'ADD_EMOJI', emoji: emoji.native })
 		setIsEmojiPickerActive(false)
 	}, [])
 
@@ -57,7 +50,6 @@ function Emojies(props) {
 
 			{isEmojiPickerActive && (
 				<div className="overlay" onClick={handleToggleEmojiOff}>
-					{/* emoji-mart is styled in globastyles */}
 					<div
 						className="picker-container"
 						onClick={handleOnPickerClick}

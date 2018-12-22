@@ -1,26 +1,19 @@
-import React, { useState, useEffect, useCallback, useContext } from 'react'
-import { AppContext } from '../../store/AppContext'
-// Konva is needed for react-konva as dependency
+import React, { useEffect, useState, useCallback } from 'react'
 import { Stage, Layer, Text, Label, Tag } from 'react-konva'
 
 import BackgroundImage from './BackgroundImage'
 import ShapeTransformer from './ShapeTransformer'
 
 function Canvas(props) {
-	const [image, setImage] = useState(null)
+	const { canvasHeight, canvasWidth, story, shapeName, storeDispatch } = props
+	const { backgroundImage, texts, emojies } = story
+	const [canvasBackgroundImage, setCanvasBackgroundImage] = useState(null)
 	const [imageSize, setImageSize] = useState(null)
 	const [withCenterAnchors, setWithCenterAnchors] = useState(true)
 
-	const {
-		state: {
-			actives: { selectedShapeName }
-		},
-		dispatch
-	} = useContext(AppContext)
-
 	useEffect(
 		function() {
-			if (props.backgroundImg) {
+			if (backgroundImage) {
 				const newImage = new window.Image()
 				newImage.src = window.URL.createObjectURL(props.backgroundImg)
 				newImage.onload = () => {
@@ -29,18 +22,18 @@ function Canvas(props) {
 					const aspectRatio = width / height
 
 					setImageSize({
-						height: props.canvasHeight,
-						width: props.canvasHeight * aspectRatio
+						height: canvasHeight,
+						width: canvasHeight * aspectRatio
 					})
-					setImage(newImage)
+					setCanvasBackgroundImage(newImage)
 				}
 			} else {
 				// dont render konva Image
-				setImage(null)
+				setCanvasBackgroundImage(null)
 			}
 		},
-		// called everytime props.backgroundImg changes
-		[props.backgroundImg]
+		// called everytime backgroundImage changes
+		[backgroundImage]
 	)
 
 	const onStageMouseDown = useCallback(function(e) {
@@ -48,25 +41,25 @@ function Canvas(props) {
 
 		// clicked on <Stage /> or <BackgroundImage /> - clear selection
 		if (name === 'canvas-stage' || name === 'background-image') {
-			dispatch({ type: 'SET_SELECTED_SHAPE_NAME', name: '' })
+			storeDispatch({ type: 'SET_SELECTED_SHAPE_NAME', name: '' })
 			return
 		}
 
 		const clickedOnTransformer =
 			e.target.getParent().className === 'Transformer'
-		if (clickedOnTransformer || name === selectedShapeName) {
+		if (clickedOnTransformer || name === shapeName) {
 			return // do nothing if it is transformer or current shape
 		}
 
 		if (name.includes('object') || name.includes('emoji')) {
 			setWithCenterAnchors(false)
-			dispatch({ type: 'SET_SELECTED_SHAPE_NAME', name, textIndex })
+			storeDispatch({ type: 'SET_SELECTED_SHAPE_NAME', name, textIndex })
 			return
 		}
 
 		if (name.includes('text')) {
 			setWithCenterAnchors(true)
-			dispatch({
+			storeDispatch({
 				name: name.includes('label') ? name : `${name}-label`,
 				type: 'SET_SELECTED_SHAPE_NAME',
 				textIndex
@@ -118,30 +111,30 @@ function Canvas(props) {
 		}
 	}, [])
 
-	const onTransform = useCallback(function(oldBox, newBox) {
-		dispatch({ type: 'MODIFY_TEXT', properties: newBox })
-		return newBox
-	}, [])
+	// const onTransform = useCallback(function(oldBox, newBox) {
+	// 	storeDispatch({ type: 'MODIFY_TEXT', properties: newBox })
+	// 	return newBox
+	// }, [])
 
 	return (
 		<Stage
 			name="canvas-stage"
-			height={props.canvasHeight}
-			width={props.canvasWidth}
-			onMouseDown={onStageMouseDown}
+			height={canvasHeight}
+			width={canvasWidth}
+			//onMouseDown={onStageMouseDown}
 		>
 			<Layer>
-				{image && (
+				{canvasBackgroundImage && (
 					<BackgroundImage
-						image={image}
+						image={canvasBackgroundImage}
 						name="background-image"
 						canvasWidth={props.canvasWidth}
-						// height and width
-						{...imageSize}
+						height={imageSize.height}
+						width={imageSize.width}
 					/>
 				)}
 
-				{props.texts.map((text, index) => {
+				{texts.map((text, index) => {
 					const { x, y, rotation, ...textProperties } = text
 
 					return (
@@ -175,7 +168,7 @@ function Canvas(props) {
 					)
 				})}
 
-				{props.emojies.map((object, index) => (
+				{emojies.map((object, index) => (
 					<Text
 						key={`emoji-${index}`}
 						{...object}
@@ -190,9 +183,9 @@ function Canvas(props) {
 				))}
 
 				<ShapeTransformer
-					selectedShapeName={selectedShapeName}
+					shapeName={shapeName}
 					withCenterAnchors={withCenterAnchors}
-					onTransform={onTransform}
+					// onTransform={onTransform}
 				/>
 			</Layer>
 		</Stage>

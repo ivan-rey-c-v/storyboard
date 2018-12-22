@@ -4,9 +4,9 @@ import { Image } from 'react-konva'
 // use React Class since Konva can't use useCallback(react16.7)
 class BackgroundImage extends Component {
 	dragOnHorizontally = pos => {
-		const { canvasWidth, width } = this.props
+		const { canvasWidth, width: imageWidth } = this.props
 		// make sure it is always positive before convert to negative value
-		const leftBoundary = -Math.abs(width - canvasWidth)
+		const leftBoundary = -Math.abs(imageWidth - canvasWidth)
 		return {
 			x: pos.x < leftBoundary ? leftBoundary : pos.x >= 0 ? 0 : pos.x,
 			y: 0

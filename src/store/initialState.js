@@ -1,14 +1,14 @@
 export default {
-	currentStoryIndex: 0,
-	actives: {
+	active: {
+		storyIndex: 0,
 		textIndex: null,
-		selectedShapeName: ''
+		shapeName: null
 	},
 	stories: [
 		{
-			id: 'Screen 1',
-			canvasName: 'screen-1',
-			backgroundImg: null,
+			storyID: 'Story 1',
+			canvasName: 'storyboard-1',
+			backgroundImage: null,
 			texts: [
 				{
 					fontSize: 34,

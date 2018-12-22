@@ -1,6 +1,7 @@
 import React, { lazy, Suspense } from 'react'
 import styled from 'styled-components/macro'
 import GlobalStyle from './GlobalStyle'
+import { AppStoreProvider } from './store/AppContext'
 
 const Home = lazy(_ => import('./pages/Home'))
 

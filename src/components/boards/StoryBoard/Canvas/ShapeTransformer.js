@@ -33,15 +33,15 @@ class ShapeTransformer extends PureComponent {
 	checkNode() {
 		// here we need to manually attach or detach Transformer node
 		const stage = this.transformer.getStage()
-		const { selectedShapeName } = this.props
+		const { shapeName } = this.props
 
-		if (!selectedShapeName) {
+		if (!shapeName) {
 			this.transformer.detach()
 			this.transformer.getLayer().batchDraw()
 			return //
 		}
 
-		const selectedNode = stage.findOne('.' + selectedShapeName)
+		const selectedNode = stage.findOne('.' + shapeName)
 
 		if (selectedNode) {
 			this.transformer.attachTo(selectedNode)

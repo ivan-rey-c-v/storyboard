@@ -2,31 +2,53 @@ import produce from 'immer'
 
 export default produce((draftState, action) => {
 	switch (action.type) {
-		case 'SET_STORY_BOARD': {
-			draftState.currentStoryIndex = action.index
+		case 'RESET_ACTIVE': {
+			draftState.active.textIndex = null
+			draftState.active.shapeName = null
 			return
 		}
 
-		case 'DELETE_STORY_BOARD': {
-			const { stories } = draftState
-			draftState.stories = stories.filter(
-				(story, index) => index !== action.index
-			)
-			draftState.currentStoryIndex = 0
-			draftState.actives.textIndex = null
-
+		case 'SELECT_STORY_BOARD': {
+			const { storyIndex } = action
+			draftState.active.storyIndex = storyIndex
 			return
 		}
 
-		case 'SET_BG_IMG': {
-			const { currentStoryIndex } = draftState
-			draftState.stories[currentStoryIndex].backgroundImg = action.file
+		// case 'DELETE_STORY_BOARD': {
+		// 	const { stories } = draftState
+		// 	draftState.stories = stories.filter(
+		// 		(story, index) => index !== action.index
+		// 	)
+		// 	draftState.currentStoryIndex = 0
+		// 	draftState.actives.textIndex = null
+
+		// 	return
+		// }
+
+		case 'SET_BACKGROUND_IMAGE': {
+			const { imgFile } = action
+			const { storyIndex } = draftState.active
+			draftState.stories[storyIndex].backgroundImg = imgFile
 			return
 		}
+
+		case 'ADD_EMOJI': {
+			const { storyIndex } = draftState.active
+			const emoji = {
+				emoji: action.emoji,
+				fontSize: 46
+			}
+			draftState.stories[storyIndex].emojies.push(emoji)
+			return
+		}
+
+		// below has not been refactored
+
+		//
 
 		case 'SET_SELECTED_SHAPE_NAME': {
-			draftState.actives.selectedShapeName = action.name
-			draftState.actives.textIndex = action.textIndex
+			draftState.active.shapeName = action.name
+			draftState.active.textIndex = action.textIndex
 			return
 		}
 
@@ -51,17 +73,6 @@ export default produce((draftState, action) => {
 				textIndex: length,
 				selectedShapeName: newTextName
 			}
-			return
-		}
-
-		case 'ADD_EMOJI': {
-			const { currentStoryIndex } = draftState
-			const emoji = {
-				emoji: action.emoji,
-				fontSize: 46
-			}
-
-			draftState.stories[currentStoryIndex].emojies.push(emoji)
 			return
 		}
 
@@ -146,12 +157,6 @@ export default produce((draftState, action) => {
 			draftState.stories.push(newBoard)
 			draftState.currentStoryIndex = length
 
-			return
-		}
-
-		case 'RESET_ACTIVES': {
-			draftState.actives.selectedShapeName = ''
-			draftState.actives.textIndex = null
 			return
 		}
 
