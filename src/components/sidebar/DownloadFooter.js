@@ -43,7 +43,9 @@ function DownloadFooter({ storeDispatch }) {
 
 	return (
 		<SidebarFooter>
-			<Button primary>Download</Button>
+			<Button primary onClick={handleDownload}>
+				Download
+			</Button>
 		</SidebarFooter>
 	)
 }

@@ -55,9 +55,13 @@ const EmojiDiv = styled(Button)`
 	margin-left: 1rem;
 	width: 2.5rem;
 
-	display: flex;
-	align-items: center;
-	justify-content: center;
+	/* Emoji is wrapped in a span */
+	&,
+	& > span {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
 `
 const EmojiOverlay = styled.div`
 	cursor: pointer;

@@ -1,6 +1,5 @@
-import React, { useContext, useCallback } from 'react'
-import { AppContext } from '../../store/AppContext'
-import styled from 'styled-components'
+import React from 'react'
+import styled from 'styled-components/macro'
 
 import StoryBoard from './StoryBoard'
 import AddBoard from './AddBoard'
@@ -10,7 +9,7 @@ import useCanvasSizeFromWindowHeight from '../../hooks/useCanvasSizeFromWindowHe
 function MainSection(props) {
 	console.log('rendering main-section...')
 
-	const { state, dispatch } = useContext(AppContext)
+	const { state, dispatch } = props
 	const { stories } = state
 	const { storyIndex, shapeName } = state.active
 	const { canvasHeight, canvasWidth } = useCanvasSizeFromWindowHeight()
@@ -22,13 +21,12 @@ function MainSection(props) {
 					key={story.canvasName}
 					canvasHeight={canvasHeight}
 					canvasWidth={canvasWidth}
-					story={story}
-					storeDispatch={dispatch}
-					//
-					shapeName={shapeName}
 					index={index}
+					shapeName={shapeName}
+					storeDispatch={dispatch}
+					story={story}
 					// currentStoryIndex={currentStoryIndex}
-					// isCurrentStory={currentStoryIndex === index ? true : false}
+					isCurrentStory={storyIndex === index}
 				/>
 			))}
 

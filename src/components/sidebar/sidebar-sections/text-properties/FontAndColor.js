@@ -1,7 +1,7 @@
 import React, { lazy, Suspense } from 'react'
-import styled from 'styled-components'
+import styled from 'styled-components/macro'
 
-const ColorPicker = lazy(_ => import('./ColorPicker'))
+//const ColorPicker = lazy(_ => import('../old-text-properties/ColorPicker'))
 
 const fonts = [
 	'Arial',
@@ -30,38 +30,12 @@ function FontAndColor(props) {
 
 			<div className="colors">
 				<div className="color-div">
-					<Suspense fallback={<div />}>
-						<ColorPicker
-							fillName="fill"
-							opacityName="opacity"
-							fill={props.currentText.fill}
-							opacity={props.currentText.opacity}
-							currentText={props.currentText}
-							handleOnColorChange={props.handleOnColorChange}
-						>
-							<PickerBoxDiv color={props.currentText.fill}>
-								<p>A</p>
-							</PickerBoxDiv>
-						</ColorPicker>
-					</Suspense>
+					<Suspense fallback={<div />}>{/* color picker */}</Suspense>
 					<span className="picker-name">text</span>
 				</div>
 
 				<div className="color-div" onClick={props.preventPropagation}>
-					<Suspense fallback={<div />}>
-						<ColorPicker
-							fillName="boxFill"
-							opacityName="boxOpacity"
-							fill={props.currentText.boxFill}
-							opacity={props.currentText.boxOpacity}
-							currentText={props.currentText}
-							handleOnColorChange={props.handleOnColorChange}
-						>
-							<PickerBoxDiv color={props.currentText.boxFill}>
-								<div />
-							</PickerBoxDiv>
-						</ColorPicker>
-					</Suspense>
+					<Suspense fallback={<div />}>{/* color picker */}</Suspense>
 					<span className="picker-name">box</span>
 				</div>
 			</div>

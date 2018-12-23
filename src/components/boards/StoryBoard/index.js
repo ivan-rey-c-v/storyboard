@@ -1,12 +1,12 @@
 import React, { lazy, Suspense, useCallback } from 'react'
-import styled from 'styled-components/macro'
+import styled, { css } from 'styled-components/macro'
 
 import BoardHeader from './BoardHeader'
 
 const Canvas = lazy(_ => import('./Canvas'))
 
 function StoryBoard(props) {
-	const { canvasHeight, canvasWidth, storeDispatch } = props
+	const { canvasHeight, canvasWidth, isCurrentStory, story } = props
 
 	const preventPropagation = useCallback(function(event) {
 		event.stopPropagation()
@@ -15,9 +15,13 @@ function StoryBoard(props) {
 
 	return (
 		<Container canvasWidth={canvasWidth}>
-			<BoardHeader />
+			<BoardHeader
+				isCurrentStory={isCurrentStory}
+				storyID={story.storyID}
+			/>
 
 			<CanvasContainer
+				isCurrentStory={isCurrentStory}
 				canvasHeight={canvasHeight}
 				onClick={preventPropagation}
 			>
@@ -42,8 +46,17 @@ const Container = styled.div`
 const CanvasContainer = styled.div`
 	height: ${props => `${props.canvasHeight}px`};
 
+	cursor: pointer;
 	width: 100%;
 	border: 1px solid lightgray;
+
+	${props =>
+		props.isCurrentStory
+			? css`
+					border: 2px solid rebeccapurple;
+					box-shadow: 2px 2px 8px gray;
+			  `
+			: null}
 `
 const EmptyDiv = styled.div`
 	height: 100%;

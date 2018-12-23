@@ -11,7 +11,7 @@ import {
 const acceptedImages = 'image/x-png,image/gif,image/jpeg'
 
 function SetBackground(props) {
-	console.log('set background')
+	console.log('rendering set-background...')
 	const { imgFile, storeDispatch } = props
 
 	const handleSetBackground = useCallback(function(event) {

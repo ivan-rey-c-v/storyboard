@@ -1,5 +1,4 @@
-import React, { useContext } from 'react'
-import { AppContext } from '../../store/AppContext'
+import React from 'react'
 
 import {
 	SidebarContainer,
@@ -10,13 +9,19 @@ import DownloadFooter from './DownloadFooter'
 import SelectBoard from './sidebar-sections/SelectBoard'
 import SetBackground from './sidebar-sections/SetBackground'
 import AdditionalGraphics from './sidebar-sections/AdditionalGraphics'
+import AddText from './sidebar-sections/AddText'
+import TextPreviewList from './sidebar-sections/text-properties/TextPreviewList'
+import TextInput from './sidebar-sections/text-properties/TextInput'
+import TextProperties from './sidebar-sections/text-properties/TextProperties'
 
 function Sidebar(props) {
-	const { state, dispatch } = useContext(AppContext)
+	const { state, dispatch } = props
 	const { stories } = state
 	const { storyIndex, textIndex, shapeName } = state.active
 
 	const currentStory = stories[storyIndex]
+
+	console.log('rendering side-bar...')
 
 	return (
 		<SidebarContainer>
@@ -38,7 +43,29 @@ function Sidebar(props) {
 
 				<AdditionalGraphics storeDispatch={dispatch} />
 
-				{/* Add/Modify text component */}
+				<AddText storeDispatch={dispatch}>
+					<TextPreviewList
+						texts={currentStory.texts}
+						storyID={currentStory.storyID}
+						canvasName={currentStory.canvasName}
+						shapeName={shapeName}
+						storeDispatch={dispatch}
+					/>
+
+					{textIndex != null && (
+						<>
+							<TextInput
+								textValue={currentStory.texts[textIndex].text}
+								storeDispatch={dispatch}
+							/>
+
+							<TextProperties
+								currentText={currentStory.texts[textIndex]}
+								storeDispatch={dispatch}
+							/>
+						</>
+					)}
+				</AddText>
 			</SidebarSections>
 
 			<DownloadFooter storeDispatch={dispatch} />

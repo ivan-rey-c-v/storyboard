@@ -16,6 +16,7 @@ export const buttonMixin = css`
 	color: ${props => (props.primary ? 'white' : 'rgb(62, 56, 71)')};
 	background-color: ${props => (props.primary ? mainColor : 'transparent')};
 `
+
 export const hoverActive = css`
 	:hover {
 		opacity: 0.75;

@@ -6,7 +6,7 @@ import ShapeTransformer from './ShapeTransformer'
 
 function Canvas(props) {
 	const { canvasHeight, canvasWidth, story, shapeName, storeDispatch } = props
-	const { backgroundImage, texts, emojies } = story
+	const { backgroundImage, texts, emojies, canvasName } = story
 	const [canvasBackgroundImage, setCanvasBackgroundImage] = useState(null)
 	const [imageSize, setImageSize] = useState(null)
 	const [withCenterAnchors, setWithCenterAnchors] = useState(true)
@@ -15,7 +15,7 @@ function Canvas(props) {
 		function() {
 			if (backgroundImage) {
 				const newImage = new window.Image()
-				newImage.src = window.URL.createObjectURL(props.backgroundImg)
+				newImage.src = window.URL.createObjectURL(backgroundImage)
 				newImage.onload = () => {
 					// render konva Image when ready
 					const { height, width } = newImage
@@ -38,10 +38,10 @@ function Canvas(props) {
 
 	const onStageMouseDown = useCallback(function(e) {
 		const { name, textIndex } = e.target.attrs
-
+		console.log({ name })
 		// clicked on <Stage /> or <BackgroundImage /> - clear selection
 		if (name === 'canvas-stage' || name === 'background-image') {
-			storeDispatch({ type: 'SET_SELECTED_SHAPE_NAME', name: '' })
+			storeDispatch({ type: 'SET_ACTIVE_SHAPE_NAME', name: '' })
 			return
 		}
 
@@ -53,7 +53,7 @@ function Canvas(props) {
 
 		if (name.includes('object') || name.includes('emoji')) {
 			setWithCenterAnchors(false)
-			storeDispatch({ type: 'SET_SELECTED_SHAPE_NAME', name, textIndex })
+			storeDispatch({ type: 'SET_ACTIVE_SHAPE_NAME', name, textIndex })
 			return
 		}
 
@@ -61,7 +61,7 @@ function Canvas(props) {
 			setWithCenterAnchors(true)
 			storeDispatch({
 				name: name.includes('label') ? name : `${name}-label`,
-				type: 'SET_SELECTED_SHAPE_NAME',
+				type: 'SET_ACTIVE_SHAPE_NAME',
 				textIndex
 			})
 			return
@@ -121,7 +121,7 @@ function Canvas(props) {
 			name="canvas-stage"
 			height={canvasHeight}
 			width={canvasWidth}
-			//onMouseDown={onStageMouseDown}
+			onMouseDown={onStageMouseDown}
 		>
 			<Layer>
 				{canvasBackgroundImage && (
@@ -144,9 +144,9 @@ function Canvas(props) {
 							width={text.width}
 							alpha={100}
 							draggable
-							name={`${props.canvasName}-text-${index}-label`}
+							name={`${canvasName}-text-${index}-label`}
 							dragBoundFunc={onDragKonvaShape}
-							x={props.canvasWidth / 2 - 50}
+							x={canvasWidth / 2 - 50}
 							y={index * 70 + 10}
 						>
 							<Tag
@@ -162,7 +162,7 @@ function Canvas(props) {
 								stroke={text.isBold ? text.fill : 'transparent'}
 								strokeWidth={1.25}
 								fontStyle={text.isItalic ? 'italic' : 'normal'}
-								name={`${props.canvasName}-text-${index}`}
+								name={`${canvasName}-text-${index}`}
 							/>
 						</Label>
 					)
@@ -172,11 +172,11 @@ function Canvas(props) {
 					<Text
 						key={`emoji-${index}`}
 						{...object}
-						name={`${props.canvasName}-emoji-${index}`}
+						name={`${canvasName}-emoji-${index}`}
 						text={object.emoji}
 						textIndex={null}
 						draggable
-						x={props.width / 2 - 70}
+						x={canvasWidth / 2 - 70}
 						y={100}
 						dragBoundFunc={onDragKonvaShape}
 					/>

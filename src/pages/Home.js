@@ -6,17 +6,17 @@ import Sidebar from '../components/sidebar/Sidebar'
 import Boards from '../components/boards/Boards'
 
 function Home(props) {
-	const { dispatch } = useContext(AppContext)
+	const { state, dispatch } = useContext(AppContext)
 
 	const handleOnClick = useCallback(function(event) {
 		event.stopPropagation()
-		dispatch({ type: 'RESET_ACTIVES' })
+		dispatch({ type: 'RESET_ACTIVE' })
 	}, [])
 
 	return (
 		<HomePage onClick={handleOnClick}>
-			<Sidebar />
-			<Boards />
+			<Sidebar state={state} dispatch={dispatch} />
+			<Boards state={state} dispatch={dispatch} />
 		</HomePage>
 	)
 }

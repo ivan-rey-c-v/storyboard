@@ -14,6 +14,24 @@ export default produce((draftState, action) => {
 			return
 		}
 
+		// case 'ADD_STORY_BOARD': {
+		// 	const length = draftState.stories.length
+
+		// 	const newBoard = {
+		// 		id: `Screen ${length + 1}`,
+		// 		canvasName: `screen-${length + 1}`,
+		// 		backgroundImage: null,
+		// 		texts: [],
+		// 		emojies: [],
+		// 		objects: []
+		// 	}
+
+		// 	draftState.stories.push(newBoard)
+		// 	draftState.currentStoryIndex = length
+
+		// 	return
+		// }
+
 		// case 'DELETE_STORY_BOARD': {
 		// 	const { stories } = draftState
 		// 	draftState.stories = stories.filter(
@@ -28,7 +46,7 @@ export default produce((draftState, action) => {
 		case 'SET_BACKGROUND_IMAGE': {
 			const { imgFile } = action
 			const { storyIndex } = draftState.active
-			draftState.stories[storyIndex].backgroundImg = imgFile
+			draftState.stories[storyIndex].backgroundImage = imgFile
 			return
 		}
 
@@ -42,21 +60,16 @@ export default produce((draftState, action) => {
 			return
 		}
 
-		// below has not been refactored
-
-		//
-
-		case 'SET_SELECTED_SHAPE_NAME': {
+		case 'SET_ACTIVE_SHAPE_NAME': {
 			draftState.active.shapeName = action.name
 			draftState.active.textIndex = action.textIndex
 			return
 		}
 
 		case 'ADD_TEXT': {
-			const { currentStoryIndex } = draftState
-			const { canvasName } = draftState.stories[currentStoryIndex]
-			const { length } = draftState.stories[currentStoryIndex].texts
-			const newTextName = `${canvasName}-text-${length}-label`
+			const { storyIndex } = draftState.active
+			const { canvasName } = draftState.stories[storyIndex]
+			const { length } = draftState.stories[storyIndex].texts
 
 			const text = {
 				fontSize: 48,
@@ -68,55 +81,50 @@ export default produce((draftState, action) => {
 				opacity: 1
 			}
 
-			draftState.stories[currentStoryIndex].texts.push(text)
-			draftState.actives = {
-				textIndex: length,
-				selectedShapeName: newTextName
-			}
+			draftState.stories[storyIndex].texts.push(text)
+			draftState.active.textIndex = length
+			draftState.active.shapeName = `${canvasName}-text-${length}-label`
+
 			return
 		}
 
 		case 'MODIFY_TEXT': {
-			const { currentStoryIndex } = draftState
-			const { textIndex } = draftState.actives
+			const { properties } = action
+			const { storyIndex, textIndex } = draftState.active
 
-			const lastText =
-				draftState.stories[currentStoryIndex].texts[textIndex]
+			const lastText = draftState.stories[storyIndex].texts[textIndex]
 
-			draftState.stories[currentStoryIndex].texts[textIndex] = {
+			draftState.stories[storyIndex].texts[textIndex] = {
 				...lastText,
-				...action.properties
+				...properties
 			}
 			return
 		}
 
-		case 'TOGGLE_FONT_STYLE': {
-			const { currentStoryIndex } = draftState
-			const { textIndex } = draftState.actives
+		case 'TOGGLE_TEXT_PROPERTY': {
+			const { propertyName } = action
+			const { storyIndex, textIndex } = draftState.active
 
-			const lastText =
-				draftState.stories[currentStoryIndex].texts[textIndex]
+			const lastText = draftState.stories[storyIndex].texts[textIndex]
 
-			draftState.stories[currentStoryIndex].texts[textIndex] = {
+			draftState.stories[storyIndex].texts[textIndex] = {
 				...lastText,
-				[action.styleName]: !lastText[action.styleName]
+				[propertyName]: !lastText[propertyName]
 			}
 			return
 		}
 
 		case 'CHANGE_TEXT_ALIGN': {
-			const { currentStoryIndex } = draftState
-			const { textIndex } = draftState.actives
+			const { storyIndex, textIndex } = draftState.active
 
-			const lastText =
-				draftState.stories[currentStoryIndex].texts[textIndex]
+			const lastText = draftState.stories[storyIndex].texts[textIndex]
 
 			const { align } = lastText
 			const aligns = ['left', 'center', 'right']
 			const lastAlignIndex = aligns.indexOf(align)
 			const newAlignIndex = (lastAlignIndex + 1) % aligns.length
 
-			draftState.stories[currentStoryIndex].texts[textIndex] = {
+			draftState.stories[storyIndex].texts[textIndex] = {
 				...lastText,
 				align: aligns[newAlignIndex]
 			}
@@ -124,39 +132,19 @@ export default produce((draftState, action) => {
 		}
 
 		case 'CHANGE_FONT_SIZE': {
-			const { currentStoryIndex } = draftState
-			const { textIndex } = draftState.actives
+			const { storyIndex, textIndex } = draftState.active
 
-			const lastText =
-				draftState.stories[currentStoryIndex].texts[textIndex]
+			const lastText = draftState.stories[storyIndex].texts[textIndex]
 
 			const { fontSize } = lastText
 			const fontSizes = [24, 34, 44, 54]
 			const lastFontSizeIndex = fontSizes.indexOf(fontSize)
 			const newFontSizeIndex = (lastFontSizeIndex + 1) % fontSizes.length
 
-			draftState.stories[currentStoryIndex].texts[textIndex] = {
+			draftState.stories[storyIndex].texts[textIndex] = {
 				...lastText,
 				fontSize: fontSizes[newFontSizeIndex]
 			}
-			return
-		}
-
-		case 'ADD_STORY_BOARD': {
-			const length = draftState.stories.length
-
-			const newBoard = {
-				id: `Screen ${length + 1}`,
-				canvasName: `screen-${length + 1}`,
-				backgroundImg: null,
-				texts: [],
-				emojies: [],
-				objects: []
-			}
-
-			draftState.stories.push(newBoard)
-			draftState.currentStoryIndex = length
-
 			return
 		}
 

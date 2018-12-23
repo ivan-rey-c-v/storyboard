@@ -2,10 +2,12 @@ import React from 'react'
 import styled from 'styled-components/macro'
 
 function BoardHeader(props) {
+	const { storyID, isCurrentStory } = props
+
 	return (
 		<Header>
-			<div>{props.id} Screen 1</div>
-			<div>Editing</div>
+			<TitleDiv isCurrentStory={isCurrentStory}> {storyID} </TitleDiv>
+			<EditingDiv isCurrentStory={isCurrentStory}>Editing</EditingDiv>
 			{/* <div className="actions-div">
 				{props.currentStoryIndex > 0 && (
 					<span className="delete" onClick={handleDeleteBoard}>
@@ -28,6 +30,12 @@ const Header = styled.header`
 
 	display: flex;
 	justify-content: space-between;
+`
+const TitleDiv = styled.div`
+	color: ${props => (props.isCurrentStory ? 'black' : 'gray')};
+`
+const EditingDiv = styled.div`
+	color: ${props => (props.isCurrentStory ? 'rebeccapurple' : 'gray')};
 `
 
 export default React.memo(BoardHeader)
