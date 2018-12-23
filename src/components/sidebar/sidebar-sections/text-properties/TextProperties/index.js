@@ -1,13 +1,13 @@
 import React, { useCallback } from 'react'
 import styled from 'styled-components/macro'
 
-import { hoverActive } from '../../../../mixins/button'
+import { hoverActive } from '../../../../../mixins/button'
 
-import { ReactComponent as BoldSVG } from '../../../../icons/bold.svg'
-import { ReactComponent as ItalicSVG } from '../../../../icons/italic.svg'
-import { ReactComponent as AlignLeftSVG } from '../../../../icons/alignLeft.svg'
-import { ReactComponent as AlignCenterSVG } from '../../../../icons/alignCenter.svg'
-import { ReactComponent as AlignRightSVG } from '../../../../icons/alignRight.svg'
+import { ReactComponent as BoldSVG } from '../../../../../icons/bold.svg'
+import { ReactComponent as ItalicSVG } from '../../../../../icons/italic.svg'
+import { ReactComponent as AlignLeftSVG } from '../../../../../icons/alignLeft.svg'
+import { ReactComponent as AlignCenterSVG } from '../../../../../icons/alignCenter.svg'
+import { ReactComponent as AlignRightSVG } from '../../../../../icons/alignRight.svg'
 
 import FontSizes from './FontSizes'
 

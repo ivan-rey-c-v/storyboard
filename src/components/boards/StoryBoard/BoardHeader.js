@@ -35,7 +35,7 @@ const TitleDiv = styled.div`
 	color: ${props => (props.isCurrentStory ? 'black' : 'gray')};
 `
 const EditingDiv = styled.div`
-	color: ${props => (props.isCurrentStory ? 'rebeccapurple' : 'gray')};
+	color: ${props => (props.isCurrentStory ? '#936793' : 'gray')};
 `
 
 export default React.memo(BoardHeader)

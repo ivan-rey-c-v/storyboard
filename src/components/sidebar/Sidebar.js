@@ -13,6 +13,7 @@ import AddText from './sidebar-sections/AddText'
 import TextPreviewList from './sidebar-sections/text-properties/TextPreviewList'
 import TextInput from './sidebar-sections/text-properties/TextInput'
 import TextProperties from './sidebar-sections/text-properties/TextProperties'
+import FontAndColor from './sidebar-sections/text-properties/FontAndColor'
 
 function Sidebar(props) {
 	const { state, dispatch } = props
@@ -60,6 +61,11 @@ function Sidebar(props) {
 							/>
 
 							<TextProperties
+								currentText={currentStory.texts[textIndex]}
+								storeDispatch={dispatch}
+							/>
+
+							<FontAndColor
 								currentText={currentStory.texts[textIndex]}
 								storeDispatch={dispatch}
 							/>

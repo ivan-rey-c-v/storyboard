@@ -6,7 +6,7 @@ export const SidebarContainer = styled.aside`
 	height: 100%;
 	width: 270px;
 	min-width: 270px;
-	overflow-y: auto;
+	overflow: visible;
 	display: flex;
 	flex-direction: column;
 	border-right: 1px solid lightgray;
