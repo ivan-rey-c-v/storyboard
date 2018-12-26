@@ -10,7 +10,6 @@
 		"immer": "^1.8.2",
 		"jszip": "^3.1.5",
 		"konva": "^2.5.1",
-		"rc-color-picker": "^1.2.6",
 		"react": "^16.7.0-alpha.2",
 		"react-color": "^2.17.0",
 		"react-dom": "^16.7.0-alpha.2",

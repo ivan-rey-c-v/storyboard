@@ -12,7 +12,7 @@ function ColorPicker(props) {
 
 const PickerContainer = styled.div`
 	position: absolute;
-	bottom: 100%;
+	bottom: calc(100% + 0.5rem);
 	left: 0;
 	z-index: 6;
 `

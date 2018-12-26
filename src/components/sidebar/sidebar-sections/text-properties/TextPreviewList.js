@@ -26,6 +26,11 @@ function TextPreviewList(props) {
 						}
 						color={text.fill}
 						opacity={text.opacity}
+						align={text.align}
+						bold={text.isBold}
+						italic={text.isItalic}
+						font={text.fontFamily}
+						size={text.fontSize}
 					>
 						<p>Aa</p>
 					</TextCard>
@@ -56,20 +61,33 @@ const TextCard = styled.li`
 	background-color: #f2f2f2;
 	cursor: pointer;
 	display: flex;
-	justify-content: center;
 
 	p {
-		font-weight: 600;
 		display: block;
 		margin: auto 0;
+		width: 100%;
 	}
 
 	${props => {
-		const { activetext, color, opacity } = props
+		const {
+			activetext,
+			color,
+			opacity,
+			align,
+			bold,
+			italic,
+			font,
+			size
+		} = props
 
 		return {
 			color,
 			opacity,
+			textAlign: align,
+			fontFamily: font,
+			fontWeight: bold ? 'bold' : 'normal',
+			fontStyle: italic ? 'italic' : 'normal',
+			fontSize: `${size / 2.5}px`,
 			outline: activetext ? 'dashed purple' : 'none',
 			boxShadow: activetext ? '1px 1px 4px gray' : 'none'
 		}

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback } from 'react'
 import styled from 'styled-components/macro'
 
 import ColorSwatch from './ColorSwatch'
@@ -15,13 +15,28 @@ const fonts = [
 function FontAndColor(props) {
 	const { currentText, storeDispatch } = props
 
+	const preventPropagation = useCallback(function(event) {
+		event.stopPropagation()
+		event.preventDefault()
+	}, [])
+
+	const handleSelectFont = useCallback(function(event) {
+		event.stopPropagation()
+		event.preventDefault()
+		const properties = {
+			fontFamily: event.target.value
+		}
+
+		storeDispatch({ type: 'MODIFY_TEXT', properties })
+	}, [])
+
 	return (
 		<Container>
 			<Select
 				name="fontFamily"
-				// onChange={props.handleOnTextInputChange}
-				// onClick={props.preventPropagation}
-				// font={props.currentText.fontFamily}
+				onClick={preventPropagation}
+				onChange={handleSelectFont}
+				value={currentText.fontFamily}
 			>
 				{fonts.map(font => (
 					<Option key={font} font={font}>
@@ -31,11 +46,21 @@ function FontAndColor(props) {
 			</Select>
 
 			<ColorsDiv>
-				<ColorSwatch name="text">
+				<ColorSwatch
+					name="text"
+					fillName={'fill'}
+					opacityName={'opacity'}
+					storeDispatch={storeDispatch}
+				>
 					<Alpha color={currentText.fill}>A</Alpha>
 				</ColorSwatch>
 
-				<ColorSwatch name="box">
+				<ColorSwatch
+					name="box"
+					fillName={'boxFill'}
+					opacityName={'boxOpacity'}
+					storeDispatch={storeDispatch}
+				>
 					<ColorBox color={currentText.boxFill} />
 				</ColorSwatch>
 			</ColorsDiv>

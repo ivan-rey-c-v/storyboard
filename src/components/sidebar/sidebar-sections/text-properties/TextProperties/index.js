@@ -92,7 +92,9 @@ const PropertyDiv = styled.div`
 	font-weight: 600;
 	color: gray;
 `
-const Property = styled.div`
+const Property = styled.div.attrs({
+	tabIndex: 0
+})`
 	margin: 0.25rem 0.5rem;
 	display: flex;
 	flex-direction: column;

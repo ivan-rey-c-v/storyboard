@@ -16,13 +16,24 @@ function ColorSwatch(props) {
 		setPickerActive(false)
 	}, [])
 
+	const handleOnColorChange = useCallback(function(color, event) {
+		const { storeDispatch, fillName, opacityName } = props
+
+		const properties = {
+			[fillName]: color.hex,
+			[opacityName]: color.rgb.a
+		}
+
+		storeDispatch({ type: 'MODIFY_TEXT', properties })
+	}, [])
+
 	return (
 		<Swatch onClick={handleOpenPicker}>
 			{pickerActive && (
 				<>
 					<Overlay onClick={handleClosePicker} />
 					<Suspense fallback={<div />}>
-						<ColorPicker />
+						<ColorPicker onChange={handleOnColorChange} />
 					</Suspense>
 				</>
 			)}
