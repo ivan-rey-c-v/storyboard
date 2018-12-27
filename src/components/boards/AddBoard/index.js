@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import styled from 'styled-components/macro'
 
 import { ReactComponent as PlusSVG } from '../../../icons/plus.svg'
@@ -7,15 +7,48 @@ import { ReactComponent as DownSVG } from '../../../icons/down.svg'
 import ActionDiv from './ActionDiv'
 
 function AddBoard(props) {
-	const { canvasHeight, canvasWidth, storeDispatch } = props
+	const { canvasHeight, canvasWidth, storeDispatch, newIndex } = props
+	// isDragging is used for css
+	const [isDragging, setIsDragging] = useState(false)
 
 	const handleAddStoryBoard = useCallback(function(event) {
 		event.stopPropagation()
 		storeDispatch({ type: 'ADD_STORY_BOARD' })
 	}, [])
 
+	const handleOnImageDrop = useCallback(function(event) {
+		event.stopPropagation()
+		event.preventDefault()
+
+		const data = event.dataTransfer
+		const file = data.files[0]
+
+		if (file.type.includes('image')) {
+			storeDispatch({ type: 'ADD_STORY_BOARD' })
+			storeDispatch({
+				type: 'SET_BACKGROUND_IMAGE',
+				imgFile: file,
+				storyIndex: newIndex
+			})
+		}
+	}, [])
+
+	const handleOnDragLeave = useCallback(function(event) {
+		setIsDragging(false)
+	}, [])
+	const handleOnDragOver = useCallback(function(event) {
+		setIsDragging(true)
+	}, [])
+
 	return (
-		<Layout height={canvasHeight} width={canvasWidth}>
+		<Layout
+			isdragging={isDragging}
+			height={canvasHeight}
+			width={canvasWidth}
+			onDrop={handleOnImageDrop}
+			onDragOver={handleOnDragOver}
+			onDragLeave={handleOnDragLeave}
+		>
 			<ActionDiv message="Add board">
 				<PlusContainer onClick={handleAddStoryBoard}>
 					<PlusSVG />
@@ -47,7 +80,10 @@ const Layout = styled.div`
 			height: `${props.height}px`,
 			width: `${props.width}px`
 		}
-	}}
+	}};
+
+	transition: transform 100ms ease-in-out;
+	transform: ${props => (props.isdragging ? 'scale(1.015)' : 'none')};
 `
 
 const PlusContainer = styled.div`

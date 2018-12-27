@@ -12,18 +12,29 @@ const acceptedImages = 'image/x-png,image/gif,image/jpeg'
 
 function SetBackground(props) {
 	console.log('rendering set-background...')
-	const { imgFile, storeDispatch } = props
+	const { imgFile, storeDispatch, storyIndex } = props
 
-	const handleSetBackground = useCallback(function(event) {
-		event.stopPropagation()
-		const imgFile = event.target.files[0]
-		storeDispatch({ type: 'SET_BACKGROUND_IMAGE', imgFile })
-	}, [])
+	const handleSetBackground = useCallback(
+		function(event) {
+			event.stopPropagation()
+			const imgFile = event.target.files[0]
+			storeDispatch({ type: 'SET_BACKGROUND_IMAGE', imgFile, storyIndex })
+		},
+		[storyIndex]
+	)
 
-	const handleRemoveBackground = useCallback(function(event) {
-		event.stopPropagation()
-		storeDispatch({ type: 'SET_BACKGROUND_IMAGE', imgFile: null })
-	}, [])
+	const handleRemoveBackground = useCallback(
+		function(event) {
+			event.stopPropagation()
+			storeDispatch({
+				type: 'SET_BACKGROUND_IMAGE',
+				imgFile: null,
+				storyIndex
+			})
+			console.log('removing background', storyIndex)
+		},
+		[storyIndex]
+	)
 
 	return (
 		<SidebarSection>

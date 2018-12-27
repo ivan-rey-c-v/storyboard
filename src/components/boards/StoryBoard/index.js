@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useCallback } from 'react'
+import React, { lazy, Suspense, useCallback, useState } from 'react'
 import styled, { css } from 'styled-components/macro'
 
 import BoardHeader from './BoardHeader'
@@ -14,6 +14,8 @@ function StoryBoard(props) {
 		storeDispatch,
 		index
 	} = props
+	// isDragging is used for css
+	const [isDragging, setIsDragging] = useState(false)
 
 	const handleSelectBoard = useCallback(function(event) {
 		event.stopPropagation()
@@ -23,6 +25,29 @@ function StoryBoard(props) {
 	const handleDeleteBoard = useCallback(function(event) {
 		event.stopPropagation()
 		storeDispatch({ type: 'DELETE_STORY_BOARD', storyID: story.storyID })
+	}, [])
+
+	const handleOnImageDrop = useCallback(function(event) {
+		event.stopPropagation()
+		event.preventDefault()
+
+		const data = event.dataTransfer
+		const file = data.files[0]
+
+		if (file.type.includes('image')) {
+			storeDispatch({
+				type: 'SET_BACKGROUND_IMAGE',
+				imgFile: file,
+				storyIndex: index
+			})
+		}
+	}, [])
+
+	const handleOnDragLeave = useCallback(function(event) {
+		setIsDragging(false)
+	}, [])
+	const handleOnDragOver = useCallback(function(event) {
+		setIsDragging(true)
 	}, [])
 
 	return (
@@ -35,9 +60,13 @@ function StoryBoard(props) {
 			/>
 
 			<CanvasContainer
+				isdragging={isDragging}
 				isCurrentStory={isCurrentStory}
 				canvasHeight={canvasHeight}
 				onClick={handleSelectBoard}
+				onDrop={handleOnImageDrop}
+				onDragOver={handleOnDragOver}
+				onDragLeave={handleOnDragLeave}
 			>
 				<Suspense fallback={<EmptyDiv />}>
 					<Canvas
@@ -62,15 +91,18 @@ const CanvasContainer = styled.div`
 
 	cursor: pointer;
 	width: 100%;
-	border: 1px solid lightgray;
+	outline: 1px solid lightgray;
 
 	${props =>
 		props.isCurrentStory
 			? css`
-					border: 2px solid rebeccapurple;
+					outline: 2px solid rebeccapurple;
 					box-shadow: 2px 2px 8px gray;
 			  `
-			: null}
+			: null};
+
+	transition: transform 100ms ease-in-out;
+	transform: ${props => (props.isdragging ? 'scale(1.015)' : 'none')};
 `
 const EmptyDiv = styled.div`
 	height: 100%;

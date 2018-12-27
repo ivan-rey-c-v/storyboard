@@ -34,6 +34,7 @@ function MainSection(props) {
 					canvasHeight={canvasHeight}
 					canvasWidth={canvasWidth}
 					storeDispatch={dispatch}
+					newIndex={stories.length}
 				/>
 			)}
 		</MainLayout>

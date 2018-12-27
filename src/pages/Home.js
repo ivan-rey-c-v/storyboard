@@ -13,8 +13,19 @@ function Home(props) {
 		dispatch({ type: 'RESET_ACTIVE' })
 	}, [])
 
+	const handlePreventImageDrop = useCallback(function(event) {
+		// prevents browser to open the image on drop
+		event.stopPropagation()
+		event.preventDefault()
+	}, [])
+
 	return (
-		<HomePage onClick={handleOnClick}>
+		<HomePage
+			onClick={handleOnClick}
+			onDrag={handlePreventImageDrop}
+			onDragOver={handlePreventImageDrop}
+			onDrop={handlePreventImageDrop}
+		>
 			<Sidebar state={state} dispatch={dispatch} />
 			<Boards state={state} dispatch={dispatch} />
 		</HomePage>
