@@ -25,7 +25,6 @@ function MainSection(props) {
 					shapeName={shapeName}
 					storeDispatch={dispatch}
 					story={story}
-					// currentStoryIndex={currentStoryIndex}
 					isCurrentStory={storyIndex === index}
 				/>
 			))}
@@ -34,6 +33,7 @@ function MainSection(props) {
 				<AddBoard
 					canvasHeight={canvasHeight}
 					canvasWidth={canvasWidth}
+					storeDispatch={dispatch}
 				/>
 			)}
 		</MainLayout>
@@ -44,7 +44,7 @@ const MainLayout = styled.main`
 	flex: 1;
 	background-color: #f7f7f7;
 	padding-top: 1rem;
-	padding-left: 4rem;
+	padding-left: 3rem;
 	overflow: hidden;
 
 	display: flex;

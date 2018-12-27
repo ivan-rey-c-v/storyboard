@@ -14,34 +14,35 @@ export default produce((draftState, action) => {
 			return
 		}
 
-		// case 'ADD_STORY_BOARD': {
-		// 	const length = draftState.stories.length
+		case 'ADD_STORY_BOARD': {
+			const length = draftState.stories.length
 
-		// 	const newBoard = {
-		// 		id: `Screen ${length + 1}`,
-		// 		canvasName: `screen-${length + 1}`,
-		// 		backgroundImage: null,
-		// 		texts: [],
-		// 		emojies: [],
-		// 		objects: []
-		// 	}
+			const newBoard = {
+				storyID: `Story ${length + 1}`,
+				canvasName: `storyboard-${length + 1}`,
+				backgroundImage: null,
+				texts: [],
+				emojies: [],
+				objects: []
+			}
 
-		// 	draftState.stories.push(newBoard)
-		// 	draftState.currentStoryIndex = length
+			draftState.stories.push(newBoard)
+			draftState.active.storyIndex = length
 
-		// 	return
-		// }
+			return
+		}
 
-		// case 'DELETE_STORY_BOARD': {
-		// 	const { stories } = draftState
-		// 	draftState.stories = stories.filter(
-		// 		(story, index) => index !== action.index
-		// 	)
-		// 	draftState.currentStoryIndex = 0
-		// 	draftState.actives.textIndex = null
+		case 'DELETE_STORY_BOARD': {
+			const { stories } = draftState
+			draftState.stories = stories.filter(
+				story => story.storyID !== action.storyID
+			)
+			const { length } = draftState.stories
+			draftState.active.storyIndex = (length + 1) % length
+			draftState.active.textIndex = null
 
-		// 	return
-		// }
+			return
+		}
 
 		case 'SET_BACKGROUND_IMAGE': {
 			const { imgFile } = action

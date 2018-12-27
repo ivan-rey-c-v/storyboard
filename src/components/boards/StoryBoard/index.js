@@ -6,11 +6,23 @@ import BoardHeader from './BoardHeader'
 const Canvas = lazy(_ => import('./Canvas'))
 
 function StoryBoard(props) {
-	const { canvasHeight, canvasWidth, isCurrentStory, story } = props
+	const {
+		canvasHeight,
+		canvasWidth,
+		isCurrentStory,
+		story,
+		storeDispatch,
+		index
+	} = props
 
-	const preventPropagation = useCallback(function(event) {
+	const handleSelectBoard = useCallback(function(event) {
 		event.stopPropagation()
-		event.preventDefault()
+		storeDispatch({ type: 'SELECT_STORY_BOARD', storyIndex: index })
+	}, [])
+
+	const handleDeleteBoard = useCallback(function(event) {
+		event.stopPropagation()
+		storeDispatch({ type: 'DELETE_STORY_BOARD', storyID: story.storyID })
 	}, [])
 
 	return (
@@ -18,12 +30,14 @@ function StoryBoard(props) {
 			<BoardHeader
 				isCurrentStory={isCurrentStory}
 				storyID={story.storyID}
+				handleDeleteBoard={handleDeleteBoard}
+				canBeDeleted={index !== 0}
 			/>
 
 			<CanvasContainer
 				isCurrentStory={isCurrentStory}
 				canvasHeight={canvasHeight}
-				onClick={preventPropagation}
+				onClick={handleSelectBoard}
 			>
 				<Suspense fallback={<EmptyDiv />}>
 					<Canvas
@@ -39,7 +53,7 @@ function StoryBoard(props) {
 const Container = styled.div`
 	width: ${props => `${props.canvasWidth}px`};
 
-	margin-left: 2rem;
+	margin-left: 3rem;
 	display: flex;
 	flex-direction: column;
 `

@@ -1,20 +1,25 @@
 import React from 'react'
 import styled from 'styled-components/macro'
 
+import { ReactComponent as CrossSVG } from '../../../icons/cross.svg'
+
 function BoardHeader(props) {
-	const { storyID, isCurrentStory } = props
+	const { storyID, isCurrentStory, handleDeleteBoard, canBeDeleted } = props
 
 	return (
 		<Header>
 			<TitleDiv isCurrentStory={isCurrentStory}> {storyID} </TitleDiv>
-			<EditingDiv isCurrentStory={isCurrentStory}>Editing</EditingDiv>
-			{/* <div className="actions-div">
-				{props.currentStoryIndex > 0 && (
-					<span className="delete" onClick={handleDeleteBoard}>
-						<TrashSVG />
-					</span>
-				)}
-			</div> */}
+			{isCurrentStory && (
+				<RightDiv>
+					<span>Editing</span>
+
+					{canBeDeleted && (
+						<CrossSpan onClick={handleDeleteBoard}>
+							<CrossSVG />
+						</CrossSpan>
+					)}
+				</RightDiv>
+			)}
 		</Header>
 	)
 }
@@ -34,8 +39,29 @@ const Header = styled.header`
 const TitleDiv = styled.div`
 	color: ${props => (props.isCurrentStory ? 'black' : 'gray')};
 `
-const EditingDiv = styled.div`
-	color: ${props => (props.isCurrentStory ? '#936793' : 'gray')};
+const RightDiv = styled.div`
+	color: #936793;
+	display: flex;
+	align-items: center;
+`
+const CrossSpan = styled.span`
+	margin-left: 0.5rem;
+	height: 1.3rem;
+	width: 1.3rem;
+	cursor: pointer;
+
+	> svg {
+		fill: firebrick;
+		height: 100%;
+		width: 100%;
+	}
+
+	:hover {
+		transform: scale(1.1);
+	}
+	:active {
+		transform: scale(0.99);
+	}
 `
 
 export default React.memo(BoardHeader)
