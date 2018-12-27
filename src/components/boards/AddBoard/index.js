@@ -19,6 +19,7 @@ function AddBoard(props) {
 	const handleOnImageDrop = useCallback(function(event) {
 		event.stopPropagation()
 		event.preventDefault()
+		setIsDragging(false)
 
 		const data = event.dataTransfer
 		const file = data.files[0]
