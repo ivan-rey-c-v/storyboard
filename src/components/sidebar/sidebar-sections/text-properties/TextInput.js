@@ -19,7 +19,7 @@ function TextInput(props) {
 	}, [])
 
 	return (
-		<Input
+		<TextArea
 			value={textValue}
 			name="text"
 			onChange={handleOnTextInputChange}
@@ -29,7 +29,7 @@ function TextInput(props) {
 	)
 }
 
-const Input = styled.input`
+const TextArea = styled.textarea`
 	margin-top: 1rem;
 	width: 100%;
 	height: 1.75rem;

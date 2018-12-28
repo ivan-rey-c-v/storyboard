@@ -3,6 +3,7 @@ import { Stage, Layer, Text, Label, Tag } from 'react-konva'
 
 import BackgroundImage from './BackgroundImage'
 import ShapeTransformer from './ShapeTransformer'
+import TextGroup from './TextGroup'
 
 function Canvas(props) {
 	const { canvasHeight, canvasWidth, story, shapeName, storeDispatch } = props
@@ -60,7 +61,7 @@ function Canvas(props) {
 		if (name.includes('text')) {
 			setWithCenterAnchors(true)
 			storeDispatch({
-				name: name.includes('label') ? name : `${name}-label`,
+				name: name.includes('group') ? name : `${name}-group`,
 				type: 'SET_ACTIVE_SHAPE_NAME',
 				textIndex
 			})
@@ -111,11 +112,6 @@ function Canvas(props) {
 		}
 	}, [])
 
-	// const onTransform = useCallback(function(oldBox, newBox) {
-	// 	storeDispatch({ type: 'MODIFY_TEXT', properties: newBox })
-	// 	return newBox
-	// }, [])
-
 	return (
 		<Stage
 			name="canvas-stage"
@@ -134,39 +130,16 @@ function Canvas(props) {
 					/>
 				)}
 
-				{texts.map((text, index) => {
-					const { x, y, rotation, ...textProperties } = text
-
-					return (
-						<Label
-							key={`text-${index}`}
-							height={text.height}
-							width={text.width}
-							alpha={100}
-							draggable
-							name={`${canvasName}-text-${index}-label`}
-							dragBoundFunc={onDragKonvaShape}
-							x={canvasWidth / 2 - 50}
-							y={index * 70 + 10}
-						>
-							<Tag
-								fill={text.boxFill}
-								alpha={text.boxOpacity * 100}
-								height={text.height}
-								width={text.width}
-							/>
-							<Text
-								textIndex={index}
-								{...textProperties}
-								alpha={text.opacity * 100}
-								stroke={text.isBold ? text.fill : 'transparent'}
-								strokeWidth={1.25}
-								fontStyle={text.isItalic ? 'italic' : 'normal'}
-								name={`${canvasName}-text-${index}`}
-							/>
-						</Label>
-					)
-				})}
+				{texts.map((textGroup, index) => (
+					<TextGroup
+						key={`grouptext-${index}`}
+						textGroup={textGroup}
+						index={index}
+						coordX={canvasWidth / 2}
+						canvasName={canvasName}
+						onDragKonvaShape={onDragKonvaShape}
+					/>
+				))}
 
 				{emojies.map((object, index) => (
 					<Text

@@ -22,8 +22,6 @@ function Sidebar(props) {
 
 	const currentStory = stories[storyIndex]
 
-	console.log({ storyIndex, currentStory })
-
 	console.log('rendering side-bar...')
 
 	return (
