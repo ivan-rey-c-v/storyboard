@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import { Stage, Layer, Text, Label, Tag } from 'react-konva'
+import { Stage, Layer, Text } from 'react-konva'
 
 import BackgroundImage from './BackgroundImage'
 import ShapeTransformer from './ShapeTransformer'
@@ -105,6 +105,7 @@ function Canvas(props) {
 				: pos.y > bottomBoundary
 				? bottomBoundary
 				: pos.y
+
 
 		return {
 			x: newPosX,

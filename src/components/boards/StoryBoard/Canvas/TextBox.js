@@ -5,14 +5,12 @@ class TextBox extends PureComponent {
 	state = {
 		rectHeight: 0,
 		rectWidth: 0,
-		x: this.props.coordX
 	}
 
 	componentDidMount() {
 		this.setState({
 			rectHeight: this.textNode.height(),
 			rectWidth: this.textNode.width(),
-			x: this.textNode.x()
 		})
 	}
 
@@ -20,8 +18,17 @@ class TextBox extends PureComponent {
 		this.setState({
 			rectHeight: this.textNode.height(),
 			rectWidth: this.textNode.width(),
-			x: this.textNode.x()
 		})
+	}
+
+	getOffsetX = (align) => {
+		const aligns = {
+			left: 1,
+			center: 2,
+			right: 0
+		}
+		const divisor = aligns[align]
+		return -(Math.abs(this.state.rectWidth / divisor))
 	}
 
 	render() {
@@ -31,10 +38,10 @@ class TextBox extends PureComponent {
 			lineTextIndex,
 			name,
 			textIndex,
-			coordX
 		} = this.props
 
-		console.log(this.state)
+		const offsetX = this.getOffsetX(textProperties.align)
+		console.log({offsetX})
 
 		return (
 			<>
@@ -43,9 +50,9 @@ class TextBox extends PureComponent {
 					name={name}
 					textIndex={textIndex}
 					//
-					offsetX={50}
+					x={offsetX}
+					//offsetX={50}
 					offsetY={-50 * lineTextIndex}
-					// x={this.state.x}
 					//
 					height={this.state.rectHeight}
 					width={this.state.rectWidth}
@@ -60,9 +67,9 @@ class TextBox extends PureComponent {
 					name={name}
 					textIndex={textIndex}
 					//
-					offsetX={50}
+					x={offsetX}
+					//offsetX={50}
 					offsetY={-50 * lineTextIndex}
-					// x={this.state.x}
 					//
 					{...textProperties}
 					text={lineText}
