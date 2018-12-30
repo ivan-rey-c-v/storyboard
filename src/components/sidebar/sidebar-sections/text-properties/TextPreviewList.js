@@ -2,16 +2,30 @@ import React, { useCallback } from 'react'
 import styled from 'styled-components/macro'
 
 function TextPreviewList(props) {
-	const { texts, storyID, canvasName, shapeName, storeDispatch } = props
+	const {
+		texts,
+		storyID,
+		storyIndex,
+		canvasName,
+		shapeName,
+		storeDispatch
+	} = props
 
 	const handleSelectText = useCallback(
 		textIndex => event => {
 			event.stopPropagation()
-			const name = `${canvasName}-text-${textIndex}-label`
-			storeDispatch({ type: 'SET_ACTIVE_SHAPE_NAME', name, textIndex })
+			const name = `${canvasName}-text-${textIndex}-group`
+			storeDispatch({
+				type: 'SET_ACTIVE_SHAPE_NAME',
+				storyIndex,
+				name,
+				textIndex
+			})
 		},
 		[]
 	)
+
+	console.log('shape name', shapeName)
 
 	return (
 		<>
@@ -22,7 +36,7 @@ function TextPreviewList(props) {
 						key={`preview-text-${index}`}
 						onClick={handleSelectText(index)}
 						activetext={
-							shapeName === `${canvasName}-text-${index}-label`
+							shapeName === `${canvasName}-text-${index}-group`
 						}
 						color={text.fill}
 						opacity={text.opacity}

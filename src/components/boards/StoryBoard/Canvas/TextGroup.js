@@ -1,22 +1,31 @@
 import React, { PureComponent } from 'react'
 import { Group } from 'react-konva'
+import produce from 'immer'
 
 import TextBox from './TextBox'
 
 class TextGroup extends PureComponent {
 	state = {
-		groupWidth: 0
+		textBoxesWidth: []
+	}
+
+	handleSetTextBoxWidth = (textBoxIndex, width) => {
+		this.setState(
+			produce(draft => {
+				draft.textBoxesWidth[textBoxIndex] = width
+			})
+		)
 	}
 
 	componentDidMount() {
 		this.setState({
-			groupWidth: this.groupNode.width(),
+			groupWidth: this.groupNode.width()
 		})
 	}
 
 	componentDidUpdate() {
 		this.setState({
-			groupWidth: this.groupNode.width(),
+			groupWidth: this.groupNode.width()
 		})
 	}
 
@@ -42,7 +51,7 @@ class TextGroup extends PureComponent {
 		const multiline = '\n'
 		const multilineTexts = text.split(multiline)
 
-		console.info('group width', this.state.groupWidth)
+		console.info('textBoxesWidth', this.state.textBoxesWidth)
 
 		return (
 			<Group
@@ -55,12 +64,13 @@ class TextGroup extends PureComponent {
 				{multilineTexts.map((lineText, lineTextIndex) => (
 					<TextBox
 						key={`multiline-text-${lineTextIndex}`}
-						groupWidth={this.state.groupWidth}
+						textBoxesWidth={this.state.textBoxesWidth}
 						lineText={lineText}
 						lineTextIndex={lineTextIndex}
 						textProperties={textProperties}
 						name={name}
 						textIndex={index}
+						handleSetTextBoxWidth={this.handleSetTextBoxWidth}
 					/>
 				))}
 			</Group>

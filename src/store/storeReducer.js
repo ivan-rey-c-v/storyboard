@@ -1,6 +1,8 @@
 import produce from 'immer'
 
 export default produce((draftState, action) => {
+	console.log('store reducer', action.type)
+
 	switch (action.type) {
 		case 'RESET_ACTIVE': {
 			draftState.active.textIndex = null
@@ -27,7 +29,7 @@ export default produce((draftState, action) => {
 			}
 
 			draftState.stories.push(newBoard)
-			draftState.active  = {
+			draftState.active = {
 				storyIndex: length,
 				textIndex: null,
 				shapeName: null
@@ -68,7 +70,7 @@ export default produce((draftState, action) => {
 			draftState.active = {
 				storyIndex: action.storyIndex,
 				shapeName: action.name,
-				textIndex: action.textIndex,
+				textIndex: action.textIndex
 			}
 			return
 		}
@@ -90,7 +92,7 @@ export default produce((draftState, action) => {
 
 			draftState.stories[storyIndex].texts.push(text)
 			draftState.active.textIndex = length
-			draftState.active.shapeName = `${canvasName}-text-${length}-label`
+			draftState.active.shapeName = `${canvasName}-text-${length}-group`
 
 			return
 		}

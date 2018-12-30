@@ -22,7 +22,7 @@ function Sidebar(props) {
 
 	const currentStory = stories[storyIndex]
 
-	console.info('rendering side-bar...', {textIndex, currentStory})
+	console.info('rendering side-bar...', { textIndex, currentStory })
 
 	return (
 		<SidebarContainer>
@@ -49,6 +49,7 @@ function Sidebar(props) {
 					<TextPreviewList
 						texts={currentStory.texts}
 						storyID={currentStory.storyID}
+						storyIndex={storyIndex}
 						canvasName={currentStory.canvasName}
 						shapeName={shapeName}
 						storeDispatch={dispatch}
