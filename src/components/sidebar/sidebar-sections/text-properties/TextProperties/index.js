@@ -18,8 +18,6 @@ const alignsTuple = {
 }
 
 function TextProperties(props) {
-	console.log('rendering text-properties...')
-
 	const { storeDispatch, currentText } = props
 	const AlignSVG = alignsTuple[currentText.align]
 

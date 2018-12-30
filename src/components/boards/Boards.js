@@ -7,8 +7,6 @@ import AddBoard from './AddBoard'
 import useCanvasSizeFromWindowHeight from '../../hooks/useCanvasSizeFromWindowHeight'
 
 function MainSection(props) {
-	console.log('rendering main-section...')
-
 	const { state, dispatch } = props
 	const { stories } = state
 	const { storyIndex, shapeName } = state.active

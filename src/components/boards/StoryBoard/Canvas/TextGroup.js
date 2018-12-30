@@ -17,23 +17,6 @@ class TextGroup extends PureComponent {
 		)
 	}
 
-	componentDidMount() {
-		this.setState({
-			groupWidth: this.groupNode.width()
-		})
-	}
-
-	componentDidUpdate() {
-		this.setState({
-			groupWidth: this.groupNode.width()
-		})
-	}
-
-	onTransform = (oldBox, newBox) => {
-		console.log({ newBox })
-		return newBox
-	}
-
 	render() {
 		const {
 			textGroup,
@@ -51,12 +34,11 @@ class TextGroup extends PureComponent {
 		const multiline = '\n'
 		const multilineTexts = text.split(multiline)
 
-		console.info('textBoxesWidth', this.state.textBoxesWidth)
-
 		return (
 			<Group
 				ref={node => (this.groupNode = node)}
 				x={coordX}
+				y={50}
 				draggable
 				name={groupName}
 				dragBoundFunc={onDragKonvaShape}

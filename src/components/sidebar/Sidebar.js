@@ -11,7 +11,7 @@ import SetBackground from './sidebar-sections/SetBackground'
 import AdditionalGraphics from './sidebar-sections/AdditionalGraphics'
 import AddText from './sidebar-sections/AddText'
 import TextPreviewList from './sidebar-sections/text-properties/TextPreviewList'
-import TextInput from './sidebar-sections/text-properties/TextInput'
+import TextArea from './sidebar-sections/text-properties/TextArea'
 import TextProperties from './sidebar-sections/text-properties/TextProperties'
 import FontAndColor from './sidebar-sections/text-properties/FontAndColor'
 
@@ -21,8 +21,6 @@ function Sidebar(props) {
 	const { storyIndex, textIndex, shapeName } = state.active
 
 	const currentStory = stories[storyIndex]
-
-	console.info('rendering side-bar...', { textIndex, currentStory })
 
 	return (
 		<SidebarContainer>
@@ -57,7 +55,7 @@ function Sidebar(props) {
 
 					{textIndex != null && (
 						<>
-							<TextInput
+							<TextArea
 								textValue={currentStory.texts[textIndex].text}
 								storeDispatch={dispatch}
 							/>

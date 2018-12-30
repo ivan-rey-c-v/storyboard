@@ -1,8 +1,6 @@
 import produce from 'immer'
 
 export default produce((draftState, action) => {
-	console.log('store reducer', action.type)
-
 	switch (action.type) {
 		case 'RESET_ACTIVE': {
 			draftState.active.textIndex = null

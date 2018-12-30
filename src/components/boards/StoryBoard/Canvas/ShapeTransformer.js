@@ -32,6 +32,7 @@ class ShapeTransformer extends PureComponent {
 
 	checkNode() {
 		// here we need to manually attach or detach Transformer node
+		this.transformer.getLayer().batchDraw()
 		const stage = this.transformer.getStage()
 		const { shapeName } = this.props
 
@@ -53,6 +54,7 @@ class ShapeTransformer extends PureComponent {
 	}
 
 	render() {
+		console.info('rendering transformer... autobots assemble!')
 		return (
 			<Transformer
 				ref={node => {

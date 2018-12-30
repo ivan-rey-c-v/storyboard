@@ -3,7 +3,6 @@ import React, { useCallback } from 'react'
 import { SidebarSection, Select, HiddenEl } from '../Sidebar.styles'
 
 function SelectBoard(props) {
-	console.log('rendering select-board...')
 	const { stories, currentStoryName, storeDispatch } = props
 
 	const handleSelectStory = useCallback(function(event) {

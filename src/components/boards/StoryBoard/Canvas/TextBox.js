@@ -69,7 +69,6 @@ class TextBox extends PureComponent {
 		} = this.props
 
 		const coordX = this.getCoordX(textProperties.align)
-		console.log({ coordX })
 
 		return (
 			<>
@@ -79,8 +78,7 @@ class TextBox extends PureComponent {
 					textIndex={textIndex}
 					//
 					x={coordX}
-					offsetY={-50 * lineTextIndex}
-					//
+					offsetY={-(this.state.rectHeight * lineTextIndex)}
 					height={this.state.rectHeight}
 					width={this.state.rectWidth}
 					//
@@ -95,7 +93,7 @@ class TextBox extends PureComponent {
 					textIndex={textIndex}
 					//
 					x={coordX}
-					offsetY={-50 * lineTextIndex}
+					offsetY={-(this.state.rectHeight * lineTextIndex)}
 					//
 					{...textProperties}
 					text={lineText}

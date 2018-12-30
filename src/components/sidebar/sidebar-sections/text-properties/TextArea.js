@@ -2,8 +2,6 @@ import React, { useCallback } from 'react'
 import styled from 'styled-components'
 
 function TextInput(props) {
-	console.log('rendering text-input...')
-
 	const { textValue, storeDispatch } = props
 
 	const preventPropagation = useCallback(function(event) {
@@ -32,7 +30,6 @@ function TextInput(props) {
 const TextArea = styled.textarea`
 	margin-top: 1rem;
 	width: 100%;
-	height: 1.75rem;
 	font-size: 1rem;
 	padding: 0 0.25rem;
 	border-radius: 3px;

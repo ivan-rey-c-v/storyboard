@@ -25,8 +25,6 @@ function TextPreviewList(props) {
 		[]
 	)
 
-	console.log('shape name', shapeName)
-
 	return (
 		<>
 			<Description> Texts in {storyID}</Description>
