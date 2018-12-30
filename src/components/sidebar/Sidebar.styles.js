@@ -10,6 +10,7 @@ export const SidebarContainer = styled.aside`
 	display: flex;
 	flex-direction: column;
 	border-right: 1px solid lightgray;
+	background-color: white;
 `
 export const SidebarHeader = styled.header`
 	font-size: 1rem;

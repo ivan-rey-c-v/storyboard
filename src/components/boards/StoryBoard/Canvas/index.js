@@ -6,7 +6,7 @@ import ShapeTransformer from './ShapeTransformer'
 import TextGroup from './TextGroup'
 
 function Canvas(props) {
-	const { canvasHeight, canvasWidth, story, shapeName, storeDispatch } = props
+	const { canvasHeight, canvasWidth, story, shapeName, storeDispatch, boardIndex } = props
 	const { backgroundImage, texts, emojies, canvasName } = story
 	const [canvasBackgroundImage, setCanvasBackgroundImage] = useState(null)
 	const [imageSize, setImageSize] = useState(null)
@@ -42,7 +42,7 @@ function Canvas(props) {
 		console.log({ name })
 		// clicked on <Stage /> or <BackgroundImage /> - clear selection
 		if (name === 'canvas-stage' || name === 'background-image') {
-			storeDispatch({ type: 'SET_ACTIVE_SHAPE_NAME', name: '' })
+			storeDispatch({ type: 'SET_ACTIVE_SHAPE_NAME', name: '', textIndex: null, storyIndex: boardIndex })
 			return
 		}
 
@@ -54,7 +54,7 @@ function Canvas(props) {
 
 		if (name.includes('object') || name.includes('emoji')) {
 			setWithCenterAnchors(false)
-			storeDispatch({ type: 'SET_ACTIVE_SHAPE_NAME', name, textIndex })
+			storeDispatch({ type: 'SET_ACTIVE_SHAPE_NAME', name, textIndex, storyIndex: boardIndex })
 			return
 		}
 
@@ -63,7 +63,8 @@ function Canvas(props) {
 			storeDispatch({
 				name: name.includes('group') ? name : `${name}-group`,
 				type: 'SET_ACTIVE_SHAPE_NAME',
-				textIndex
+				textIndex,
+				storyIndex: boardIndex
 			})
 			return
 		}

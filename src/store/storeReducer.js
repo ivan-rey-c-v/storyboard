@@ -27,7 +27,11 @@ export default produce((draftState, action) => {
 			}
 
 			draftState.stories.push(newBoard)
-			draftState.active.storyIndex = length
+			draftState.active  = {
+				storyIndex: length,
+				textIndex: null,
+				shapeName: null
+			}
 
 			return
 		}
@@ -61,8 +65,11 @@ export default produce((draftState, action) => {
 		}
 
 		case 'SET_ACTIVE_SHAPE_NAME': {
-			draftState.active.shapeName = action.name
-			draftState.active.textIndex = action.textIndex
+			draftState.active = {
+				storyIndex: action.storyIndex,
+				shapeName: action.name,
+				textIndex: action.textIndex,
+			}
 			return
 		}
 

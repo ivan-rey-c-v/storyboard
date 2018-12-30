@@ -22,7 +22,7 @@ function Sidebar(props) {
 
 	const currentStory = stories[storyIndex]
 
-	console.log('rendering side-bar...')
+	console.info('rendering side-bar...', {textIndex, currentStory})
 
 	return (
 		<SidebarContainer>

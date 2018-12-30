@@ -21,7 +21,7 @@ function MainSection(props) {
 					key={story.canvasName}
 					canvasHeight={canvasHeight}
 					canvasWidth={canvasWidth}
-					index={index}
+					boardIndex={index}
 					shapeName={shapeName}
 					storeDispatch={dispatch}
 					story={story}
@@ -43,7 +43,6 @@ function MainSection(props) {
 
 const MainLayout = styled.main`
 	flex: 1;
-	background-color: #f7f7f7;
 	padding-top: 1rem;
 	padding-left: 3rem;
 	overflow: hidden;

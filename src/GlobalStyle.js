@@ -16,6 +16,10 @@ body, h1, h2, h3, h4, h5, h6, p, ol, ul {
 	padding: 0;
 }
 
+body {
+	background-color: #f7f7f7;
+}
+
 `
 
 export default GlobalStyle
