@@ -1,8 +1,8 @@
 import React, { useCallback, useState } from 'react'
 import styled from 'styled-components/macro'
 
-import { ReactComponent as PlusSVG } from '../../../icons/plus.svg'
-import { ReactComponent as DownSVG } from '../../../icons/down.svg'
+import PlusSVG from 'react-feather/dist/icons/plus-square'
+import DownloadSVG from 'react-feather/dist/icons/download'
 
 import ActionDiv from './ActionDiv'
 
@@ -51,15 +51,11 @@ function AddBoard(props) {
 			onDragLeave={handleOnDragLeave}
 		>
 			<ActionDiv message="Add board">
-				<PlusContainer onClick={handleAddStoryBoard}>
-					<PlusSVG />
-				</PlusContainer>
+				<StyledPlusSVG onClick={handleAddStoryBoard} />
 			</ActionDiv>
 
 			<ActionDiv message="You can drop image files here">
-				<DownContainer>
-					<DownSVG />
-				</DownContainer>
+				<StyledDownloadSVG />
 			</ActionDiv>
 		</Layout>
 	)
@@ -87,40 +83,23 @@ const Layout = styled.div`
 	transform: ${props => (props.isdragging ? 'scale(1.015)' : 'none')};
 `
 
-const PlusContainer = styled.div`
+const StyledPlusSVG = styled(PlusSVG)`
 	height: 100%;
 	width: 100%;
-	border-radius: 4px;
-	border: 1px solid lightgray;
+	color: #a57fa5;
 	cursor: pointer;
 
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	fill: #a57fa5;
-
-	> svg {
-		height: 60%;
-		width: 60%;
-	}
-
 	:hover {
-		background-color: #e8e8e8;
+		transform: scale(1.05);
 	}
 	:active {
 		transform: scale(0.95);
 	}
 `
-const DownContainer = styled.div`
+const StyledDownloadSVG = styled(DownloadSVG)`
+	color: #cccccc;
 	height: 100%;
 	width: 100%;
-	border-bottom: 2px solid #cccccc;
-
-	> svg {
-		fill: #cccccc;
-		height: 100%;
-		width: 100%;
-	}
 `
 
 export default React.memo(AddBoard)

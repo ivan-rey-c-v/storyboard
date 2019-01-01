@@ -21,7 +21,8 @@ export default {
 					boxFill: 'yellow',
 					boxOpacity: 1,
 					isBold: false,
-					isItalic: false
+					isItalic: false,
+					isUnderline: false
 				}
 			],
 			emojies: [],

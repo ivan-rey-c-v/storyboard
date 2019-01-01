@@ -95,10 +95,14 @@ class TextBox extends PureComponent {
 					x={coordX}
 					offsetY={-(this.state.rectHeight * lineTextIndex)}
 					//
+					lineHeight={0.75}
 					{...textProperties}
 					text={lineText}
 					alpha={textProperties.opacity * 100}
 					fontStyle={textProperties.isItalic ? 'italic' : 'normal'}
+					textDecoration={
+						textProperties.isUnderline ? 'underline' : ''
+					}
 					stroke={
 						textProperties.isBold
 							? textProperties.fill

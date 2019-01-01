@@ -3,11 +3,12 @@ import styled from 'styled-components/macro'
 
 import { hoverActive } from '../../../../../mixins/button'
 
-import { ReactComponent as BoldSVG } from '../../../../../icons/bold.svg'
-import { ReactComponent as ItalicSVG } from '../../../../../icons/italic.svg'
-import { ReactComponent as AlignLeftSVG } from '../../../../../icons/alignLeft.svg'
-import { ReactComponent as AlignCenterSVG } from '../../../../../icons/alignCenter.svg'
-import { ReactComponent as AlignRightSVG } from '../../../../../icons/alignRight.svg'
+import BoldSVG from 'react-feather/dist/icons/bold'
+import ItalicSVG from 'react-feather/dist/icons/italic'
+import UnderlineSVG from 'react-feather/dist/icons/underline'
+import AlignLeftSVG from 'react-feather/dist/icons/align-left'
+import AlignCenterSVG from 'react-feather/dist/icons/align-center'
+import AlignRightSVG from 'react-feather/dist/icons/align-right'
 
 import FontSizes from './FontSizes'
 
@@ -58,6 +59,14 @@ function TextProperties(props) {
 					<ItalicSVG />
 					<span>italic</span>
 				</Property>
+				<Property
+					onClick={handleToggleProperty}
+					active={currentText.isUnderline}
+					data-name="isUnderline"
+				>
+					<UnderlineSVG />
+					<span>underline</span>
+				</Property>
 			</PropertyDiv>
 
 			<PropertyDiv onClick={stopPropagation}>
@@ -86,14 +95,15 @@ const PropertyDiv = styled.div`
 	display: flex;
 	border-radius: 4px;
 	background-color: #f2f2f2;
-	font-size: 0.7rem;
-	font-weight: 600;
+
 	color: gray;
 `
 const Property = styled.div.attrs({
 	tabIndex: 0
 })`
 	margin: 0.25rem 0.5rem;
+	font-size: 0.5rem;
+	font-weight: 600;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -102,7 +112,7 @@ const Property = styled.div.attrs({
 	> svg {
 		height: 1.25rem;
 		width: 1.25rem;
-		fill: ${props => (props.active ? 'black' : 'gray')};
+		color: ${props => (props.active ? 'black' : 'gray')};
 	}
 
 	${hoverActive};

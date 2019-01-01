@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components/macro'
 
-import { ReactComponent as CrossSVG } from '../../../icons/cross.svg'
+import XSquareSVG from 'react-feather/dist/icons/x-square'
 
 function BoardHeader(props) {
 	const { storyID, isCurrentStory, handleDeleteBoard, canBeDeleted } = props
@@ -15,7 +15,7 @@ function BoardHeader(props) {
 
 					{canBeDeleted && (
 						<CrossSpan onClick={handleDeleteBoard}>
-							<CrossSVG />
+							<XSquareSVG />
 						</CrossSpan>
 					)}
 				</RightDiv>
@@ -42,7 +42,7 @@ const TitleDiv = styled.div`
 const RightDiv = styled.div`
 	color: #936793;
 	display: flex;
-	align-items: center;
+	align-items: flex-start;
 `
 const CrossSpan = styled.span`
 	margin-left: 0.5rem;
@@ -51,7 +51,7 @@ const CrossSpan = styled.span`
 	cursor: pointer;
 
 	> svg {
-		fill: firebrick;
+		color: firebrick;
 		height: 100%;
 		width: 100%;
 	}
