@@ -11,6 +11,7 @@ export default {
 			backgroundImage: null,
 			texts: [
 				{
+					fontFamily: 'Arial',
 					fontSize: 34,
 					fontStyle: 'normal',
 					text: 'Hello!',

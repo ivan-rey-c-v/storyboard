@@ -13,7 +13,7 @@ import AddText from './sidebar-sections/AddText'
 import TextPreviewList from './sidebar-sections/text-properties/TextPreviewList'
 import TextArea from './sidebar-sections/text-properties/TextArea'
 import TextProperties from './sidebar-sections/text-properties/TextProperties'
-import FontAndColor from './sidebar-sections/text-properties/FontAndColor'
+import Fonts from './sidebar-sections/text-properties/Fonts'
 
 function Sidebar(props) {
 	const { state, dispatch } = props
@@ -30,8 +30,9 @@ function Sidebar(props) {
 
 			<SidebarSections>
 				<SelectBoard
-					currentStoryName={currentStory.canvasName}
 					stories={stories}
+					storyIndex={storyIndex}
+					currentStoryID={currentStory.storyID}
 					storeDispatch={dispatch}
 				/>
 
@@ -55,17 +56,17 @@ function Sidebar(props) {
 
 					{textIndex != null && (
 						<>
+							<Fonts
+								currentText={currentStory.texts[textIndex]}
+								storeDispatch={dispatch}
+							/>
+
 							<TextArea
 								textValue={currentStory.texts[textIndex].text}
 								storeDispatch={dispatch}
 							/>
 
 							<TextProperties
-								currentText={currentStory.texts[textIndex]}
-								storeDispatch={dispatch}
-							/>
-
-							<FontAndColor
 								currentText={currentStory.texts[textIndex]}
 								storeDispatch={dispatch}
 							/>

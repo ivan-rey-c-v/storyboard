@@ -44,6 +44,10 @@ function TextPreviewList(props) {
 						font={text.fontFamily}
 						size={text.fontSize}
 					>
+						<TextBox
+							boxfill={text.boxFill}
+							boxopacity={text.boxOpacity}
+						/>
 						<p>Aa</p>
 					</TextCard>
 				))}
@@ -70,40 +74,45 @@ const TextCard = styled.li`
 	width: 2rem;
 	margin-top: 0.5rem;
 	margin-right: 0.75rem;
-	background-color: #f2f2f2;
+	border: 0.5px solid lightgray;
 	cursor: pointer;
 	display: flex;
+	position: relative;
+
+	outline: ${props => (props.activetext ? 'dashed purple' : 'none')};
+	box-shadow: ${props => (props.activetext ? '1px 1px 4px gray' : 'none')};
 
 	p {
 		display: block;
 		margin: auto 0;
 		width: 100%;
+		z-index: 1;
+
+		${props => {
+			const { color, opacity, align, bold, italic, font, size } = props
+
+			return {
+				color,
+				opacity,
+				textAlign: align,
+				fontFamily: font,
+				fontWeight: bold ? 'bold' : 'normal',
+				fontStyle: italic ? 'italic' : 'normal',
+				fontSize: `${size / 2.5}px`
+			}
+		}}
 	}
+`
+const TextBox = styled.div`
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 0;
 
-	${props => {
-		const {
-			activetext,
-			color,
-			opacity,
-			align,
-			bold,
-			italic,
-			font,
-			size
-		} = props
-
-		return {
-			color,
-			opacity,
-			textAlign: align,
-			fontFamily: font,
-			fontWeight: bold ? 'bold' : 'normal',
-			fontStyle: italic ? 'italic' : 'normal',
-			fontSize: `${size / 2.5}px`,
-			outline: activetext ? 'dashed purple' : 'none',
-			boxShadow: activetext ? '1px 1px 4px gray' : 'none'
-		}
-	}};
+	background-color: ${props => props.boxfill};
+	opacity: ${props => props.boxopacity};
 `
 
 export default React.memo(TextPreviewList)

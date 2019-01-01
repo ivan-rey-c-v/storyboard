@@ -75,13 +75,6 @@ function TextProperties(props) {
 					<span>align</span>
 				</Property>
 			</PropertyDiv>
-
-			<PropertyDiv onClick={stopPropagation}>
-				<Property onClick={handleChangeFontSize}>
-					<FontSizes currentSize={currentText.fontSize} />
-					<span>font size</span>
-				</Property>
-			</PropertyDiv>
 		</Container>
 	)
 }
@@ -102,7 +95,7 @@ const Property = styled.div.attrs({
 	tabIndex: 0
 })`
 	margin: 0.25rem 0.5rem;
-	font-size: 0.5rem;
+	font-size: 0.7rem;
 	font-weight: 600;
 	display: flex;
 	flex-direction: column;

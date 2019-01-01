@@ -51,8 +51,3 @@ export const Button = styled.div.attrs({
 export const HiddenEl = styled.div`
 	display: none;
 `
-export const Select = styled.select`
-	${buttonMixin};
-	appearance: none;
-	text-align: left;
-`
