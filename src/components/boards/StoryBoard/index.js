@@ -2,6 +2,7 @@ import React, { lazy, Suspense, useCallback, useState } from 'react'
 import styled, { css } from 'styled-components/macro'
 
 import BoardHeader from './BoardHeader'
+import BoardFooter from './BoardFooter'
 
 const Canvas = lazy(_ => import('./Canvas'))
 
@@ -12,7 +13,8 @@ function StoryBoard(props) {
 		isCurrentStory,
 		story,
 		storeDispatch,
-		boardIndex
+		boardIndex,
+		textIndex
 	} = props
 	// isDragging is used for css
 	const [isDragging, setIsDragging] = useState(false)
@@ -76,6 +78,8 @@ function StoryBoard(props) {
 					/>
 				</Suspense>
 			</CanvasContainer>
+
+			<BoardFooter textIndex={textIndex} />
 		</Container>
 	)
 }
@@ -97,7 +101,7 @@ const CanvasContainer = styled.div`
 	${props =>
 		props.isCurrentStory
 			? css`
-					outline: 2px solid rebeccapurple;
+					outline: 1px solid var(--color-primary);
 					box-shadow: 2px 2px 8px gray;
 			  `
 			: null};

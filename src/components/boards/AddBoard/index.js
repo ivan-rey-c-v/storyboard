@@ -62,8 +62,10 @@ function AddBoard(props) {
 }
 
 const Layout = styled.div`
-	/* should be same as the boardheader's height */
-	margin-top: 24px;
+	/* should match with boardheader's height */
+	margin-top: 42px;
+	/* should match with boardfooter's height and margin-top */
+	margin-bottom: calc(2rem + 1.5rem);
 
 	margin-left: 3rem;
 	padding: 2rem;

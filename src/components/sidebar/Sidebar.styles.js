@@ -6,8 +6,8 @@ const sidebarWidth = 350
 
 export const SidebarContainer = styled.aside`
 	min-height: 100%;
-	width: ${sidebarWidth + 'px'};
-	min-width: ${sidebarWidth + 'px'};
+	width: ${sidebarWidth}px;
+	min-width: ${sidebarWidth}px;
 	overflow: visible;
 	display: flex;
 	flex-direction: column;

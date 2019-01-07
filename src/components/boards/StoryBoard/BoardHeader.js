@@ -1,66 +1,53 @@
 import React from 'react'
 import styled from 'styled-components/macro'
 
-import XSquareSVG from 'react-feather/dist/icons/x-square'
+import ArrowLeftSVG from 'react-feather/dist/icons/arrow-left-circle'
+import ArrowRightSVG from 'react-feather/dist/icons/arrow-right-circle'
 
 function BoardHeader(props) {
 	const { storyID, isCurrentStory, handleDeleteBoard, canBeDeleted } = props
 
 	return (
 		<Header>
-			<TitleDiv isCurrentStory={isCurrentStory}> {storyID} </TitleDiv>
-			{isCurrentStory && (
-				<RightDiv>
-					<span>Editing</span>
+			<SVGDiv>
+				<ArrowLeftSVG />
+			</SVGDiv>
 
-					{canBeDeleted && (
-						<CrossSpan onClick={handleDeleteBoard}>
-							<XSquareSVG />
-						</CrossSpan>
-					)}
-				</RightDiv>
-			)}
+			<HeaderName isCurrentStory={isCurrentStory}>
+				{isCurrentStory ? 'Editing' : null} {storyID}
+			</HeaderName>
+
+			<SVGDiv>
+				<ArrowRightSVG />
+			</SVGDiv>
 		</Header>
 	)
 }
 
-const headerHeight = 24
+const headerHeight = 42
 
 const Header = styled.header`
-	padding: 0 0.5rem;
+	padding: 0 1rem;
 	height: ${headerHeight}px;
-	font-size: 0.9rem;
-	font-weight: 600;
-	letter-spacing: 1px;
 
 	display: flex;
+	align-items: center;
 	justify-content: space-between;
 `
-const TitleDiv = styled.div`
-	color: ${props => (props.isCurrentStory ? 'black' : 'gray')};
+const HeaderName = styled.p`
+	align-self: center;
+	font-size: 0.8rem;
+	font-weight: 600;
+	letter-spacing: 1px;
+	color: ${props =>
+		props.isCurrentStory ? 'var(--color-primary)' : '#5e5960'};
 `
-const RightDiv = styled.div`
-	color: #936793;
-	display: flex;
-	align-items: flex-start;
-`
-const CrossSpan = styled.span`
-	margin-left: 0.5rem;
-	height: 1.3rem;
-	width: 1.3rem;
+const SVGDiv = styled.div`
+	height: 75%;
 	cursor: pointer;
 
-	> svg {
-		color: firebrick;
+	svg {
 		height: 100%;
-		width: 100%;
-	}
-
-	:hover {
-		transform: scale(1.1);
-	}
-	:active {
-		transform: scale(0.99);
 	}
 `
 

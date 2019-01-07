@@ -23,6 +23,7 @@ body {
 :root {
 	--color-primary: orange;
 	--color-secondary: #2684ff;
+	--color-light-hover: #c9e0ff;
 }
 
 `

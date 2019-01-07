@@ -116,7 +116,7 @@ const Property = styled.div.attrs({
 	}
 
 	&:hover {
-		background-color: #c9e0ff;
+		background-color: var(--color-light-hover);
 	}
 
 	${props =>
