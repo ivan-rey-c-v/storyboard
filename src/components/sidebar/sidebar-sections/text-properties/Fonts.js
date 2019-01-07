@@ -2,17 +2,17 @@ import React, { useCallback } from 'react'
 import styled from 'styled-components/macro'
 import Select from 'react-select'
 
-const fontsOption = [
+const fontOptions = [
 	{ value: 'Arial', label: 'Arial' },
 	{ value: 'Calibri', label: 'Calibri' },
 	{ value: 'Times New Roman', label: 'Times New Roman' }
 ]
 
-const fontSizesOption = [
-	{ value: 24, label: 'S' },
-	{ value: 34, label: 'M' },
-	{ value: 44, label: 'L' },
-	{ value: 54, label: 'XL' }
+const fontSizeOptions = [
+	{ value: 24, label: 'Small' },
+	{ value: 34, label: 'Medium' },
+	{ value: 44, label: 'Large' },
+	{ value: 54, label: 'ExtraLarge' }
 ]
 
 function FontAndColor(props) {
@@ -30,8 +30,6 @@ function FontAndColor(props) {
 		storeDispatch({ type: 'MODIFY_TEXT', properties })
 	}, [])
 
-	console.log({ currentText })
-
 	return (
 		<Container>
 			<FontSelectDiv onClick={preventPropagation}>
@@ -42,7 +40,7 @@ function FontAndColor(props) {
 						value: currentText.fontFamily,
 						label: currentText.fontFamily
 					}}
-					options={fontsOption}
+					options={fontOptions}
 				/>
 			</FontSelectDiv>
 
@@ -50,10 +48,10 @@ function FontAndColor(props) {
 				<StyledSelect
 					name="fontSize"
 					onChange={handleSelectFont}
-					value={fontSizesOption.filter(
-						size => size.value === currentText.fontSize
+					value={fontSizeOptions.filter(
+						option => option.value === currentText.fontSize
 					)}
-					options={fontSizesOption}
+					options={fontSizeOptions}
 				/>
 			</SizeSelectDiv>
 		</Container>
@@ -61,7 +59,8 @@ function FontAndColor(props) {
 }
 
 const Container = styled.div`
-	padding-top: 0.5rem;
+	margin-top: 0.75rem;
+	margin-bottom: 0.5rem;
 	position: relative;
 	display: flex;
 	align-items: center;
@@ -72,13 +71,14 @@ const FontSelectDiv = styled.div`
 const StyledSelect = styled(Select)`
 	width: 100%;
 	height: 2rem;
-	font-size: 1rem;
 	font-family: ${props => `${props.font}`};
 `
 const SizeSelectDiv = styled.div`
-	margin-left: 0.5rem;
-	width: 100px;
+	margin-left: 1rem;
+	text-align: center;
+	min-width: 112px;
 	display: flex;
+	font-size: 0.8rem;
 `
 
 export default React.memo(FontAndColor)

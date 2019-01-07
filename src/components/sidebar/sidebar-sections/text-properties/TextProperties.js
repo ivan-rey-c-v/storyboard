@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react'
-import styled from 'styled-components/macro'
+import styled, { css } from 'styled-components/macro'
+import Select from 'react-select'
 
-import { hoverActive } from '../../../../../mixins/button'
-
+import { ReactComponent as StrikethroughSVG } from '../../../../icons/strikethrough.svg'
 import BoldSVG from 'react-feather/dist/icons/bold'
 import ItalicSVG from 'react-feather/dist/icons/italic'
 import UnderlineSVG from 'react-feather/dist/icons/underline'
@@ -10,13 +10,16 @@ import AlignLeftSVG from 'react-feather/dist/icons/align-left'
 import AlignCenterSVG from 'react-feather/dist/icons/align-center'
 import AlignRightSVG from 'react-feather/dist/icons/align-right'
 
-import FontSizes from './FontSizes'
-
 const alignsTuple = {
 	left: AlignLeftSVG,
 	center: AlignCenterSVG,
 	right: AlignRightSVG
 }
+const alignOptions = [
+	{ label: 'left', value: 'left' },
+	{ label: 'center', value: 'center' },
+	{ label: 'right', value: 'right' }
+]
 
 function TextProperties(props) {
 	const { storeDispatch, currentText } = props
@@ -32,12 +35,11 @@ function TextProperties(props) {
 		storeDispatch({ type: 'TOGGLE_TEXT_PROPERTY', propertyName })
 	}, [])
 
-	const handleChangeAlign = useCallback(function(event) {
-		storeDispatch({ type: 'CHANGE_TEXT_ALIGN' })
-	}, [])
-
-	const handleChangeFontSize = useCallback(function(event) {
-		storeDispatch({ type: 'CHANGE_FONT_SIZE' })
+	const handleSelectAlign = useCallback(function(option, action) {
+		const properties = {
+			[action.name]: option.value
+		}
+		storeDispatch({ type: 'MODIFY_TEXT', properties })
 	}, [])
 
 	return (
@@ -49,7 +51,6 @@ function TextProperties(props) {
 					data-name="isBold"
 				>
 					<BoldSVG />
-					<span>bold</span>
 				</Property>
 				<Property
 					onClick={handleToggleProperty}
@@ -57,7 +58,6 @@ function TextProperties(props) {
 					data-name="isItalic"
 				>
 					<ItalicSVG />
-					<span>italic</span>
 				</Property>
 				<Property
 					onClick={handleToggleProperty}
@@ -65,50 +65,73 @@ function TextProperties(props) {
 					data-name="isUnderline"
 				>
 					<UnderlineSVG />
-					<span>underline</span>
+				</Property>
+				<Property
+				// onClick={handleToggleProperty}
+				// active={currentText.isUnderline}
+				// data-name="isUnderline"
+				>
+					<StrikethroughSVG />
 				</Property>
 			</PropertyDiv>
 
-			<PropertyDiv onClick={stopPropagation}>
-				<Property active onClick={handleChangeAlign}>
-					<AlignSVG />
-					<span>align</span>
-				</Property>
-			</PropertyDiv>
+			<AlignDiv onClick={stopPropagation}>
+				<Select
+					name="align"
+					onChange={handleSelectAlign}
+					options={alignOptions}
+					value={alignOptions.filter(
+						option => option.value === currentText.align
+					)}
+				/>
+			</AlignDiv>
 		</Container>
 	)
 }
 
 const Container = styled.div`
-	padding-top: 0.5rem;
+	margin-top: 0.75rem;
 	display: flex;
-	justify-content: space-around;
 `
 const PropertyDiv = styled.div`
 	display: flex;
 	border-radius: 4px;
-	background-color: #f2f2f2;
-
-	color: gray;
+	border: 1px solid hsl(0, 0%, 80%);
+	height: 38px;
+	width: 189px;
+	padding: 0 0.5rem;
 `
 const Property = styled.div.attrs({
 	tabIndex: 0
 })`
-	margin: 0.25rem 0.5rem;
-	font-size: 0.7rem;
-	font-weight: 600;
+	flex: 1 0 0;
 	display: flex;
-	flex-direction: column;
 	align-items: center;
+	justify-content: center;
 	cursor: pointer;
 
 	> svg {
-		height: 1.25rem;
-		width: 1.25rem;
-		color: ${props => (props.active ? 'black' : 'gray')};
+		height: 60%;
+		width: 100%;
 	}
 
-	${hoverActive};
+	&:hover {
+		background-color: #c9e0ff;
+	}
+
+	${props =>
+		props.active
+			? css`
+					color: white;
+					background-color: var(--color-secondary);
+			  `
+			: css`
+					color: darkslategray;
+			  `}
+`
+const AlignDiv = styled.div`
+	margin: 0 0 0 1rem;
+	min-width: 112px;
 `
 
 export default React.memo(TextProperties)

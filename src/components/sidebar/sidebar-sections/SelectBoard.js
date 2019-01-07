@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import styled from 'styled-components/macro'
 import Select from 'react-select'
 
-import { SidebarSection, HiddenEl } from '../Sidebar.styles'
+import { SidebarSection } from '../Sidebar.styles'
 
 function SelectBoard(props) {
 	const { stories, storeDispatch, storyIndex, currentStoryID } = props
@@ -18,8 +18,6 @@ function SelectBoard(props) {
 			label: story.storyID
 		}
 	})
-
-	console.log({ storyIndex, currentStoryID })
 
 	return (
 		<SidebarSection>

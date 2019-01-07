@@ -13,7 +13,7 @@ function AddText(props) {
 
 	return (
 		<SidebarSection>
-			<SectionName>Texts</SectionName>
+			<SectionName>Text</SectionName>
 			<Button onClick={handleAddText}>Add text</Button>
 
 			{

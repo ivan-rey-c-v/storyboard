@@ -46,7 +46,7 @@ function Canvas(props) {
 
 	const onStageMouseDown = useCallback(function(e) {
 		const { name, textIndex } = e.target.attrs
-		console.log({ name })
+
 		// clicked on <Stage /> or <BackgroundImage /> - clear selection
 		if (name === 'canvas-stage' || name === 'background-image') {
 			storeDispatch({

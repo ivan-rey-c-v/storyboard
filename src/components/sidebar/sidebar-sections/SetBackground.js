@@ -1,11 +1,18 @@
 import React, { useCallback } from 'react'
 import styled from 'styled-components/macro'
+import Select from 'react-select'
+
+import TrashSVG from 'react-feather/dist/icons/trash-2'
 
 import {
 	SidebarSection,
 	SectionName,
 	Button,
-	HiddenEl
+	HiddenEl,
+	RowPanel,
+	RowPanelName,
+	RowPanelInput,
+	RowPanelBox
 } from '../Sidebar.styles'
 
 const acceptedImages = 'image/x-png,image/gif,image/jpeg'
@@ -37,16 +44,46 @@ function SetBackground(props) {
 
 	return (
 		<SidebarSection>
-			<SectionName>Set background</SectionName>
+			<SectionName>Pimary image</SectionName>
 
 			{imgFile ? (
-				<ImgContainer>
-					<Img src={window.URL.createObjectURL(imgFile)} />
-					<ImgDesc>
-						<p>{imgFile.name}</p>
-						<Delete onClick={handleRemoveBackground}>Delete</Delete>
-					</ImgDesc>
-				</ImgContainer>
+				<div>
+					<RowPanel>
+						<RowPanelName>Color</RowPanelName>
+						<RowPanelInput>Blur</RowPanelInput>
+						<RowPanelBox />
+					</RowPanel>
+
+					<RowPanel>
+						<RowPanelName>{imgFile.name}</RowPanelName>
+						<StyledRowPanelInput>
+							<StyledSelect
+								value={{
+									value: '',
+									label: 'Fit'
+								}}
+								options={[
+									{
+										value: '',
+										label: 'Fit'
+									}
+								]}
+							/>
+						</StyledRowPanelInput>
+						<RowPanelBox>
+							<ImageDiv>
+								<ImageDiv
+									as="img"
+									src={window.URL.createObjectURL(imgFile)}
+									alt="background-image"
+								/>
+								<DeleteDiv onClick={handleRemoveBackground}>
+									<TrashSVG />
+								</DeleteDiv>
+							</ImageDiv>
+						</RowPanelBox>
+					</RowPanel>
+				</div>
 			) : (
 				<Button as="label" htmlFor="img-file-input">
 					Set background
@@ -63,28 +100,40 @@ function SetBackground(props) {
 	)
 }
 
-const ImgContainer = styled.div`
-	display: flex;
+const StyledRowPanelInput = styled(RowPanelInput)`
+	border: none;
 `
-const Img = styled.img`
-	margin: 0;
-	height: 3rem;
-	width: 3rem;
+const StyledSelect = styled(Select)`
+	width: 100%;
 `
-const ImgDesc = styled.div`
-	padding: 0.25rem 1rem;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	font-size: 0.8rem;
-	font-weight: 600;
-	color: #666070;
+const ImageDiv = styled.div`
+	height: 100%;
+	width: 100%;
+	position: relative;
 `
-const Delete = styled.span`
-	color: crimson;
-	font-size: 90%;
-	letter-spacing: 1px;
+const DeleteDiv = styled.div`
+	height: 1.5rem;
+	width: 1.5rem;
+	position: absolute;
+	top: 6px;
+	left: 100%;
 	cursor: pointer;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	svg {
+		height: 60%;
+		width: 80%;
+	}
+
+	:hover {
+		opacity: 0.75;
+	}
+	:active {
+		transform: scale(0.95);
+	}
 `
 
 export default React.memo(SetBackground)

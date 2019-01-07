@@ -17,7 +17,12 @@ body, h1, h2, h3, h4, h5, h6, p, ol, ul {
 }
 
 body {
-	background-color: #f7f7f7;
+	background-color: #FDFDFD;
+}
+
+:root {
+	--color-primary: orange;
+	--color-secondary: #2684ff;
 }
 
 `

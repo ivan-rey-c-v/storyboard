@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import styled from 'styled-components'
+import styled from 'styled-components/macro'
 
 function TextInput(props) {
 	const { textValue, storeDispatch } = props
@@ -28,17 +28,17 @@ function TextInput(props) {
 }
 
 const TextArea = styled.textarea`
-	margin-top: 1rem;
+	margin-top: 0.75rem;
 	width: 100%;
-	height: 5rem;
+	height: 5.5rem;
 	font-size: 1rem;
-	padding: 0 0.25rem;
+	padding: 0.25rem 0.4rem;
 	border-radius: 3px;
 	color: #565656;
 	border: 1px solid lightgray;
 
 	:focus {
-		border: 1px solid rebeccapurple;
+		border: 2px solid var(--color-secondary);
 	}
 `
 

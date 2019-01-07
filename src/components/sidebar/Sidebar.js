@@ -10,10 +10,10 @@ import SelectBoard from './sidebar-sections/SelectBoard'
 import SetBackground from './sidebar-sections/SetBackground'
 import AdditionalGraphics from './sidebar-sections/AdditionalGraphics'
 import AddText from './sidebar-sections/AddText'
-import TextPreviewList from './sidebar-sections/text-properties/TextPreviewList'
 import TextArea from './sidebar-sections/text-properties/TextArea'
 import TextProperties from './sidebar-sections/text-properties/TextProperties'
 import Fonts from './sidebar-sections/text-properties/Fonts'
+import Colors from './sidebar-sections/text-properties/colors/Colors'
 
 function Sidebar(props) {
 	const { state, dispatch } = props
@@ -45,28 +45,33 @@ function Sidebar(props) {
 				<AdditionalGraphics storeDispatch={dispatch} />
 
 				<AddText storeDispatch={dispatch}>
-					<TextPreviewList
+					{/* <TextPreviewList
 						texts={currentStory.texts}
 						storyID={currentStory.storyID}
 						storyIndex={storyIndex}
 						canvasName={currentStory.canvasName}
 						shapeName={shapeName}
 						storeDispatch={dispatch}
-					/>
+					/> */}
 
 					{textIndex != null && (
 						<>
-							<Fonts
-								currentText={currentStory.texts[textIndex]}
-								storeDispatch={dispatch}
-							/>
-
 							<TextArea
 								textValue={currentStory.texts[textIndex].text}
 								storeDispatch={dispatch}
 							/>
 
 							<TextProperties
+								currentText={currentStory.texts[textIndex]}
+								storeDispatch={dispatch}
+							/>
+
+							<Fonts
+								currentText={currentStory.texts[textIndex]}
+								storeDispatch={dispatch}
+							/>
+
+							<Colors
 								currentText={currentStory.texts[textIndex]}
 								storeDispatch={dispatch}
 							/>

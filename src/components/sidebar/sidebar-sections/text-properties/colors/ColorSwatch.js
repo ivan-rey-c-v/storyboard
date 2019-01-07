@@ -4,6 +4,7 @@ import styled from 'styled-components/macro'
 const ColorPicker = lazy(_ => import('./ColorPicker'))
 
 function ColorSwatch(props) {
+	const { storeDispatch, fillName, opacityName, color, opacity } = props
 	const [pickerActive, setPickerActive] = useState(false)
 
 	const handleOpenPicker = useCallback(function(event) {
@@ -17,8 +18,6 @@ function ColorSwatch(props) {
 	}, [])
 
 	const handleOnColorChange = useCallback(function(color, event) {
-		const { storeDispatch, fillName, opacityName } = props
-
 		const properties = {
 			[fillName]: color.hex,
 			[opacityName]: color.rgb.a
@@ -37,27 +36,15 @@ function ColorSwatch(props) {
 					</Suspense>
 				</>
 			)}
-
-			{props.children}
-			<SwatchName>{props.name}</SwatchName>
+			<ColoredBox color={color} opacity={opacity} />
 		</Swatch>
 	)
 }
 
 const Swatch = styled.div`
-	height: 2.25rem;
-	width: 2rem;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: space-between;
+	height: 100%;
+	width: 100%;
 	position: relative;
-	cursor: pointer;
-`
-const SwatchName = styled.p`
-	font-size: 0.75rem;
-	font-weight: 600;
-	color: gray;
 `
 const Overlay = styled.div`
 	position: fixed;
@@ -66,6 +53,15 @@ const Overlay = styled.div`
 	right: 0;
 	bottom: 0;
 	z-index: 5;
+`
+const ColoredBox = styled.div`
+	cursor: pointer;
+	height: 100%;
+	width: 100%;
+	border-radius: 4px;
+
+	opacity: ${props => props.opacity};
+	background-color: ${props => props.color};
 `
 
 export default React.memo(ColorSwatch)
