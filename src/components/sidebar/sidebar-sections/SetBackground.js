@@ -47,7 +47,7 @@ function SetBackground(props) {
 			<SectionName>Pimary image</SectionName>
 
 			{imgFile ? (
-				<div>
+				<>
 					<RowPanel>
 						<RowPanelName>Color</RowPanelName>
 						<RowPanelInput>Blur</RowPanelInput>
@@ -70,20 +70,29 @@ function SetBackground(props) {
 								]}
 							/>
 						</StyledRowPanelInput>
-						<RowPanelBox>
+						<RowPanelBox as="label" htmlFor="img-file-input">
+							<HiddenEl
+								as="input"
+								type="file"
+								id="img-file-input"
+								onChange={handleSetBackground}
+								accept={acceptedImages}
+							/>
+
 							<ImageDiv>
 								<ImageDiv
 									as="img"
 									src={window.URL.createObjectURL(imgFile)}
 									alt="background-image"
 								/>
-								<DeleteDiv onClick={handleRemoveBackground}>
-									<TrashSVG />
-								</DeleteDiv>
 							</ImageDiv>
 						</RowPanelBox>
+
+						<DeleteDiv onClick={handleRemoveBackground}>
+							<TrashSVG />
+						</DeleteDiv>
 					</RowPanel>
-				</div>
+				</>
 			) : (
 				<Button as="label" htmlFor="img-file-input">
 					Set background
@@ -109,7 +118,7 @@ const StyledSelect = styled(Select)`
 const ImageDiv = styled.div`
 	height: 100%;
 	width: 100%;
-	position: relative;
+	cursor: pointer;
 `
 const DeleteDiv = styled.div`
 	height: 1.5rem;

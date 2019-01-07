@@ -64,6 +64,7 @@ export const RowPanel = styled.div`
 	display: flex;
 	align-items: center;
 	height: 38px;
+	position: relative;
 `
 export const RowPanelName = styled.p`
 	flex-grow: 1;
