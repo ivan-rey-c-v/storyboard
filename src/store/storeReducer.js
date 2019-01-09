@@ -1,5 +1,6 @@
 import produce from 'immer'
 import setStory from '../utils/setStory'
+import setStoryText from '../utils/setStoryText'
 
 export default produce((draftState, action) => {
 	switch (action.type) {
@@ -63,21 +64,10 @@ export default produce((draftState, action) => {
 
 		case 'ADD_TEXT': {
 			const { storyIndex } = draftState.active
-			const { canvasName } = draftState.stories[storyIndex]
-			const { length } = draftState.stories[storyIndex].texts
+			const newText = setStoryText()
 
-			const text = {
-				fontSize: 48,
-				fontStyle: 'normal',
-				text: 'Hello!',
-				align: 'left',
-				padding: 10,
-				fill: '#232323',
-				opacity: 1
-			}
-
-			draftState.stories[storyIndex].texts.push(text)
-			draftState.active.shapeName = `${canvasName}-text-${length}-group`
+			draftState.stories[storyIndex].shapes.push(newText)
+			draftState.active.shapeName = `${newText.textID}-group`
 
 			return
 		}
@@ -179,17 +169,44 @@ export default produce((draftState, action) => {
 			const { boardIndex, increment } = action
 
 			const { stories } = draftState
-			const xIndex = boardIndex
-			const yIndex = boardIndex + increment
+			const newIndex = boardIndex + increment
 			// swap
-			;[stories[xIndex], stories[yIndex]] = [
-				stories[yIndex],
-				stories[xIndex]
+			;[stories[boardIndex], stories[newIndex]] = [
+				stories[newIndex],
+				stories[boardIndex]
 			]
 
 			draftState.active.storyIndex = boardIndex + increment
 			draftState.active.textIndex = null
 			draftState.active.shapeName = null
+
+			return
+		}
+
+		case 'MOVE_SHAPE_Z_INDEX': {
+			const { increment } = action
+			const { shapeName, storyIndex } = draftState.active
+			const { shapes } = draftState.stories[storyIndex]
+			const shapeIndex = shapes.reduce((shapeIdx, shape, index) => {
+				if (shapeIdx) return shapeIdx
+
+				if (`${shape.textID}-group` === shapeName) {
+					return index
+				} else {
+					return shapeIdx
+				}
+			}, null)
+
+			const newIndex = shapeIndex + increment
+			if (newIndex < 0 || newIndex >= shapes.length) {
+				return
+			}
+			console.log({ shapeIndex, increment, newIndex })
+			// swap
+			;[shapes[shapeIndex], shapes[newIndex]] = [
+				shapes[newIndex],
+				shapes[shapeIndex]
+			]
 
 			return
 		}

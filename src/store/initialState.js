@@ -1,4 +1,3 @@
-import generateUniqueID from '../utils/generateUniqueID'
 import setStory from '../utils/setStory'
 
 export default {

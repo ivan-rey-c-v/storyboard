@@ -7,7 +7,8 @@ import UpSVG from 'react-feather/dist/icons/chevrons-up'
 import DownSVG from 'react-feather/dist/icons/chevrons-down'
 
 function BoardFooter(props) {
-	const { textIndex } = props
+	const { isCurrentStory, shapeName, handleMoveShapeZIndex } = props
+	const zIndexDisabled = isCurrentStory && shapeName != null ? false : true
 
 	return (
 		<Footer>
@@ -17,11 +18,17 @@ function BoardFooter(props) {
 			<ActionButton>
 				<DownloadSVG />
 			</ActionButton>
-			<ActionButton disabled={textIndex == null ? true : false}>
-				<UpSVG />
-			</ActionButton>
-			<ActionButton disabled={textIndex == null ? true : false}>
+			<ActionButton
+				disabled={zIndexDisabled}
+				onClick={handleMoveShapeZIndex(-1)}
+			>
 				<DownSVG />
+			</ActionButton>
+			<ActionButton
+				disabled={zIndexDisabled}
+				onClick={handleMoveShapeZIndex(+1)}
+			>
+				<UpSVG />
 			</ActionButton>
 		</Footer>
 	)

@@ -9,9 +9,8 @@ import useCanvasSizeFromWindowHeight from '../../hooks/useCanvasSizeFromWindowHe
 function MainSection(props) {
 	const { state, dispatch } = props
 	const { stories } = state
-	const { storyIndex, shapeName, textIndex } = state.active
+	const { storyIndex, shapeName } = state.active
 	const { canvasHeight, canvasWidth } = useCanvasSizeFromWindowHeight()
-	console.log({ storyIndex })
 
 	return (
 		<MainLayout>
@@ -24,7 +23,6 @@ function MainSection(props) {
 					shapeName={shapeName}
 					storeDispatch={dispatch}
 					story={story}
-					textIndex={textIndex}
 					isCurrentStory={storyIndex === index}
 					storiesLength={stories.length}
 				/>
