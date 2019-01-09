@@ -85,19 +85,19 @@ export default produce((draftState, action) => {
 		case 'MODIFY_TEXT': {
 			const { properties } = action
 			const { storyIndex, shapeName } = draftState.active
-			const texts = draftState.stories[storyIndex].texts
+			const shapes = draftState.stories[storyIndex].shapes
 
-			const newTexts = texts.map(text => {
-				if (`${text.textID}-group` === shapeName) {
+			const newShapes = shapes.map(shape => {
+				if (`${shape.textID}-group` === shapeName) {
 					return {
-						...text,
+						...shape,
 						...properties
 					}
 				} else {
-					return text
+					return shape
 				}
 			})
-			draftState.stories[storyIndex].texts = newTexts
+			draftState.stories[storyIndex].shapes = newShapes
 
 			return
 		}
@@ -106,19 +106,19 @@ export default produce((draftState, action) => {
 			const { propertyName } = action
 			const { storyIndex, shapeName } = draftState.active
 
-			const texts = draftState.stories[storyIndex].texts
+			const shapes = draftState.stories[storyIndex].shapes
 
-			const newTexts = texts.map(text => {
-				if (`${text.textID}-group` === shapeName) {
+			const newShapes = shapes.map(shape => {
+				if (`${shape.textID}-group` === shapeName) {
 					return {
-						...text,
-						[propertyName]: !text[propertyName]
+						...shape,
+						[propertyName]: !shape[propertyName]
 					}
 				} else {
-					return text
+					return shape
 				}
 			})
-			draftState.stories[storyIndex].texts = newTexts
+			draftState.stories[storyIndex].shapes = newShapes
 
 			return
 		}
@@ -128,23 +128,23 @@ export default produce((draftState, action) => {
 
 			const aligns = ['left', 'center', 'right']
 
-			const texts = draftState.stories[storyIndex].texts
+			const shapes = draftState.stories[storyIndex].shapes
 
-			const newTexts = texts.map(text => {
-				if (`${text.textID}-group` === shapeName) {
-					const { align } = text
+			const newShapes = shapes.map(shape => {
+				if (`${shape.textID}-group` === shapeName) {
+					const { align } = shape
 					const lastAlignIndex = aligns.indexOf(align)
 					const newAlignIndex = (lastAlignIndex + 1) % aligns.length
 
 					return {
-						...text,
+						...shape,
 						align: aligns[newAlignIndex]
 					}
 				} else {
-					return text
+					return shape
 				}
 			})
-			draftState.stories[storyIndex].texts = newTexts
+			draftState.stories[storyIndex].shapes = newShapes
 
 			return
 		}
@@ -154,24 +154,24 @@ export default produce((draftState, action) => {
 
 			const fontSizes = [24, 34, 44, 54]
 
-			const texts = draftState.stories[storyIndex].texts
+			const shapes = draftState.stories[storyIndex].shapes
 
-			const newTexts = texts.map(text => {
-				if (`${text.textID}-group` === shapeName) {
-					const { fontSize } = text
+			const newShapes = shapes.map(shape => {
+				if (`${shape.textID}-group` === shapeName) {
+					const { fontSize } = shape
 					const lastFontSizeIndex = fontSizes.indexOf(fontSize)
 					const newFontSizeIndex =
 						(lastFontSizeIndex + 1) % fontSizes.length
 
 					return {
-						...text,
+						...shape,
 						fontSize: fontSizes[newFontSizeIndex]
 					}
 				} else {
-					return text
+					return shape
 				}
 			})
-			draftState.stories[storyIndex].texts = newTexts
+			draftState.stories[storyIndex].shapes = newShapes
 			return
 		}
 

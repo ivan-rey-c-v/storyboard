@@ -14,7 +14,7 @@ function Canvas(props) {
 		storeDispatch,
 		boardIndex
 	} = props
-	const { backgroundImage, texts, emojies, canvasName } = story
+	const { backgroundImage, shapes, canvasName } = story
 	const [canvasBackgroundImage, setCanvasBackgroundImage] = useState(null)
 	const [imageSize, setImageSize] = useState(null)
 	const [withCenterAnchors, setWithCenterAnchors] = useState(true)
@@ -148,28 +148,34 @@ function Canvas(props) {
 					/>
 				)}
 
-				{texts.map((textGroup, index) => (
-					<TextGroup
-						key={`grouptext-${index}`}
-						textGroup={textGroup}
-						coordX={canvasWidth / 2}
-						canvasName={canvasName}
-						onDragKonvaShape={onDragKonvaShape}
-					/>
-				))}
+				{shapes.map((shape, index) => {
+					if (shape.type === 'text') {
+						return (
+							<TextGroup
+								key={`grouptext-${index}`}
+								textGroup={shape}
+								coordX={canvasWidth / 2}
+								canvasName={canvasName}
+								onDragKonvaShape={onDragKonvaShape}
+							/>
+						)
+					}
 
-				{emojies.map((object, index) => (
-					<Text
-						key={`emoji-${index}`}
-						{...object}
-						name={'emoji-uniqueID'}
-						text={object.emoji}
-						draggable
-						x={canvasWidth / 2 - 70}
-						y={100}
-						dragBoundFunc={onDragKonvaShape}
-					/>
-				))}
+					if (shape.type === 'emoji') {
+						return (
+							<Text
+								key={`emoji-${index}`}
+								{...shape}
+								name={'emoji-uniqueID'}
+								text={shape.emoji}
+								draggable
+								x={canvasWidth / 2 - 70}
+								y={100}
+								dragBoundFunc={onDragKonvaShape}
+							/>
+						)
+					}
+				})}
 
 				<ShapeTransformer
 					shapeName={shapeName}

@@ -18,13 +18,15 @@ import Colors from './sidebar-sections/text-properties/colors/Colors'
 function Sidebar(props) {
 	const { state, dispatch } = props
 	const { stories } = state
-	const { storyIndex, textIndex, shapeName } = state.active
+	const { storyIndex, shapeName } = state.active
 
-	console.info({ storyIndex, textIndex, stories })
 	const currentStory = stories[storyIndex]
-	const [currentText] = currentStory.texts.filter(
-		text => `${text.textID}-group` === shapeName
-	)
+	const [currentText] = currentStory.shapes.filter(shape => {
+		if (shape.type === 'text') {
+			return `${shape.textID}-group` === shapeName
+		}
+		return false
+	})
 
 	return (
 		<SidebarContainer>

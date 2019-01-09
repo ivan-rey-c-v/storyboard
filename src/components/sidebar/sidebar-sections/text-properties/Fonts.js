@@ -8,7 +8,7 @@ const fontSizeOptions = [
 	{ value: 24, label: 'Small' },
 	{ value: 34, label: 'Medium' },
 	{ value: 44, label: 'Large' },
-	{ value: 54, label: 'ExtraLarge' }
+	{ value: 54, label: 'X-Large' }
 ]
 
 function FontAndColor(props) {
@@ -74,7 +74,7 @@ const SizeSelectDiv = styled.div`
 	text-align: center;
 	min-width: 112px;
 	display: flex;
-	font-size: 0.8rem;
+	font-size: 1rem;
 `
 
 export default React.memo(FontAndColor)

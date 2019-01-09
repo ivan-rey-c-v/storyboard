@@ -32,7 +32,10 @@ function ColorSwatch(props) {
 				<>
 					<Overlay onClick={handleClosePicker} />
 					<Suspense fallback={<div />}>
-						<ColorPicker onChange={handleOnColorChange} />
+						<ColorPicker
+							color={color}
+							onChange={handleOnColorChange}
+						/>
 					</Suspense>
 				</>
 			)}
