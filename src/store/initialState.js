@@ -13,6 +13,7 @@ export default {
 			backgroundImage: null,
 			texts: [
 				{
+					textID: generateUniqueID('text'),
 					fontFamily: 'Arial',
 					fontSize: 34,
 					fontStyle: 'normal',

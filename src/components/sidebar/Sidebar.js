@@ -22,6 +22,9 @@ function Sidebar(props) {
 
 	console.info({ storyIndex, textIndex, stories })
 	const currentStory = stories[storyIndex]
+	const [currentText] = currentStory.texts.filter(
+		text => `${text.textID}-group` === shapeName
+	)
 
 	return (
 		<SidebarContainer>
@@ -46,34 +49,25 @@ function Sidebar(props) {
 				<AdditionalGraphics storeDispatch={dispatch} />
 
 				<AddText storeDispatch={dispatch}>
-					{/* <TextPreviewList
-						texts={currentStory.texts}
-						storyID={currentStory.storyID}
-						storyIndex={storyIndex}
-						canvasName={currentStory.canvasName}
-						shapeName={shapeName}
-						storeDispatch={dispatch}
-					/> */}
-
-					{textIndex != null && (
+					{currentText && (
 						<>
 							<TextArea
-								textValue={currentStory.texts[textIndex].text}
+								textValue={currentText.text}
 								storeDispatch={dispatch}
 							/>
 
 							<TextProperties
-								currentText={currentStory.texts[textIndex]}
+								currentText={currentText}
 								storeDispatch={dispatch}
 							/>
 
 							<Fonts
-								currentText={currentStory.texts[textIndex]}
+								currentText={currentText}
 								storeDispatch={dispatch}
 							/>
 
 							<Colors
-								currentText={currentStory.texts[textIndex]}
+								currentText={currentText}
 								storeDispatch={dispatch}
 							/>
 						</>

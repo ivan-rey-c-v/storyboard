@@ -3,7 +3,6 @@ import produce from 'immer'
 export default produce((draftState, action) => {
 	switch (action.type) {
 		case 'RESET_ACTIVE': {
-			draftState.active.textIndex = null
 			draftState.active.shapeName = null
 			return
 		}
@@ -29,7 +28,6 @@ export default produce((draftState, action) => {
 			draftState.stories.push(newBoard)
 			draftState.active = {
 				storyIndex: length,
-				textIndex: null,
 				shapeName: null
 			}
 
@@ -43,7 +41,6 @@ export default produce((draftState, action) => {
 			)
 			const { length } = draftState.stories
 			draftState.active.storyIndex = (length + 1) % length
-			draftState.active.textIndex = null
 
 			return
 		}
@@ -88,7 +85,6 @@ export default produce((draftState, action) => {
 			}
 
 			draftState.stories[storyIndex].texts.push(text)
-			draftState.active.textIndex = length
 			draftState.active.shapeName = `${canvasName}-text-${length}-group`
 
 			return
@@ -96,61 +92,94 @@ export default produce((draftState, action) => {
 
 		case 'MODIFY_TEXT': {
 			const { properties } = action
-			const { storyIndex, textIndex } = draftState.active
+			const { storyIndex, shapeName } = draftState.active
+			const texts = draftState.stories[storyIndex].texts
 
-			const lastText = draftState.stories[storyIndex].texts[textIndex]
+			const newTexts = texts.map(text => {
+				if (`${text.textID}-group` === shapeName) {
+					return {
+						...text,
+						...properties
+					}
+				} else {
+					return text
+				}
+			})
+			draftState.stories[storyIndex].texts = newTexts
 
-			draftState.stories[storyIndex].texts[textIndex] = {
-				...lastText,
-				...properties
-			}
 			return
 		}
 
 		case 'TOGGLE_TEXT_PROPERTY': {
 			const { propertyName } = action
-			const { storyIndex, textIndex } = draftState.active
+			const { storyIndex, shapeName } = draftState.active
 
-			const lastText = draftState.stories[storyIndex].texts[textIndex]
+			const texts = draftState.stories[storyIndex].texts
 
-			draftState.stories[storyIndex].texts[textIndex] = {
-				...lastText,
-				[propertyName]: !lastText[propertyName]
-			}
+			const newTexts = texts.map(text => {
+				if (`${text.textID}-group` === shapeName) {
+					return {
+						...text,
+						[propertyName]: !text[propertyName]
+					}
+				} else {
+					return text
+				}
+			})
+			draftState.stories[storyIndex].texts = newTexts
+
 			return
 		}
 
 		case 'CHANGE_TEXT_ALIGN': {
-			const { storyIndex, textIndex } = draftState.active
+			const { storyIndex, shapeName } = draftState.active
 
-			const lastText = draftState.stories[storyIndex].texts[textIndex]
-
-			const { align } = lastText
 			const aligns = ['left', 'center', 'right']
-			const lastAlignIndex = aligns.indexOf(align)
-			const newAlignIndex = (lastAlignIndex + 1) % aligns.length
 
-			draftState.stories[storyIndex].texts[textIndex] = {
-				...lastText,
-				align: aligns[newAlignIndex]
-			}
+			const texts = draftState.stories[storyIndex].texts
+
+			const newTexts = texts.map(text => {
+				if (`${text.textID}-group` === shapeName) {
+					const { align } = text
+					const lastAlignIndex = aligns.indexOf(align)
+					const newAlignIndex = (lastAlignIndex + 1) % aligns.length
+
+					return {
+						...text,
+						align: aligns[newAlignIndex]
+					}
+				} else {
+					return text
+				}
+			})
+			draftState.stories[storyIndex].texts = newTexts
+
 			return
 		}
 
 		case 'CHANGE_FONT_SIZE': {
-			const { storyIndex, textIndex } = draftState.active
+			const { storyIndex, shapeName } = draftState.active
 
-			const lastText = draftState.stories[storyIndex].texts[textIndex]
-
-			const { fontSize } = lastText
 			const fontSizes = [24, 34, 44, 54]
-			const lastFontSizeIndex = fontSizes.indexOf(fontSize)
-			const newFontSizeIndex = (lastFontSizeIndex + 1) % fontSizes.length
 
-			draftState.stories[storyIndex].texts[textIndex] = {
-				...lastText,
-				fontSize: fontSizes[newFontSizeIndex]
-			}
+			const texts = draftState.stories[storyIndex].texts
+
+			const newTexts = texts.map(text => {
+				if (`${text.textID}-group` === shapeName) {
+					const { fontSize } = text
+					const lastFontSizeIndex = fontSizes.indexOf(fontSize)
+					const newFontSizeIndex =
+						(lastFontSizeIndex + 1) % fontSizes.length
+
+					return {
+						...text,
+						fontSize: fontSizes[newFontSizeIndex]
+					}
+				} else {
+					return text
+				}
+			})
+			draftState.stories[storyIndex].texts = newTexts
 			return
 		}
 
