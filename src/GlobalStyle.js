@@ -1,8 +1,10 @@
 import { createGlobalStyle } from 'styled-components/macro'
 
 const GlobalStyle = createGlobalStyle`
+@import url('https://fonts.googleapis.com/css?family=Abril+Fatface|Anton|Bitter|Charm|Happy+Monkey|Libre+Baskerville|Merriweather|Montserrat|Poppins|Quicksand');
+
 html {
-	font-family: 'Avenir', Helvetica, Arial, sans-serif;
+	font-family: 'Montserrat', Helvetica, Arial, sans-serif;
 	box-sizing: border-box;
 	font-size: 16px;
 }

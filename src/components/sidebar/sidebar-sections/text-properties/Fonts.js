@@ -2,11 +2,7 @@ import React, { useCallback } from 'react'
 import styled from 'styled-components/macro'
 import Select from 'react-select'
 
-const fontOptions = [
-	{ value: 'Arial', label: 'Arial' },
-	{ value: 'Calibri', label: 'Calibri' },
-	{ value: 'Times New Roman', label: 'Times New Roman' }
-]
+import fontOptions from '../../../../utils/fontOptions'
 
 const fontSizeOptions = [
 	{ value: 24, label: 'Small' },

@@ -1,4 +1,5 @@
 import produce from 'immer'
+import setStory from '../utils/setStory'
 
 export default produce((draftState, action) => {
 	switch (action.type) {
@@ -16,16 +17,7 @@ export default produce((draftState, action) => {
 		case 'ADD_STORY_BOARD': {
 			const length = draftState.stories.length
 
-			const newBoard = {
-				storyID: Math.random().toString(16),
-				canvasName: `storyboard-${length + 1}`,
-				backgroundImage: null,
-				texts: [],
-				emojies: [],
-				objects: []
-			}
-
-			draftState.stories.push(newBoard)
+			draftState.stories.push(setStory())
 			draftState.active = {
 				storyIndex: length,
 				shapeName: null
