@@ -20,6 +20,7 @@ function Sidebar(props) {
 	const { stories } = state
 	const { storyIndex, textIndex, shapeName } = state.active
 
+	console.info({ storyIndex, textIndex, stories })
 	const currentStory = stories[storyIndex]
 
 	return (

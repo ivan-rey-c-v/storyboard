@@ -1,3 +1,5 @@
+import generateUniqueID from '../utils/generateUniqueID'
+
 export default {
 	active: {
 		storyIndex: 0,
@@ -6,7 +8,7 @@ export default {
 	},
 	stories: [
 		{
-			storyID: 'Story 1',
+			storyID: generateUniqueID('Story'),
 			canvasName: 'storyboard-1',
 			backgroundImage: null,
 			texts: [

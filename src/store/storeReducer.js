@@ -18,7 +18,7 @@ export default produce((draftState, action) => {
 			const length = draftState.stories.length
 
 			const newBoard = {
-				storyID: `Story ${length + 1}`,
+				storyID: Math.random().toString(16),
 				canvasName: `storyboard-${length + 1}`,
 				backgroundImage: null,
 				texts: [],
@@ -67,8 +67,7 @@ export default produce((draftState, action) => {
 		case 'SET_ACTIVE_SHAPE_NAME': {
 			draftState.active = {
 				storyIndex: action.storyIndex,
-				shapeName: action.name,
-				textIndex: action.textIndex
+				shapeName: action.name
 			}
 			return
 		}
@@ -152,6 +151,25 @@ export default produce((draftState, action) => {
 				...lastText,
 				fontSize: fontSizes[newFontSizeIndex]
 			}
+			return
+		}
+
+		case 'MOVE_STORY_BOARD': {
+			const { boardIndex, increment } = action
+
+			const { stories } = draftState
+			const xIndex = boardIndex
+			const yIndex = boardIndex + increment
+			// swap
+			;[stories[xIndex], stories[yIndex]] = [
+				stories[yIndex],
+				stories[xIndex]
+			]
+
+			draftState.active.storyIndex = boardIndex + increment
+			draftState.active.textIndex = null
+			draftState.active.shapeName = null
+
 			return
 		}
 

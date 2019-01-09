@@ -1,12 +1,14 @@
 import React, { PureComponent } from 'react'
 import { Group } from 'react-konva'
 import produce from 'immer'
+import generateUniqueID from '../../../../utils/generateUniqueID'
 
 import TextBox from './TextBox'
 
 class TextGroup extends PureComponent {
 	state = {
-		textBoxesWidth: []
+		textBoxesWidth: [],
+		name: generateUniqueID('text')
 	}
 
 	handleSetTextBoxWidth = (textBoxIndex, width) => {
@@ -18,18 +20,11 @@ class TextGroup extends PureComponent {
 	}
 
 	render() {
-		const {
-			textGroup,
-			index,
-			coordX,
-			canvasName,
-			onDragKonvaShape
-		} = this.props
+		const { textGroup, coordX, onDragKonvaShape } = this.props
 
 		const { text, ...textProperties } = textGroup
 
-		const name = `${canvasName}-text-${index}`
-		const groupName = `${name}-group`
+		const groupName = `${this.state.name}-group`
 
 		const multiline = '\n'
 		const multilineTexts = text.split(multiline)
@@ -50,8 +45,7 @@ class TextGroup extends PureComponent {
 						lineText={lineText}
 						lineTextIndex={lineTextIndex}
 						textProperties={textProperties}
-						name={name}
-						textIndex={index}
+						name={this.state.name}
 						handleSetTextBoxWidth={this.handleSetTextBoxWidth}
 					/>
 				))}

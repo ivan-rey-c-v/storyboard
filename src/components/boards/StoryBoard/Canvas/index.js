@@ -44,48 +44,48 @@ function Canvas(props) {
 		[backgroundImage]
 	)
 
-	const onStageMouseDown = useCallback(function(e) {
-		const { name, textIndex } = e.target.attrs
+	const onStageMouseDown = useCallback(
+		function(e) {
+			const { name } = e.target.attrs
 
-		// clicked on <Stage /> or <BackgroundImage /> - clear selection
-		if (name === 'canvas-stage' || name === 'background-image') {
-			storeDispatch({
-				type: 'SET_ACTIVE_SHAPE_NAME',
-				name: '',
-				textIndex: null,
-				storyIndex: boardIndex
-			})
-			return
-		}
+			// clicked on <Stage /> or <BackgroundImage /> - clear selection
+			if (name === 'canvas-stage' || name === 'background-image') {
+				storeDispatch({
+					type: 'SET_ACTIVE_SHAPE_NAME',
+					name: null,
+					storyIndex: boardIndex
+				})
+				return
+			}
 
-		const clickedOnTransformer =
-			e.target.getParent().className === 'Transformer'
-		if (clickedOnTransformer || name === shapeName) {
-			return // do nothing if it is transformer or current shape
-		}
+			const clickedOnTransformer =
+				e.target.getParent().className === 'Transformer'
+			if (clickedOnTransformer || name === shapeName) {
+				return // do nothing if it is transformer or current shape
+			}
 
-		if (name.includes('object') || name.includes('emoji')) {
-			setWithCenterAnchors(false)
-			storeDispatch({
-				type: 'SET_ACTIVE_SHAPE_NAME',
-				name,
-				textIndex,
-				storyIndex: boardIndex
-			})
-			return
-		}
+			if (name.includes('object') || name.includes('emoji')) {
+				setWithCenterAnchors(false)
+				storeDispatch({
+					type: 'SET_ACTIVE_SHAPE_NAME',
+					name,
+					storyIndex: boardIndex
+				})
+				return
+			}
 
-		if (name.includes('text')) {
-			setWithCenterAnchors(true)
-			storeDispatch({
-				name: name.includes('group') ? name : `${name}-group`,
-				type: 'SET_ACTIVE_SHAPE_NAME',
-				textIndex,
-				storyIndex: boardIndex
-			})
-			return
-		}
-	}, [])
+			if (name.includes('text')) {
+				setWithCenterAnchors(true)
+				storeDispatch({
+					name: name.includes('group') ? name : `${name}-group`,
+					type: 'SET_ACTIVE_SHAPE_NAME',
+					storyIndex: boardIndex
+				})
+				return
+			}
+		},
+		[boardIndex]
+	)
 
 	const onDragKonvaShape = useCallback(function(pos) {
 		const scaleX = this.scaleX()
@@ -152,7 +152,6 @@ function Canvas(props) {
 					<TextGroup
 						key={`grouptext-${index}`}
 						textGroup={textGroup}
-						index={index}
 						coordX={canvasWidth / 2}
 						canvasName={canvasName}
 						onDragKonvaShape={onDragKonvaShape}
@@ -163,9 +162,8 @@ function Canvas(props) {
 					<Text
 						key={`emoji-${index}`}
 						{...object}
-						name={`${canvasName}-emoji-${index}`}
+						name={'emoji-uniqueID'}
 						text={object.emoji}
-						textIndex={null}
 						draggable
 						x={canvasWidth / 2 - 70}
 						y={100}

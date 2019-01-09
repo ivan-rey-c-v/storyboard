@@ -5,7 +5,7 @@ import Select from 'react-select'
 import { SidebarSection } from '../Sidebar.styles'
 
 function SelectBoard(props) {
-	const { stories, storeDispatch, storyIndex, currentStoryID } = props
+	const { stories, storeDispatch, storyIndex } = props
 
 	const handleSelectStory = useCallback(function(option, action) {
 		const { value } = option
@@ -15,7 +15,7 @@ function SelectBoard(props) {
 	const storiesOption = stories.map((story, index) => {
 		return {
 			value: index,
-			label: story.storyID
+			label: `Screen ${index + 1}`
 		}
 	})
 
@@ -25,7 +25,7 @@ function SelectBoard(props) {
 				id="select-board"
 				value={{
 					value: storyIndex,
-					label: currentStoryID
+					label: `Screen ${storyIndex + 1}`
 				}}
 				onChange={handleSelectStory}
 				options={storiesOption}

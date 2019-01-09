@@ -1,25 +1,39 @@
 import React from 'react'
-import styled from 'styled-components/macro'
+import styled, { css } from 'styled-components/macro'
 
 import ArrowLeftSVG from 'react-feather/dist/icons/arrow-left-circle'
 import ArrowRightSVG from 'react-feather/dist/icons/arrow-right-circle'
 
 function BoardHeader(props) {
-	const { storyID, isCurrentStory, handleDeleteBoard, canBeDeleted } = props
+	const {
+		storyID,
+		boardIndex,
+		isCurrentStory,
+		canMoveLeft,
+		canMoveRight,
+		canBeDeleted,
+		handleMoveBoard
+	} = props
 
 	return (
 		<Header>
-			<SVGDiv>
+			<SVGButton
+				disabled={canMoveLeft ? false : true}
+				onClick={handleMoveBoard(-1, boardIndex)}
+			>
 				<ArrowLeftSVG />
-			</SVGDiv>
+			</SVGButton>
 
 			<HeaderName isCurrentStory={isCurrentStory}>
-				{isCurrentStory ? 'Editing' : null} {storyID}
+				{isCurrentStory ? 'Editing' : null} {`Screen ${boardIndex + 1}`}
 			</HeaderName>
 
-			<SVGDiv>
+			<SVGButton
+				disabled={canMoveRight ? false : true}
+				onClick={handleMoveBoard(+1, boardIndex)}
+			>
 				<ArrowRightSVG />
-			</SVGDiv>
+			</SVGButton>
 		</Header>
 	)
 }
@@ -42,13 +56,29 @@ const HeaderName = styled.p`
 	color: ${props =>
 		props.isCurrentStory ? 'var(--color-primary)' : '#5e5960'};
 `
-const SVGDiv = styled.div`
+const SVGButton = styled.button`
 	height: 75%;
-	cursor: pointer;
+	border: none;
+	background-color: transparent;
 
 	svg {
 		height: 100%;
 	}
+
+	${props =>
+		props.disabled
+			? css`
+					cursor: not-allowed;
+			  `
+			: css`
+					cursor: pointer;
+					:hover {
+						color: var(--color-secondary);
+					}
+					:active {
+						transform: scale(0.95);
+					}
+			  `};
 `
 
 export default React.memo(BoardHeader)

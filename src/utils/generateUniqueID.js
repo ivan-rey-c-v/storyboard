@@ -1,0 +1,9 @@
+function guid() {
+	return Math.random()
+		.toString(16)
+		.substring(2)
+}
+
+export default function(name = '') {
+	return `${name}-${guid()}-${guid()}`
+}

@@ -14,15 +14,30 @@ function StoryBoard(props) {
 		story,
 		storeDispatch,
 		boardIndex,
-		textIndex
+		textIndex,
+		storiesLength
 	} = props
 	// isDragging is used for css
 	const [isDragging, setIsDragging] = useState(false)
 
-	const handleSelectBoard = useCallback(function(event) {
-		event.stopPropagation()
-		storeDispatch({ type: 'SELECT_STORY_BOARD', storyIndex: boardIndex })
-	}, [])
+	const handleMoveBoard = useCallback(
+		(increment, boardIndex) => event => {
+			event.stopPropagation()
+			storeDispatch({ type: 'MOVE_STORY_BOARD', boardIndex, increment })
+		},
+		[]
+	)
+
+	const handleSelectBoard = useCallback(
+		function(event) {
+			event.stopPropagation()
+			storeDispatch({
+				type: 'SELECT_STORY_BOARD',
+				storyIndex: boardIndex
+			})
+		},
+		[boardIndex]
+	)
 
 	const handleDeleteBoard = useCallback(function(event) {
 		event.stopPropagation()
@@ -57,9 +72,11 @@ function StoryBoard(props) {
 		<Container canvasWidth={canvasWidth}>
 			<BoardHeader
 				isCurrentStory={isCurrentStory}
-				storyID={story.storyID}
+				boardIndex={boardIndex}
 				handleDeleteBoard={handleDeleteBoard}
-				canBeDeleted={boardIndex !== 0}
+				canMoveLeft={boardIndex === 0 ? false : true}
+				canMoveRight={boardIndex + 1 === storiesLength ? false : true}
+				handleMoveBoard={handleMoveBoard}
 			/>
 
 			<CanvasContainer

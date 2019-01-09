@@ -11,12 +11,13 @@ function MainSection(props) {
 	const { stories } = state
 	const { storyIndex, shapeName, textIndex } = state.active
 	const { canvasHeight, canvasWidth } = useCanvasSizeFromWindowHeight()
+	console.log({ storyIndex })
 
 	return (
 		<MainLayout>
 			{stories.map((story, index) => (
 				<StoryBoard
-					key={story.canvasName}
+					key={story.storyID}
 					canvasHeight={canvasHeight}
 					canvasWidth={canvasWidth}
 					boardIndex={index}
@@ -25,6 +26,7 @@ function MainSection(props) {
 					story={story}
 					textIndex={textIndex}
 					isCurrentStory={storyIndex === index}
+					storiesLength={stories.length}
 				/>
 			))}
 

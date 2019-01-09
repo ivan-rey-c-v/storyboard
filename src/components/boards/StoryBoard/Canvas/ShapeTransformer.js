@@ -43,6 +43,7 @@ class ShapeTransformer extends PureComponent {
 		}
 
 		const selectedNode = stage.findOne('.' + shapeName)
+		console.log(this.props.shapeName, { selectedNode })
 
 		if (selectedNode) {
 			this.transformer.attachTo(selectedNode)
@@ -54,7 +55,10 @@ class ShapeTransformer extends PureComponent {
 	}
 
 	render() {
-		console.info('rendering transformer... autobots assemble!')
+		console.info(
+			'rendering transformer... autobots assemble!',
+			this.props.shapeName
+		)
 		return (
 			<Transformer
 				ref={node => {
