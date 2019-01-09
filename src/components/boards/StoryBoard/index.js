@@ -68,17 +68,6 @@ function StoryBoard(props) {
 		setIsDragging(true)
 	}, [])
 
-	const handleMoveShapeZIndex = useCallback(
-		increment => event => {
-			event.stopPropagation()
-			storeDispatch({
-				type: 'MOVE_SHAPE_Z_INDEX',
-				increment: increment
-			})
-		},
-		[]
-	)
-
 	return (
 		<Container canvasWidth={canvasWidth}>
 			<BoardHeader
@@ -110,7 +99,8 @@ function StoryBoard(props) {
 			<BoardFooter
 				shapeName={shapeName}
 				isCurrentStory={isCurrentStory}
-				handleMoveShapeZIndex={handleMoveShapeZIndex}
+				storeDispatch={storeDispatch}
+				boardIndex={boardIndex}
 			/>
 		</Container>
 	)

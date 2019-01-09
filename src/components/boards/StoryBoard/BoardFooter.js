@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import styled, { css } from 'styled-components/macro'
 
 import CopySVG from 'react-feather/dist/icons/copy'
@@ -7,15 +7,50 @@ import UpSVG from 'react-feather/dist/icons/chevrons-up'
 import DownSVG from 'react-feather/dist/icons/chevrons-down'
 
 function BoardFooter(props) {
-	const { isCurrentStory, shapeName, handleMoveShapeZIndex } = props
+	const { isCurrentStory, shapeName, storeDispatch, boardIndex } = props
 	const zIndexDisabled = isCurrentStory && shapeName != null ? false : true
+
+	const handleMoveShapeZIndex = useCallback(
+		increment => event => {
+			event.stopPropagation()
+			storeDispatch({
+				type: 'MOVE_SHAPE_Z_INDEX',
+				increment: increment
+			})
+		},
+		[]
+	)
+
+	const handleCopyBoard = useCallback(event => {
+		event.stopPropagation()
+		storeDispatch({
+			type: 'COPY_BOARD'
+		})
+	}, [])
+
+	const handleDownloadBoard = useCallback(
+		event => {
+			event.stopPropagation()
+			storeDispatch({
+				type: 'SET_ACTIVE_SHAPE_NAME',
+				name: null,
+				storyIndex: boardIndex
+			})
+
+			storeDispatch({
+				type: 'DOWNLOAD_BOARD',
+				boardIndex: boardIndex
+			})
+		},
+		[boardIndex]
+	)
 
 	return (
 		<Footer>
-			<ActionButton>
+			<ActionButton onClick={handleCopyBoard}>
 				<CopySVG />
 			</ActionButton>
-			<ActionButton>
+			<ActionButton onClick={handleDownloadBoard}>
 				<DownloadSVG />
 			</ActionButton>
 			<ActionButton

@@ -1,6 +1,8 @@
 import produce from 'immer'
+import Filesaver from 'file-saver'
 import setStory from '../utils/setStory'
 import setStoryText from '../utils/setStoryText'
+import generateUniqueID from '../utils/generateUniqueID'
 
 export default produce((draftState, action) => {
 	switch (action.type) {
@@ -56,7 +58,10 @@ export default produce((draftState, action) => {
 
 		case 'SET_ACTIVE_SHAPE_NAME': {
 			draftState.active = {
-				storyIndex: action.storyIndex,
+				storyIndex:
+					action.storyIndex != undefined
+						? action.storyIndex
+						: draftState.active.storyIndex,
 				shapeName: action.name
 			}
 			return
@@ -207,6 +212,66 @@ export default produce((draftState, action) => {
 				shapes[newIndex],
 				shapes[shapeIndex]
 			]
+
+			return
+		}
+
+		case 'COPY_BOARD': {
+			console.log('copying board...')
+			const length = draftState.stories.length
+
+			if (length === 3) return
+
+			const { storyIndex } = draftState.active
+			const currentStory = {
+				...draftState.stories[storyIndex],
+				storyID: generateUniqueID('Story')
+			}
+
+			draftState.stories.push(currentStory)
+			const { shapes } = { ...draftState.stories[storyIndex] }
+			const newShapes = shapes.map(shape => {
+				return {
+					...shape,
+					[`${shape.type}ID`]: generateUniqueID(shape.type)
+				}
+			})
+			draftState.stories[storyIndex].shapes = newShapes
+
+			draftState.active = {
+				storyIndex: length,
+				shapeName: null
+			}
+
+			return
+		}
+
+		case 'DOWNLOAD_BOARD': {
+			const { boardIndex } = action
+
+			const canvasses = [...document.getElementsByTagName('canvas')]
+
+			canvasses.forEach((canvas, index) => {
+				if (index === boardIndex) {
+					const { height, width } = canvas
+					const aspectRatio = width / height
+
+					//create a new canvas
+					const newCanvas = document.createElement('canvas')
+
+					//set dimensions
+					const newHeight = 1980
+					const newWidth = newHeight * aspectRatio
+					newCanvas.height = newHeight
+					newCanvas.width = newWidth
+
+					const context = newCanvas.getContext('2d')
+					context.drawImage(canvas, 0, 0, newWidth, newHeight)
+					newCanvas.toBlob(function(blob) {
+						Filesaver.saveAs(blob, 'storyboard.png')
+					})
+				}
+			})
 
 			return
 		}

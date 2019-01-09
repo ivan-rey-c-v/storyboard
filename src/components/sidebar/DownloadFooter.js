@@ -8,7 +8,7 @@ function DownloadFooter({ storeDispatch }) {
 	const handleDownload = useCallback(function(event) {
 		event.stopPropagation()
 		// remove Transformer selection
-		storeDispatch({ type: 'SET_SELECTED_SHAPE_NAME', name: '' })
+		storeDispatch({ type: 'SET_ACTIVE_SHAPE_NAME', name: null })
 
 		const canvasses = [...document.getElementsByTagName('canvas')]
 
@@ -32,7 +32,11 @@ function DownloadFooter({ storeDispatch }) {
 			context.drawImage(canvas, 0, 0, newWidth, newHeight)
 
 			const src = newCanvas.toDataURL()
-			zip.file(`storyboard${index + 1}.png`, src, { binary: true })
+			zip.file(
+				`storyboard${index + 1}.png`,
+				src.substring(src.indexOf(',') + 1),
+				{ base64: true }
+			)
 		})
 
 		zip.generateAsync({ type: 'blob' }).then(function(content) {
