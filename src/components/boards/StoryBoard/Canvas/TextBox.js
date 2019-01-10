@@ -100,9 +100,9 @@ class TextBox extends PureComponent {
 					text={lineText}
 					alpha={textProperties.opacity * 100}
 					fontStyle={textProperties.isItalic ? 'italic' : 'normal'}
-					textDecoration={
+					textDecoration={`${
 						textProperties.isUnderline ? 'underline' : ''
-					}
+					} ${textProperties.isStrikethrough ? 'line-through' : ''}`}
 					stroke={
 						textProperties.isBold
 							? textProperties.fill

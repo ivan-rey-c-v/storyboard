@@ -66,13 +66,13 @@ function TextProperties(props) {
 				>
 					<UnderlineSVG />
 				</Property>
-				<Property
-				// onClick={handleToggleProperty}
-				// active={currentText.isUnderline}
-				// data-name="isUnderline"
+				<StrikeProperty
+					onClick={handleToggleProperty}
+					active={currentText.isStrikethrough}
+					data-name="isStrikethrough"
 				>
 					<StrikethroughSVG />
-				</Property>
+				</StrikeProperty>
 			</PropertyDiv>
 
 			<AlignDiv onClick={stopPropagation}>
@@ -132,6 +132,17 @@ const Property = styled.div.attrs({
 const AlignDiv = styled.div`
 	margin: 0 0 0 1rem;
 	min-width: 112px;
+`
+const StrikeProperty = styled(Property)`
+	${props =>
+		props.active
+			? css`
+					fill: white;
+					background-color: var(--color-secondary);
+			  `
+			: css`
+					fill: darkslategray;
+			  `}
 `
 
 export default React.memo(TextProperties)

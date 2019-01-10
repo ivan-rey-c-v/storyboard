@@ -16,6 +16,7 @@ export default function() {
 		boxOpacity: 1,
 		isBold: false,
 		isItalic: false,
-		isUnderline: false
+		isUnderline: false,
+		isStrikethrough: false
 	}
 }
