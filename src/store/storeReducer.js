@@ -1,5 +1,7 @@
 import produce from 'immer'
 import Filesaver from 'file-saver'
+import JSZip from 'jszip'
+
 import setStory from '../utils/setStory'
 import setStoryText from '../utils/setStoryText'
 import generateUniqueID from '../utils/generateUniqueID'
@@ -273,6 +275,42 @@ export default produce((draftState, action) => {
 				}
 			})
 
+			return
+		}
+
+		case 'DOWNLOAD_ALL_BOARDS': {
+			const canvasses = [...document.getElementsByTagName('canvas')]
+
+			const zip = new JSZip()
+
+			canvasses.forEach((canvas, index) => {
+				const { height, width } = canvas
+				const aspectRatio = width / height
+
+				//create a new canvas
+				const newCanvas = document.createElement('canvas')
+				const context = newCanvas.getContext('2d')
+
+				//set dimensions
+				const newHeight = 1980
+				const newWidth = newHeight * aspectRatio
+				newCanvas.height = newHeight
+				newCanvas.width = newWidth
+
+				//apply the old canvas to the new one
+				context.drawImage(canvas, 0, 0, newWidth, newHeight)
+
+				const src = newCanvas.toDataURL()
+				zip.file(
+					`storyboard${index + 1}.png`,
+					src.substring(src.indexOf(',') + 1),
+					{ base64: true }
+				)
+			})
+
+			zip.generateAsync({ type: 'blob' }).then(content => {
+				Filesaver.saveAs(content, 'storyboard.zip')
+			})
 			return
 		}
 

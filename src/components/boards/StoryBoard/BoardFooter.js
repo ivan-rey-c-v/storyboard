@@ -37,9 +37,16 @@ function BoardFooter(props) {
 				storyIndex: boardIndex
 			})
 
-			storeDispatch({
-				type: 'DOWNLOAD_BOARD',
-				boardIndex: boardIndex
+			const delay = 200
+			new Promise(resolve => {
+				setTimeout(() => {
+					resolve()
+				}, delay)
+			}).then(res => {
+				storeDispatch({
+					type: 'DOWNLOAD_BOARD',
+					boardIndex: boardIndex
+				})
 			})
 		},
 		[boardIndex]

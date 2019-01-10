@@ -1,6 +1,4 @@
 import React, { useCallback } from 'react'
-import FileSaver from 'file-saver'
-import JSZip from 'jszip'
 
 import { SidebarFooter, Button } from './Sidebar.styles'
 
@@ -10,38 +8,13 @@ function DownloadFooter({ storeDispatch }) {
 		// remove Transformer selection
 		storeDispatch({ type: 'SET_ACTIVE_SHAPE_NAME', name: null })
 
-		const canvasses = [...document.getElementsByTagName('canvas')]
-
-		const zip = new JSZip()
-
-		canvasses.forEach((canvas, index) => {
-			const { height, width } = canvas
-			const aspectRatio = width / height
-
-			//create a new canvas
-			const newCanvas = document.createElement('canvas')
-			const context = newCanvas.getContext('2d')
-
-			//set dimensions
-			const newHeight = 1980
-			const newWidth = newHeight * aspectRatio
-			newCanvas.height = newHeight
-			newCanvas.width = newWidth
-
-			//apply the old canvas to the new one
-			context.drawImage(canvas, 0, 0, newWidth, newHeight)
-
-			const src = newCanvas.toDataURL()
-			zip.file(
-				`storyboard${index + 1}.png`,
-				src.substring(src.indexOf(',') + 1),
-				{ base64: true }
-			)
-		})
-
-		zip.generateAsync({ type: 'blob' }).then(function(content) {
-			console.log({ content })
-			FileSaver.saveAs(content, 'storyboard.zip')
+		const delay = 200
+		new Promise(resolve => {
+			setTimeout(() => {
+				resolve()
+			}, delay)
+		}).then(res => {
+			storeDispatch({ type: 'DOWNLOAD_ALL_BOARDS' })
 		})
 	}, [])
 
