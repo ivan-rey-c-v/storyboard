@@ -51,10 +51,11 @@ export default produce((draftState, action) => {
 		case 'ADD_EMOJI': {
 			const { storyIndex } = draftState.active
 			const emoji = {
+				type: 'emoji',
 				emoji: action.emoji,
 				fontSize: 46
 			}
-			draftState.stories[storyIndex].emojies.push(emoji)
+			draftState.stories[storyIndex].shapes.push(emoji)
 			return
 		}
 
