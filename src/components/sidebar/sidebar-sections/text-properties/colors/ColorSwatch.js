@@ -3,18 +3,37 @@ import styled from 'styled-components/macro'
 
 const ColorPicker = lazy(_ => import('./ColorPicker'))
 
+const presetColors = [
+	'#D0021B',
+	'#F5A623',
+	'#F8E71C',
+	'#8B572A',
+	'#7ED321',
+	'#417505',
+	'#BD10E0',
+	'#9013FE',
+	'#4A90E2',
+	'#50E3C2',
+	'#B8E986',
+	'#000000',
+	'#4A4A4A',
+	'#9B9B9B',
+	'#FFFFFF'
+]
+
 function ColorSwatch(props) {
-	const { storeDispatch, fillName, opacityName, color, opacity } = props
-	const [pickerActive, setPickerActive] = useState(false)
+	const {
+		name,
+		storeDispatch,
+		isColorPickerActive,
+		fillName,
+		opacityName,
+		color,
+		opacity
+	} = props
 
 	const handleOpenPicker = useCallback(function(event) {
-		event.stopPropagation()
-		setPickerActive(true)
-	}, [])
-
-	const handleClosePicker = useCallback(function(event) {
-		event.stopPropagation()
-		setPickerActive(false)
+		storeDispatch({ type: 'SET_COLOR_PICKER', colorPickerName: name })
 	}, [])
 
 	const handleOnColorChange = useCallback(function(color, event) {
@@ -28,16 +47,14 @@ function ColorSwatch(props) {
 
 	return (
 		<Swatch onClick={handleOpenPicker}>
-			{pickerActive && (
-				<>
-					<Overlay onClick={handleClosePicker} />
-					<Suspense fallback={<div />}>
-						<ColorPicker
-							color={color}
-							onChange={handleOnColorChange}
-						/>
-					</Suspense>
-				</>
+			{isColorPickerActive && (
+				<Suspense fallback={<div />}>
+					<ColorPicker
+						color={color}
+						onChange={handleOnColorChange}
+						presetColors={presetColors}
+					/>
+				</Suspense>
 			)}
 			<ColoredBox color={color} opacity={opacity} />
 		</Swatch>

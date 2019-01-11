@@ -3,7 +3,7 @@ import setStory from '../utils/setStory'
 export default {
 	active: {
 		storyIndex: 0,
-		textIndex: null,
+		colorPickerName: null,
 		shapeName: null
 	},
 	stories: [setStory()]

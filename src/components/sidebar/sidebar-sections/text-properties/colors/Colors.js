@@ -9,7 +9,7 @@ import {
 import ColorSwatch from './ColorSwatch'
 
 function Colors(props) {
-	const { currentText, storeDispatch } = props
+	const { currentText, storeDispatch, colorPickerName } = props
 
 	return (
 		<div>
@@ -18,6 +18,10 @@ function Colors(props) {
 				<RowPanelInput>{currentText.fill}</RowPanelInput>
 				<RowPanelBox>
 					<ColorSwatch
+						name="text-color-picker"
+						isColorPickerActive={
+							colorPickerName === 'text-color-picker'
+						}
 						fillName="fill"
 						opacityName="opacity"
 						color={currentText.fill}
@@ -31,6 +35,10 @@ function Colors(props) {
 				<RowPanelInput>{currentText.boxFill}</RowPanelInput>
 				<RowPanelBox>
 					<ColorSwatch
+						name="box-color-picker"
+						isColorPickerActive={
+							colorPickerName === 'box-color-picker'
+						}
 						fillName="boxFill"
 						opacityName="boxOpacity"
 						color={currentText.boxFill}

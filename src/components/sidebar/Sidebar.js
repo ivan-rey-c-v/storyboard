@@ -13,7 +13,7 @@ import AddText from './sidebar-sections/AddText'
 function Sidebar(props) {
 	const { state, dispatch } = props
 	const { stories } = state
-	const { storyIndex, shapeName } = state.active
+	const { storyIndex, shapeName, colorPickerName } = state.active
 
 	const currentStory = stories[storyIndex]
 	const [currentText] = currentStory.shapes.filter(shape => {
@@ -38,7 +38,11 @@ function Sidebar(props) {
 
 				<AdditionalGraphics storeDispatch={dispatch} />
 
-				<AddText storeDispatch={dispatch} currentText={currentText} />
+				<AddText
+					storeDispatch={dispatch}
+					currentText={currentText}
+					colorPickerName={colorPickerName}
+				/>
 			</SidebarSections>
 
 			<DownloadFooter storeDispatch={dispatch} />

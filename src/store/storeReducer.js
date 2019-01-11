@@ -10,6 +10,7 @@ export default produce((draftState, action) => {
 	switch (action.type) {
 		case 'RESET_ACTIVE': {
 			draftState.active.shapeName = null
+			draftState.active.colorPickerName = null
 			return
 		}
 
@@ -312,6 +313,12 @@ export default produce((draftState, action) => {
 			zip.generateAsync({ type: 'blob' }).then(content => {
 				Filesaver.saveAs(content, 'storyboard.zip')
 			})
+			return
+		}
+
+		case 'SET_COLOR_PICKER': {
+			const { colorPickerName } = action
+			draftState.active.colorPickerName = colorPickerName
 			return
 		}
 

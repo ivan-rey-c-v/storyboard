@@ -7,7 +7,7 @@ import Fonts from './text-properties/Fonts'
 import Colors from './text-properties/colors/Colors'
 
 function AddText(props) {
-	const { storeDispatch, currentText } = props
+	const { storeDispatch, currentText, colorPickerName } = props
 
 	const handleAddText = useCallback(function(event) {
 		event.stopPropagation()
@@ -18,7 +18,6 @@ function AddText(props) {
 	const stopPropagation = useCallback(function(event) {
 		event.stopPropagation()
 		event.preventDefault()
-		console.info('should stop propagating event')
 	}, [])
 
 	return (
@@ -46,6 +45,7 @@ function AddText(props) {
 					<Colors
 						currentText={currentText}
 						storeDispatch={storeDispatch}
+						colorPickerName={colorPickerName}
 					/>
 				</>
 			)}

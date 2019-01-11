@@ -101,9 +101,11 @@ function SetBackground(props) {
 					</ImageDiv>
 				</RowPanelBox>
 
-				<DeleteDiv onClick={handleRemoveBackground}>
-					<TrashSVG />
-				</DeleteDiv>
+				{imgFile && (
+					<DeleteDiv onClick={handleRemoveBackground}>
+						<TrashSVG />
+					</DeleteDiv>
+				)}
 			</RowPanel>
 		</SidebarSection>
 	)
