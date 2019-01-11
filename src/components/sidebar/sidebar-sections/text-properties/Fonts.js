@@ -11,6 +11,12 @@ const fontSizeOptions = [
 	{ value: 54, label: 'X-Large' }
 ]
 
+const fontOptionStyle = {
+	option: (styles, { data }) => {
+		return { ...styles, fontFamily: data.value }
+	}
+}
+
 function FontAndColor(props) {
 	const { currentText, storeDispatch } = props
 
@@ -32,6 +38,7 @@ function FontAndColor(props) {
 						label: currentText.fontFamily
 					}}
 					options={fontOptions}
+					styles={fontOptionStyle}
 				/>
 			</FontSelectDiv>
 

@@ -1,4 +1,4 @@
-import React, { useCallback, useState, lazy, Suspense } from 'react'
+import React, { useCallback, lazy, Suspense } from 'react'
 import styled from 'styled-components/macro'
 
 const ColorPicker = lazy(_ => import('./ColorPicker'))
@@ -65,14 +65,6 @@ const Swatch = styled.div`
 	height: 100%;
 	width: 100%;
 	position: relative;
-`
-const Overlay = styled.div`
-	position: fixed;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	z-index: 5;
 `
 const ColoredBox = styled.div`
 	cursor: pointer;
