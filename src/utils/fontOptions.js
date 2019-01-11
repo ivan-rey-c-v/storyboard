@@ -1,14 +1,14 @@
 export default [
-	{ value: 'Montserrat', label: 'Montserrat' },
-	{ value: 'Charm', label: 'Charm' },
-	{ value: 'Happy Monkey', label: 'Happy Monkey' },
-	{ value: 'Merriweather', label: 'Merriweather' },
-	{ value: 'Poppins', label: 'Poppins' },
-	{ value: 'Quicksand', label: 'Quicksand' },
-	{ value: 'Bitter', label: 'Bitter' },
-	{ value: 'Libre Baskerville', label: 'Libre Baskerville' },
-	{ value: 'Anton', label: 'Anton' },
-	{ value: 'Abril Fatface', label: 'Abril Fatface' }
+	{ value: 'Montserrat, sans-serif', label: 'Montserrat' },
+	{ value: 'Charm, cursive', label: 'Charm' },
+	{ value: 'Happy Monkey, cursive', label: 'Happy Monkey' },
+	{ value: 'Merriweather, serif', label: 'Merriweather' },
+	{ value: 'Poppins, sans-serif', label: 'Poppins' },
+	{ value: 'Quicksand, sans-serif', label: 'Quicksand' },
+	{ value: 'Bitter, serif', label: 'Bitter' },
+	{ value: 'Libre Baskerville, serif', label: 'Libre Baskerville' },
+	{ value: 'Anton, sans-serif', label: 'Anton' },
+	{ value: 'Abril Fatface, cursive', label: 'Abril Fatface' }
 ]
 
 // font-family: 'Montserrat', sans-serif;

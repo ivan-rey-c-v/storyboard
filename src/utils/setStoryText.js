@@ -4,7 +4,7 @@ export default function() {
 	return {
 		type: 'text',
 		textID: generateUniqueID('text'),
-		fontFamily: 'Montserrat',
+		fontFamily: 'Montserrat, sans-serif',
 		fontSize: 34,
 		fontStyle: 'normal',
 		text: 'Hello!',

@@ -27,16 +27,17 @@ function FontAndColor(props) {
 		storeDispatch({ type: 'MODIFY_TEXT', properties })
 	}, [])
 
+	const [fontValue] = fontOptions.filter(
+		font => font.value === currentText.fontFamily
+	)
+
 	return (
 		<Container>
 			<FontSelectDiv>
 				<StyledSelect
 					name="fontFamily"
 					onChange={handleSelectFont}
-					value={{
-						value: currentText.fontFamily,
-						label: currentText.fontFamily
-					}}
+					value={fontValue}
 					options={fontOptions}
 					styles={fontOptionStyle}
 				/>
