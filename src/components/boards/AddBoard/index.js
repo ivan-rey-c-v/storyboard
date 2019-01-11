@@ -77,7 +77,8 @@ const Layout = styled.div`
 	${props => {
 		return {
 			height: `${props.height}px`,
-			width: `${props.width}px`
+			width: `${props.width}px`,
+			minWidth: `${props.width}px`
 		}
 	}};
 

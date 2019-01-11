@@ -28,23 +28,20 @@ function MainSection(props) {
 				/>
 			))}
 
-			{stories.length < 3 && (
-				<AddBoard
-					canvasHeight={canvasHeight}
-					canvasWidth={canvasWidth}
-					storeDispatch={dispatch}
-					newIndex={stories.length}
-				/>
-			)}
+			<AddBoard
+				canvasHeight={canvasHeight}
+				canvasWidth={canvasWidth}
+				storeDispatch={dispatch}
+				newIndex={stories.length}
+			/>
 		</MainLayout>
 	)
 }
 
 const MainLayout = styled.main`
 	flex: 1;
-	padding-top: 1rem;
-	padding-left: 3rem;
-	overflow: hidden;
+	padding: 1rem 1.5rem;
+	overflow: auto;
 
 	display: flex;
 	align-items: center;
