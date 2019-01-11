@@ -14,11 +14,6 @@ const fontSizeOptions = [
 function FontAndColor(props) {
 	const { currentText, storeDispatch } = props
 
-	const preventPropagation = useCallback(function(event) {
-		event.stopPropagation()
-		event.preventDefault()
-	}, [])
-
 	const handleSelectFont = useCallback(function(option, action) {
 		const properties = {
 			[action.name]: option.value
@@ -28,7 +23,7 @@ function FontAndColor(props) {
 
 	return (
 		<Container>
-			<FontSelectDiv onClick={preventPropagation}>
+			<FontSelectDiv>
 				<StyledSelect
 					name="fontFamily"
 					onChange={handleSelectFont}
@@ -40,7 +35,7 @@ function FontAndColor(props) {
 				/>
 			</FontSelectDiv>
 
-			<SizeSelectDiv onClick={preventPropagation}>
+			<SizeSelectDiv>
 				<StyledSelect
 					name="fontSize"
 					onChange={handleSelectFont}

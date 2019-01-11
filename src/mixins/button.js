@@ -3,11 +3,12 @@ import { css } from 'styled-components/macro'
 export const buttonMixin = css`
 	padding: 0.5rem 1.25rem;
 	display: block;
+	font-size: 0.9rem;
 	font-weight: 600;
 	text-align: center;
 	border-radius: 4px;
 	cursor: pointer;
-	height: 2.25rem;
+	height: 2rem;
 	width: 100%;
 
 	${props =>
@@ -18,7 +19,7 @@ export const buttonMixin = css`
 					background-color: var(--color-secondary);
 			  `
 			: css`
-					border: 1px solid gray;
+					border: 1px solid var(--color-secondary);
 					color: rgb(62, 56, 71);
 					background-color: transparent;
 			  `};

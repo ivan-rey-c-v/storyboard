@@ -152,7 +152,7 @@ function Canvas(props) {
 					if (shape.type === 'text') {
 						return (
 							<TextGroup
-								key={`grouptext-${index}`}
+								key={shape.textID}
 								textGroup={shape}
 								coordX={canvasWidth / 2}
 								canvasName={canvasName}
@@ -164,7 +164,7 @@ function Canvas(props) {
 					if (shape.type === 'emoji') {
 						return (
 							<Text
-								key={`emoji-${index}`}
+								key={shape.emojiID}
 								{...shape}
 								name={'emoji-uniqueID'}
 								text={shape.emoji}
@@ -175,6 +175,8 @@ function Canvas(props) {
 							/>
 						)
 					}
+
+					return null
 				})}
 
 				<ShapeTransformer

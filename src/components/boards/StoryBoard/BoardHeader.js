@@ -6,12 +6,10 @@ import ArrowRightSVG from 'react-feather/dist/icons/arrow-right-circle'
 
 function BoardHeader(props) {
 	const {
-		storyID,
 		boardIndex,
 		isCurrentStory,
 		canMoveLeft,
 		canMoveRight,
-		canBeDeleted,
 		handleMoveBoard
 	} = props
 

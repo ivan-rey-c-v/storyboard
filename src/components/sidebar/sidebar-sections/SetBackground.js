@@ -44,58 +44,44 @@ function SetBackground(props) {
 
 	return (
 		<SidebarSection>
-			<SectionName>Pimary image</SectionName>
+			<SectionName>Primary image</SectionName>
 
-			{imgFile ? (
-				<>
-					<RowPanel>
-						<RowPanelName>Color</RowPanelName>
-						<RowPanelInput>Blur</RowPanelInput>
-						<RowPanelBox />
-					</RowPanel>
+			<Button as="label" htmlFor="img-file-input">
+				Set background
+				<HiddenEl
+					as="input"
+					type="file"
+					id="img-file-input"
+					onChange={handleSetBackground}
+					accept={acceptedImages}
+				/>
+			</Button>
 
-					<RowPanel>
-						<RowPanelName>{imgFile.name}</RowPanelName>
-						<StyledRowPanelInput>
-							<StyledSelect
-								value={{
-									value: '',
-									label: 'Fit'
-								}}
-								options={[
-									{
-										value: '',
-										label: 'Fit'
-									}
-								]}
-							/>
-						</StyledRowPanelInput>
-						<RowPanelBox as="label" htmlFor="img-file-input">
-							<HiddenEl
-								as="input"
-								type="file"
-								id="img-file-input"
-								onChange={handleSetBackground}
-								accept={acceptedImages}
-							/>
+			<RowPanel>
+				<RowPanelName>Color</RowPanelName>
+				<RowPanelInput>Blur</RowPanelInput>
+				<RowPanelBox />
+			</RowPanel>
 
-							<ImageDiv>
-								<ImageDiv
-									as="img"
-									src={window.URL.createObjectURL(imgFile)}
-									alt="background-image"
-								/>
-							</ImageDiv>
-						</RowPanelBox>
-
-						<DeleteDiv onClick={handleRemoveBackground}>
-							<TrashSVG />
-						</DeleteDiv>
-					</RowPanel>
-				</>
-			) : (
-				<Button as="label" htmlFor="img-file-input">
-					Set background
+			<RowPanel>
+				<RowPanelName>
+					{imgFile ? imgFile.name : <Light>choose image</Light>}
+				</RowPanelName>
+				<StyledRowPanelInput>
+					<StyledSelect
+						value={{
+							value: '',
+							label: 'Fit'
+						}}
+						options={[
+							{
+								value: '',
+								label: 'Fit'
+							}
+						]}
+					/>
+				</StyledRowPanelInput>
+				<RowPanelBox as="label" htmlFor="img-file-input">
 					<HiddenEl
 						as="input"
 						type="file"
@@ -103,8 +89,22 @@ function SetBackground(props) {
 						onChange={handleSetBackground}
 						accept={acceptedImages}
 					/>
-				</Button>
-			)}
+
+					<ImageDiv>
+						{imgFile && (
+							<ImageDiv
+								as="img"
+								src={window.URL.createObjectURL(imgFile)}
+								alt="background-image"
+							/>
+						)}
+					</ImageDiv>
+				</RowPanelBox>
+
+				<DeleteDiv onClick={handleRemoveBackground}>
+					<TrashSVG />
+				</DeleteDiv>
+			</RowPanel>
 		</SidebarSection>
 	)
 }
@@ -143,6 +143,9 @@ const DeleteDiv = styled.div`
 	:active {
 		transform: scale(0.95);
 	}
+`
+const Light = styled.span`
+	color: darkgray;
 `
 
 export default React.memo(SetBackground)

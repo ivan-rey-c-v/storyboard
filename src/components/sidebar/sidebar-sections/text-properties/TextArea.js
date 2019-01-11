@@ -4,10 +4,6 @@ import styled from 'styled-components/macro'
 function TextInput(props) {
 	const { textValue, storeDispatch } = props
 
-	const preventPropagation = useCallback(function(event) {
-		event.stopPropagation()
-	}, [])
-
 	const handleOnTextInputChange = useCallback(function(event) {
 		event.stopPropagation()
 		const properties = {
@@ -21,7 +17,6 @@ function TextInput(props) {
 			value={textValue}
 			name="text"
 			onChange={handleOnTextInputChange}
-			onClick={preventPropagation}
 			placeholder="No text value!"
 		/>
 	)

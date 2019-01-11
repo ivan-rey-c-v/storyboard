@@ -6,15 +6,7 @@ import { ReactComponent as StrikethroughSVG } from '../../../../icons/strikethro
 import BoldSVG from 'react-feather/dist/icons/bold'
 import ItalicSVG from 'react-feather/dist/icons/italic'
 import UnderlineSVG from 'react-feather/dist/icons/underline'
-import AlignLeftSVG from 'react-feather/dist/icons/align-left'
-import AlignCenterSVG from 'react-feather/dist/icons/align-center'
-import AlignRightSVG from 'react-feather/dist/icons/align-right'
 
-const alignsTuple = {
-	left: AlignLeftSVG,
-	center: AlignCenterSVG,
-	right: AlignRightSVG
-}
 const alignOptions = [
 	{ label: 'left', value: 'left' },
 	{ label: 'center', value: 'center' },
@@ -23,11 +15,6 @@ const alignOptions = [
 
 function TextProperties(props) {
 	const { storeDispatch, currentText } = props
-	const AlignSVG = alignsTuple[currentText.align]
-
-	const stopPropagation = useCallback(function(event) {
-		event.stopPropagation()
-	}, [])
 
 	const handleToggleProperty = useCallback(function(event) {
 		const propertyName = event.currentTarget.getAttribute('data-name')
@@ -44,7 +31,7 @@ function TextProperties(props) {
 
 	return (
 		<Container>
-			<PropertyDiv onClick={stopPropagation}>
+			<PropertyDiv>
 				<Property
 					onClick={handleToggleProperty}
 					active={currentText.isBold}
@@ -75,7 +62,7 @@ function TextProperties(props) {
 				</StrikeProperty>
 			</PropertyDiv>
 
-			<AlignDiv onClick={stopPropagation}>
+			<AlignDiv>
 				<Select
 					name="align"
 					onChange={handleSelectAlign}
