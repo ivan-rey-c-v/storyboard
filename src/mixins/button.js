@@ -3,13 +3,17 @@ import { css } from 'styled-components/macro'
 export const buttonMixin = css`
 	padding: 0.5rem 1.25rem;
 	display: block;
-	font-size: 0.9rem;
+	font-size: 1rem;
 	font-weight: 600;
 	text-align: center;
 	border-radius: 4px;
 	cursor: pointer;
-	height: 2rem;
 	width: 100%;
+	height: 3rem;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
 
 	${props =>
 		props.primary

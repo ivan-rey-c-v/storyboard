@@ -53,7 +53,7 @@ function AddEmoji({ storeDispatch }) {
 
 const EmojiDiv = styled(Button)`
 	margin-left: 1rem;
-	width: 2.5rem;
+	width: 3rem;
 
 	/* Emoji is wrapped in a span */
 	&,

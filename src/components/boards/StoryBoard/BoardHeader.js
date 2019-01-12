@@ -67,6 +67,7 @@ const SVGButton = styled.button`
 		props.disabled
 			? css`
 					cursor: not-allowed;
+					color: lightgray;
 			  `
 			: css`
 					cursor: pointer;

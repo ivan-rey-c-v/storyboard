@@ -5,6 +5,7 @@ import CopySVG from 'react-feather/dist/icons/copy'
 import DownloadSVG from 'react-feather/dist/icons/download'
 import UpSVG from 'react-feather/dist/icons/chevrons-up'
 import DownSVG from 'react-feather/dist/icons/chevrons-down'
+import TrashSVG from 'react-feather/dist/icons/trash-2'
 
 function BoardFooter(props) {
 	const { isCurrentStory, shapeName, storeDispatch, boardIndex } = props
@@ -72,6 +73,11 @@ function BoardFooter(props) {
 			>
 				<UpSVG />
 			</ActionButton>
+			<ActionButton
+			//
+			>
+				<TrashSVG />
+			</ActionButton>
 		</Footer>
 	)
 }
@@ -90,7 +96,7 @@ const Footer = styled.footer`
 const ActionButton = styled.button.attrs({
 	tabIndex: 0
 })`
-	margin-left: 0.75rem;
+	margin: 0 0.25rem;
 	height: 100%;
 	width: 2.5rem;
 	border: none;
@@ -102,7 +108,9 @@ const ActionButton = styled.button.attrs({
 
 	${props =>
 		props.disabled
-			? css``
+			? css`
+					color: lightgray;
+			  `
 			: css`
 					cursor: pointer;
 					:hover {
