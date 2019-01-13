@@ -17,14 +17,26 @@ import {
 
 const acceptedImages = 'image/x-png,image/gif,image/jpeg'
 
+const imageTypeOptions = [
+	{ value: 'scale', label: 'Scale' },
+	{ value: 'fit', label: 'Fit' },
+	{ value: 'blur', label: 'Blur' }
+]
+
 function SetBackground(props) {
-	const { imgFile, storeDispatch, storyIndex } = props
+	const { backgroundImage, storeDispatch, storyIndex } = props
+	const imgFile = backgroundImage.file
 
 	const handleSetBackground = useCallback(
 		function(event) {
 			event.stopPropagation()
 			const imgFile = event.target.files[0]
-			storeDispatch({ type: 'SET_BACKGROUND_IMAGE', imgFile, storyIndex })
+			storeDispatch({
+				type: 'SET_BACKGROUND_IMAGE',
+				storyIndex,
+				propertyName: 'file',
+				propertyValue: imgFile
+			})
 		},
 		[storyIndex]
 	)
@@ -34,12 +46,25 @@ function SetBackground(props) {
 			event.stopPropagation()
 			storeDispatch({
 				type: 'SET_BACKGROUND_IMAGE',
-				imgFile: null,
-				storyIndex
+				storyIndex,
+				propertyName: 'file',
+				propertyValue: null
 			})
-			console.log('removing background', storyIndex)
 		},
 		[storyIndex]
+	)
+
+	const handleSelectImageType = useCallback(function(option, action) {
+		storeDispatch({
+			type: 'SET_BACKGROUND_IMAGE',
+			storyIndex,
+			propertyName: 'type',
+			propertyValue: option.value
+		})
+	}, [])
+
+	const [imageTypeValue] = imageTypeOptions.filter(
+		type => type.value === backgroundImage.type
 	)
 
 	return (
@@ -58,27 +83,20 @@ function SetBackground(props) {
 			</Button>
 
 			<RowPanel>
-				<RowPanelName>Color</RowPanelName>
-				<RowPanelInput>Blur</RowPanelInput>
-				<RowPanelBox />
-			</RowPanel>
+				<StyledRowPanelName active={imgFile ? true : false}>
+					{imgFile
+						? imgFile.name.length >= 20
+							? `${imgFile.name.substring(0, 18)}...`
+							: imgFile.name
+						: 'choose image'}
+				</StyledRowPanelName>
 
-			<RowPanel>
-				<RowPanelName>
-					{imgFile ? imgFile.name : <Light>choose image</Light>}
-				</RowPanelName>
 				<StyledRowPanelInput>
 					<StyledSelect
-						value={{
-							value: '',
-							label: 'Fit'
-						}}
-						options={[
-							{
-								value: '',
-								label: 'Fit'
-							}
-						]}
+						value={imageTypeValue}
+						options={imageTypeOptions}
+						onChange={handleSelectImageType}
+						isDisabled={imgFile ? false : true}
 					/>
 				</StyledRowPanelInput>
 				<RowPanelBox as="label" htmlFor="img-file-input">
@@ -106,6 +124,12 @@ function SetBackground(props) {
 						<TrashSVG />
 					</DeleteDiv>
 				)}
+			</RowPanel>
+
+			<RowPanel>
+				<RowPanelName>Color</RowPanelName>
+				<RowPanelInput>Blur</RowPanelInput>
+				<RowPanelBox />
 			</RowPanel>
 		</SidebarSection>
 	)
@@ -146,8 +170,8 @@ const DeleteDiv = styled.div`
 		transform: scale(0.95);
 	}
 `
-const Light = styled.span`
-	color: darkgray;
+const StyledRowPanelName = styled(RowPanelName)`
+	color: ${props => (props.active ? '#817cff' : 'darkgray')};
 `
 
 export default React.memo(SetBackground)

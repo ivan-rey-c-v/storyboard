@@ -44,8 +44,11 @@ export default produce((draftState, action) => {
 		}
 
 		case 'SET_BACKGROUND_IMAGE': {
-			const { imgFile, storyIndex } = action
-			draftState.stories[storyIndex].backgroundImage = imgFile
+			const { storyIndex, propertyName, propertyValue } = action
+			draftState.stories[storyIndex].backgroundImage[
+				propertyName
+			] = propertyValue
+
 			return
 		}
 

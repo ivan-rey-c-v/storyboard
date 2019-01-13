@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react'
 import { Stage, Layer, Text } from 'react-konva'
 
 import BackgroundImage from './BackgroundImage'
+import FittedImage from './FittedImage'
 import ShapeTransformer from './ShapeTransformer'
 import TextGroup from './TextGroup'
 
@@ -21,15 +22,17 @@ function Canvas(props) {
 
 	useEffect(
 		function() {
-			if (backgroundImage) {
+			if (backgroundImage.file) {
 				const newImage = new window.Image()
-				newImage.src = window.URL.createObjectURL(backgroundImage)
+				newImage.src = window.URL.createObjectURL(backgroundImage.file)
 				newImage.onload = () => {
 					// render konva Image when ready
 					const { height, width } = newImage
 					const aspectRatio = width / height
 
 					setImageSize({
+						originalHeight: height,
+						originalWidth: width,
 						height: canvasHeight,
 						width: canvasHeight * aspectRatio
 					})
@@ -41,7 +44,7 @@ function Canvas(props) {
 			}
 		},
 		// called everytime backgroundImage changes
-		[backgroundImage]
+		[backgroundImage.file]
 	)
 
 	const onStageMouseDown = useCallback(
@@ -142,9 +145,22 @@ function Canvas(props) {
 					<BackgroundImage
 						image={canvasBackgroundImage}
 						name="background-image"
+						type={backgroundImage.type}
 						canvasWidth={props.canvasWidth}
 						height={imageSize.height}
 						width={imageSize.width}
+						originalHeight={imageSize.originalHeight}
+						originalWidth={imageSize.originalWidth}
+					/>
+				)}
+				{backgroundImage.type === 'fit' && (
+					<FittedImage
+						image={canvasBackgroundImage}
+						name="background-image"
+						canvasWidth={props.canvasWidth}
+						canvasHeight={props.canvasHeight}
+						originalHeight={imageSize.originalHeight}
+						originalWidth={imageSize.originalWidth}
 					/>
 				)}
 
@@ -181,6 +197,7 @@ function Canvas(props) {
 
 				<ShapeTransformer
 					shapeName={shapeName}
+					shapes={story.shapes}
 					withCenterAnchors={withCenterAnchors}
 					// onTransform={onTransform}
 				/>

@@ -33,6 +33,11 @@ class TextBox extends PureComponent {
 		})
 	}
 
+	componentWillUnmount() {
+		this.RectNode.destroy()
+		this.TextNode.destroy()
+	}
+
 	getCoordX = align => {
 		if (align === 'left') {
 			const greatestWidth = this.props.textBoxesWidth.reduce(
@@ -73,6 +78,7 @@ class TextBox extends PureComponent {
 		return (
 			<>
 				<Rect
+					ref={node => (this.RectNode = node)}
 					// name and textIndex is used for attaching Transformer
 					name={name}
 					textIndex={textIndex}

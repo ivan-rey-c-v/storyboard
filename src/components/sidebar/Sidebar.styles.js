@@ -43,9 +43,10 @@ export const SidebarSection = styled.section`
 `
 export const SectionName = styled.p`
 	padding-bottom: 0.5rem;
-	font-size: 0.75rem;
-	color: rgb(62, 56, 71);
+	font-size: 0.85rem;
 	font-weight: 600;
+	letter-spacing: 1px;
+	color: rgb(62, 56, 71);
 `
 
 export const Button = styled.div.attrs({
@@ -70,8 +71,9 @@ export const RowPanelName = styled.p`
 	flex-grow: 1;
 	font-size: 0.75rem;
 	font-weight: 600;
-	padding-left: 0.5rem;
-	color: rgb(62, 56, 71);
+	padding: 0 0.5rem;
+	color: #666666;
+	max-width: 141px;
 `
 export const RowPanelInput = styled.div`
 	height: 100%;

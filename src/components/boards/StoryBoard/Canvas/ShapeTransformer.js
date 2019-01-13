@@ -30,6 +30,10 @@ class ShapeTransformer extends PureComponent {
 		this.checkNode()
 	}
 
+	componentWillUnmount() {
+		this.transformer.destroy()
+	}
+
 	checkNode() {
 		// here we need to manually attach or detach Transformer node
 		this.transformer.getLayer().batchDraw()

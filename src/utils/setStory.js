@@ -5,7 +5,10 @@ export default function() {
 	return {
 		storyID: generateUniqueID('Story'),
 		canvasName: 'storyboard-1',
-		backgroundImage: null,
+		backgroundImage: {
+			file: null,
+			type: 'scale'
+		},
 		shapes: [setStoryText()]
 	}
 }

@@ -31,7 +31,7 @@ function Sidebar(props) {
 
 			<SidebarSections>
 				<SetBackground
-					imgFile={currentStory.backgroundImage}
+					backgroundImage={currentStory.backgroundImage}
 					storeDispatch={dispatch}
 					storyIndex={storyIndex}
 				/>
