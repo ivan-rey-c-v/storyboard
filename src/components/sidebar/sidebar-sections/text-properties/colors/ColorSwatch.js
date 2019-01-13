@@ -25,24 +25,18 @@ function ColorSwatch(props) {
 	const {
 		name,
 		storeDispatch,
+		handleOnColorChange,
 		isColorPickerActive,
-		fillName,
-		opacityName,
 		color,
-		opacity
+		opacity,
+		position
 	} = props
 
 	const handleOpenPicker = useCallback(function(event) {
 		storeDispatch({ type: 'SET_COLOR_PICKER', colorPickerName: name })
-	}, [])
-
-	const handleOnColorChange = useCallback(function(color, event) {
-		const properties = {
-			[fillName]: color.hex,
-			[opacityName]: color.rgb.a
+		return () => {
+			//storeDispatch({ type: 'SET_COLOR_PICKER', colorPickerName: null })
 		}
-
-		storeDispatch({ type: 'MODIFY_TEXT', properties })
 	}, [])
 
 	return (
@@ -50,7 +44,9 @@ function ColorSwatch(props) {
 			{isColorPickerActive && (
 				<Suspense fallback={<div />}>
 					<ColorPicker
+						position={position}
 						color={color}
+						name={name}
 						onChange={handleOnColorChange}
 						presetColors={presetColors}
 					/>

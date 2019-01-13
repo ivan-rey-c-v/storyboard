@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react'
 import { Stage, Layer, Text } from 'react-konva'
 
 import BackgroundImage from './BackgroundImage'
+import ColoredBox from './ColoredBox'
 import FittedImage from './FittedImage'
 import ShapeTransformer from './ShapeTransformer'
 import TextGroup from './TextGroup'
@@ -151,6 +152,14 @@ function Canvas(props) {
 						width={imageSize.width}
 						originalHeight={imageSize.originalHeight}
 						originalWidth={imageSize.originalWidth}
+					/>
+				)}
+				{backgroundImage.colorType !== 'blur' && (
+					<ColoredBox
+						name="background-image"
+						width={props.canvasWidth}
+						height={props.canvasHeight}
+						fill={backgroundImage.colorFill}
 					/>
 				)}
 				{backgroundImage.type === 'fit' && (

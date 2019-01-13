@@ -26,7 +26,7 @@ class BackgroundImage extends PureComponent {
 	blurImage = () => {
 		this.backgroundImageRef.cache()
 		this.backgroundImageRef.filters([Konva.Filters.Blur])
-		this.backgroundImageRef.blurRadius(5)
+		this.backgroundImageRef.blurRadius(15)
 		//this.backgroundImageRef.getLayer().batchDraw()
 	}
 

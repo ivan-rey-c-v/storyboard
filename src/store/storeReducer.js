@@ -213,7 +213,6 @@ export default produce((draftState, action) => {
 			if (newIndex < 0 || newIndex >= shapes.length) {
 				return
 			}
-			console.log({ shapeIndex, increment, newIndex })
 			// swap
 			;[shapes[shapeIndex], shapes[newIndex]] = [
 				shapes[newIndex],
@@ -224,7 +223,6 @@ export default produce((draftState, action) => {
 		}
 
 		case 'COPY_BOARD': {
-			console.log('copying board...')
 			const length = draftState.stories.length
 
 			if (length === 3) return

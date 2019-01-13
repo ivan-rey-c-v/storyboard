@@ -1,10 +1,10 @@
 import React from 'react'
-import styled from 'styled-components/macro'
+import styled, { css } from 'styled-components/macro'
 import { SketchPicker } from 'react-color'
 
 function ColorPicker(props) {
 	return (
-		<PickerContainer>
+		<PickerContainer position={props.position}>
 			<SketchPicker {...props} />
 		</PickerContainer>
 	)
@@ -12,9 +12,10 @@ function ColorPicker(props) {
 
 const PickerContainer = styled.div`
 	position: absolute;
-	bottom: calc(100% + 0.5rem);
 	left: 0;
 	z-index: 6;
+	bottom: ${props =>
+		props.position === 'bottom' ? '-308px' : 'calc(100% + 0.5rem)'};
 `
 
 export default React.memo(ColorPicker)

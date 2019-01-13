@@ -34,6 +34,7 @@ function Sidebar(props) {
 					backgroundImage={currentStory.backgroundImage}
 					storeDispatch={dispatch}
 					storyIndex={storyIndex}
+					colorPickerName={colorPickerName}
 				/>
 
 				<AdditionalGraphics storeDispatch={dispatch} />

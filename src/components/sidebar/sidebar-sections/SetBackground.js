@@ -1,8 +1,10 @@
 import React, { useCallback } from 'react'
 import styled from 'styled-components/macro'
 import Select from 'react-select'
+import ColorSwatch from './text-properties/colors/ColorSwatch'
 
 import TrashSVG from 'react-feather/dist/icons/trash-2'
+import LockSVG from 'react-feather/dist/icons/lock'
 
 import {
 	SidebarSection,
@@ -15,7 +17,7 @@ import {
 	RowPanelBox
 } from '../Sidebar.styles'
 
-const acceptedImages = 'image/x-png,image/gif,image/jpeg'
+const acceptedImages = 'image/x-png,image/gif,image/jpeg,image/jpg'
 
 const imageTypeOptions = [
 	{ value: 'scale', label: 'Scale' },
@@ -23,8 +25,18 @@ const imageTypeOptions = [
 	{ value: 'blur', label: 'Blur' }
 ]
 
+const colorTypeOptions = [
+	{ value: 'blur', label: 'Blur' },
+	{ value: 'color', label: 'Color' }
+]
+
 function SetBackground(props) {
-	const { backgroundImage, storeDispatch, storyIndex } = props
+	const {
+		backgroundImage,
+		storeDispatch,
+		storyIndex,
+		colorPickerName
+	} = props
 	const imgFile = backgroundImage.file
 
 	const handleSetBackground = useCallback(
@@ -63,8 +75,33 @@ function SetBackground(props) {
 		})
 	}, [])
 
+	const handleSelectColorBlur = useCallback(function(option, action) {
+		storeDispatch({
+			type: 'SET_BACKGROUND_IMAGE',
+			storyIndex,
+			propertyName: 'colorType',
+			propertyValue: option.value
+		})
+	}, [])
+
+	const handleOnColorChange = useCallback(function(color, event) {
+		storeDispatch({
+			type: 'SET_BACKGROUND_IMAGE',
+			storyIndex,
+			propertyName: 'colorFill',
+			propertyValue: color.hex
+		})
+	}, [])
+
+	const stopPropagation = useCallback(function(event) {
+		event.stopPropagation()
+	})
+
 	const [imageTypeValue] = imageTypeOptions.filter(
 		type => type.value === backgroundImage.type
+	)
+	const [colorTypeValue] = colorTypeOptions.filter(
+		type => type.value === backgroundImage.colorType
 	)
 
 	return (
@@ -128,8 +165,31 @@ function SetBackground(props) {
 
 			<RowPanel>
 				<RowPanelName>Color</RowPanelName>
-				<RowPanelInput>Blur</RowPanelInput>
-				<RowPanelBox />
+				<StyledRowPanelInput>
+					<StyledSelect
+						value={colorTypeValue}
+						options={colorTypeOptions}
+						onChange={handleSelectColorBlur}
+						//isDisabled={imgFile ? false : true}
+					/>
+				</StyledRowPanelInput>
+				<StyledRowPanelBox onClick={stopPropagation}>
+					{backgroundImage.colorType === 'blur' ? (
+						<LockSVG />
+					) : (
+						<ColorSwatch
+							name="image-color-picker"
+							position="bottom"
+							isColorPickerActive={
+								colorPickerName === 'image-color-picker'
+							}
+							color={backgroundImage.colorFill}
+							opacity={backgroundImage.colorOpacity}
+							storeDispatch={storeDispatch}
+							handleOnColorChange={handleOnColorChange}
+						/>
+					)}
+				</StyledRowPanelBox>
 			</RowPanel>
 		</SidebarSection>
 	)
@@ -172,6 +232,12 @@ const DeleteDiv = styled.div`
 `
 const StyledRowPanelName = styled(RowPanelName)`
 	color: ${props => (props.active ? '#817cff' : 'darkgray')};
+`
+const StyledRowPanelBox = styled(RowPanelBox)`
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: lightgray;
 `
 
 export default React.memo(SetBackground)

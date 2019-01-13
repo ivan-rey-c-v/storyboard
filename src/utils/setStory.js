@@ -7,7 +7,10 @@ export default function() {
 		canvasName: 'storyboard-1',
 		backgroundImage: {
 			file: null,
-			type: 'scale'
+			type: 'scale',
+			colorType: 'blur',
+			colorFill: 'lightblue',
+			colorOpacity: 1
 		},
 		shapes: [setStoryText()]
 	}
