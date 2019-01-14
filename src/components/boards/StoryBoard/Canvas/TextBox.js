@@ -88,7 +88,11 @@ class TextBox extends PureComponent {
 					height={this.state.rectHeight}
 					width={this.state.rectWidth}
 					//
-					fill={textProperties.boxFill}
+					fill={
+						textProperties.hasBoxHighlight
+							? textProperties.boxFill
+							: 'transparent'
+					}
 					alpha={textProperties.boxOpacity * 100}
 					cornerRadius={10}
 				/>

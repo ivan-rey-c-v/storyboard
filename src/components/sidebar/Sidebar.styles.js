@@ -73,21 +73,12 @@ export const RowPanelName = styled.p`
 	font-weight: 600;
 	padding: 0 0.5rem;
 	color: #666666;
-	max-width: 141px;
+	overflow: hidden;
 `
 export const RowPanelInput = styled.div`
 	height: 100%;
-	width: 6rem;
-	font-size: 0.9rem;
+	font-size: 0.75rem;
 	font-weight: 600;
-
-	color: gray;
-	border-radius: 4px;
-	border: 1px solid hsl(0, 0%, 80%);
-
-	display: flex;
-	align-items: center;
-	justify-content: center;
 `
 export const RowPanelBox = styled.div`
 	margin-left: 1rem;
@@ -97,4 +88,9 @@ export const RowPanelBox = styled.div`
 	border-radius: 4px;
 	border: 1px solid hsl(0, 0%, 80%);
 	background-color: ${props => props.color};
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: lightgray;
 `

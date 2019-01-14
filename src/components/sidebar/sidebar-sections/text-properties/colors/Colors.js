@@ -1,4 +1,6 @@
 import React, { useCallback } from 'react'
+import styled from 'styled-components/macro'
+import Select from 'react-select'
 import {
 	RowPanel,
 	RowPanelName,
@@ -7,6 +9,12 @@ import {
 } from '../../../Sidebar.styles'
 
 import ColorSwatch from './ColorSwatch'
+import LockSVG from 'react-feather/dist/icons/lock'
+
+const highlightOptions = [
+	{ value: false, label: 'None' },
+	{ value: true, label: 'Highlight' }
+]
 
 function Colors(props) {
 	const { currentText, storeDispatch, colorPickerName } = props
@@ -23,11 +31,17 @@ function Colors(props) {
 		[]
 	)
 
+	const handleSelectBoxHighlight = useCallback(function(option, action) {
+		const properties = {
+			hasBoxHighlight: option.value
+		}
+		storeDispatch({ type: 'MODIFY_TEXT', properties })
+	}, [])
+
 	return (
 		<div>
 			<RowPanel>
 				<RowPanelName>Text</RowPanelName>
-				<RowPanelInput>{currentText.fill}</RowPanelInput>
 				<RowPanelBox>
 					<ColorSwatch
 						name="text-color-picker"
@@ -47,26 +61,44 @@ function Colors(props) {
 			</RowPanel>
 			<RowPanel>
 				<RowPanelName>Highlight</RowPanelName>
-				<RowPanelInput>{currentText.boxFill}</RowPanelInput>
-				<RowPanelBox>
-					<ColorSwatch
-						name="box-color-picker"
-						position="top"
-						isColorPickerActive={
-							colorPickerName === 'box-color-picker'
+				<RowPanelInput>
+					<StyledSelect
+						value={
+							currentText.hasBoxHighlight
+								? { label: 'Highlight' }
+								: { label: 'None' }
 						}
-						color={currentText.boxFill}
-						opacity={currentText.boxOpacity}
-						storeDispatch={storeDispatch}
-						handleOnColorChange={handleOnColorChange(
-							'boxFill',
-							'boxOpacity'
-						)}
+						options={highlightOptions}
+						onChange={handleSelectBoxHighlight}
 					/>
+				</RowPanelInput>
+				<RowPanelBox>
+					{currentText.hasBoxHighlight ? (
+						<ColorSwatch
+							name="box-color-picker"
+							position="top"
+							isColorPickerActive={
+								colorPickerName === 'box-color-picker'
+							}
+							color={currentText.boxFill}
+							opacity={currentText.boxOpacity}
+							storeDispatch={storeDispatch}
+							handleOnColorChange={handleOnColorChange(
+								'boxFill',
+								'boxOpacity'
+							)}
+						/>
+					) : (
+						<LockSVG />
+					)}
 				</RowPanelBox>
 			</RowPanel>
 		</div>
 	)
 }
+
+const StyledSelect = styled(Select)`
+	width: 7rem;
+`
 
 export default React.memo(Colors)

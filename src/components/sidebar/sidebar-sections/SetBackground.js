@@ -128,14 +128,14 @@ function SetBackground(props) {
 						: 'choose image'}
 				</StyledRowPanelName>
 
-				<StyledRowPanelInput>
+				<RowPanelInput>
 					<StyledSelect
 						value={imageTypeValue}
 						options={imageTypeOptions}
 						onChange={handleSelectImageType}
 						isDisabled={imgFile ? false : true}
 					/>
-				</StyledRowPanelInput>
+				</RowPanelInput>
 				<RowPanelBox as="label" htmlFor="img-file-input">
 					<HiddenEl
 						as="input"
@@ -165,15 +165,15 @@ function SetBackground(props) {
 
 			<RowPanel>
 				<RowPanelName>Color</RowPanelName>
-				<StyledRowPanelInput>
+				<RowPanelInput>
 					<StyledSelect
 						value={colorTypeValue}
 						options={colorTypeOptions}
 						onChange={handleSelectColorBlur}
 						//isDisabled={imgFile ? false : true}
 					/>
-				</StyledRowPanelInput>
-				<StyledRowPanelBox onClick={stopPropagation}>
+				</RowPanelInput>
+				<RowPanelBox onClick={stopPropagation}>
 					{backgroundImage.colorType === 'blur' ? (
 						<LockSVG />
 					) : (
@@ -189,17 +189,14 @@ function SetBackground(props) {
 							handleOnColorChange={handleOnColorChange}
 						/>
 					)}
-				</StyledRowPanelBox>
+				</RowPanelBox>
 			</RowPanel>
 		</SidebarSection>
 	)
 }
 
-const StyledRowPanelInput = styled(RowPanelInput)`
-	border: none;
-`
 const StyledSelect = styled(Select)`
-	width: 100%;
+	width: 6rem;
 `
 const ImageDiv = styled.div`
 	height: 100%;
@@ -232,12 +229,6 @@ const DeleteDiv = styled.div`
 `
 const StyledRowPanelName = styled(RowPanelName)`
 	color: ${props => (props.active ? '#817cff' : 'darkgray')};
-`
-const StyledRowPanelBox = styled(RowPanelBox)`
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	color: lightgray;
 `
 
 export default React.memo(SetBackground)

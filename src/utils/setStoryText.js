@@ -12,6 +12,7 @@ export default function() {
 		padding: 10,
 		fill: '#38343d',
 		opacity: 1,
+		hasBoxHighlight: false,
 		boxFill: '#ffaf87',
 		boxOpacity: 1,
 		isBold: false,
