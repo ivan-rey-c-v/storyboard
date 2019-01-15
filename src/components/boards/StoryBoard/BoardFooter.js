@@ -85,7 +85,7 @@ function BoardFooter(props) {
 const Footer = styled.footer`
 	margin-top: 1.5rem;
 	width: 100%;
-	height: 2rem;
+	height: 3rem;
 	border-radius: 2px;
 	border: 1px solid lightgray;
 

@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react'
 import styled from 'styled-components/macro'
 
-import PlusSVG from 'react-feather/dist/icons/plus-square'
+import PlusSVG from 'react-feather/dist/icons/plus'
 import DownloadSVG from 'react-feather/dist/icons/download'
 
 import ActionDiv from './ActionDiv'
@@ -65,7 +65,7 @@ const Layout = styled.div`
 	/* should match with boardheader's height */
 	margin-top: 42px;
 	/* should match with boardfooter's height and margin-top */
-	margin-bottom: calc(2rem + 1.5rem);
+	margin-bottom: calc(3rem + 1.5rem);
 
 	margin-left: 3rem;
 	padding: 2rem;
@@ -89,7 +89,9 @@ const Layout = styled.div`
 const StyledPlusSVG = styled(PlusSVG)`
 	height: 100%;
 	width: 100%;
-	color: #a57fa5;
+	color: white;
+	border-radius: 4px;
+	background-color: var(--color-secondary);
 	cursor: pointer;
 
 	:hover {

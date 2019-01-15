@@ -23,7 +23,7 @@ export const buttonMixin = css`
 					background-color: var(--color-secondary);
 			  `
 			: css`
-					border: 1px solid var(--color-secondary);
+					border: 1px solid lightgray;
 					color: rgb(62, 56, 71);
 					background-color: transparent;
 			  `};

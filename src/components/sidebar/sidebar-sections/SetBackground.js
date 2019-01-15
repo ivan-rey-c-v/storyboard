@@ -135,7 +135,7 @@ function SetBackground(props) {
 						? imgFile.name.length >= 20
 							? `${imgFile.name.substring(0, 18)}...`
 							: imgFile.name
-						: 'choose image'}
+						: 'Image'}
 				</StyledRowPanelName>
 
 				<RowPanelInput>
