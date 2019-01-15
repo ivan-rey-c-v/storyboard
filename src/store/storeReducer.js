@@ -55,6 +55,7 @@ export default produce((draftState, action) => {
 		case 'ADD_EMOJI': {
 			const { storyIndex } = draftState.active
 			const emoji = {
+				id: generateUniqueID('emoji'),
 				type: 'emoji',
 				emoji: action.emoji,
 				fontSize: 46
@@ -79,7 +80,7 @@ export default produce((draftState, action) => {
 			const newText = setStoryText()
 
 			draftState.stories[storyIndex].shapes.push(newText)
-			draftState.active.shapeName = `${newText.textID}-group`
+			draftState.active.shapeName = `${newText.id}-group`
 
 			return
 		}
@@ -90,7 +91,7 @@ export default produce((draftState, action) => {
 			const shapes = draftState.stories[storyIndex].shapes
 
 			const newShapes = shapes.map(shape => {
-				if (`${shape.textID}-group` === shapeName) {
+				if (`${shape.id}-group` === shapeName) {
 					return {
 						...shape,
 						...properties
@@ -111,7 +112,7 @@ export default produce((draftState, action) => {
 			const shapes = draftState.stories[storyIndex].shapes
 
 			const newShapes = shapes.map(shape => {
-				if (`${shape.textID}-group` === shapeName) {
+				if (`${shape.id}-group` === shapeName) {
 					return {
 						...shape,
 						[propertyName]: !shape[propertyName]
@@ -133,7 +134,7 @@ export default produce((draftState, action) => {
 			const shapes = draftState.stories[storyIndex].shapes
 
 			const newShapes = shapes.map(shape => {
-				if (`${shape.textID}-group` === shapeName) {
+				if (`${shape.id}-group` === shapeName) {
 					const { align } = shape
 					const lastAlignIndex = aligns.indexOf(align)
 					const newAlignIndex = (lastAlignIndex + 1) % aligns.length
@@ -159,7 +160,7 @@ export default produce((draftState, action) => {
 			const shapes = draftState.stories[storyIndex].shapes
 
 			const newShapes = shapes.map(shape => {
-				if (`${shape.textID}-group` === shapeName) {
+				if (`${shape.id}-group` === shapeName) {
 					const { fontSize } = shape
 					const lastFontSizeIndex = fontSizes.indexOf(fontSize)
 					const newFontSizeIndex =
@@ -199,20 +200,27 @@ export default produce((draftState, action) => {
 			const { increment } = action
 			const { shapeName, storyIndex } = draftState.active
 			const { shapes } = draftState.stories[storyIndex]
-			const shapeIndex = shapes.reduce((shapeIdx, shape, index) => {
-				if (shapeIdx) return shapeIdx
+			const shapeIndex = shapes.reduce((accumIndex, shape, index) => {
+				if (accumIndex) return accumIndex
 
-				if (`${shape.textID}-group` === shapeName) {
-					return index
-				} else {
-					return shapeIdx
+				if (shape.type === 'text') {
+					return `${shape.id}-group` === shapeName
+						? index
+						: accumIndex
 				}
+
+				if (shape.type === 'emoji') {
+					return shape.id === shapeName ? index : accumIndex
+				}
+
+				return accumIndex
 			}, null)
 
 			const newIndex = shapeIndex + increment
 			if (newIndex < 0 || newIndex >= shapes.length) {
 				return
 			}
+			console.log({ shapeIndex, newIndex })
 			// swap
 			;[shapes[shapeIndex], shapes[newIndex]] = [
 				shapes[newIndex],
@@ -238,7 +246,7 @@ export default produce((draftState, action) => {
 			const newShapes = shapes.map(shape => {
 				return {
 					...shape,
-					[`${shape.type}ID`]: generateUniqueID(shape.type)
+					id: generateUniqueID(shape.type)
 				}
 			})
 			draftState.stories[storyIndex].shapes = newShapes

@@ -50,6 +50,7 @@ function SetBackground(props) {
 				propertyValue: imgFile
 			})
 		},
+		// storyIndex should be different with other canvas boards
 		[storyIndex]
 	)
 
@@ -66,32 +67,41 @@ function SetBackground(props) {
 		[storyIndex]
 	)
 
-	const handleSelectImageType = useCallback(function(option, action) {
-		storeDispatch({
-			type: 'SET_BACKGROUND_IMAGE',
-			storyIndex,
-			propertyName: 'type',
-			propertyValue: option.value
-		})
-	}, [])
+	const handleSelectImageType = useCallback(
+		function(option, action) {
+			storeDispatch({
+				type: 'SET_BACKGROUND_IMAGE',
+				storyIndex,
+				propertyName: 'type',
+				propertyValue: option.value
+			})
+		},
+		[storyIndex]
+	)
 
-	const handleSelectColorBlur = useCallback(function(option, action) {
-		storeDispatch({
-			type: 'SET_BACKGROUND_IMAGE',
-			storyIndex,
-			propertyName: 'colorType',
-			propertyValue: option.value
-		})
-	}, [])
+	const handleSelectColorBlur = useCallback(
+		function(option, action) {
+			storeDispatch({
+				type: 'SET_BACKGROUND_IMAGE',
+				storyIndex,
+				propertyName: 'colorType',
+				propertyValue: option.value
+			})
+		},
+		[storyIndex]
+	)
 
-	const handleOnColorChange = useCallback(function(color, event) {
-		storeDispatch({
-			type: 'SET_BACKGROUND_IMAGE',
-			storyIndex,
-			propertyName: 'colorFill',
-			propertyValue: color.hex
-		})
-	}, [])
+	const handleOnColorChange = useCallback(
+		function(color, event) {
+			storeDispatch({
+				type: 'SET_BACKGROUND_IMAGE',
+				storyIndex,
+				propertyName: 'colorFill',
+				propertyValue: color.hex
+			})
+		},
+		[storyIndex]
+	)
 
 	const stopPropagation = useCallback(function(event) {
 		event.stopPropagation()

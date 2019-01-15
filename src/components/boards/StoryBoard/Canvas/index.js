@@ -51,7 +51,7 @@ function Canvas(props) {
 	const onStageMouseDown = useCallback(
 		function(e) {
 			const { name } = e.target.attrs
-
+			console.log({ name })
 			// clicked on <Stage /> or <BackgroundImage /> - clear selection
 			if (name === 'canvas-stage' || name === 'background-image') {
 				storeDispatch({
@@ -177,7 +177,7 @@ function Canvas(props) {
 					if (shape.type === 'text') {
 						return (
 							<TextGroup
-								key={shape.textID}
+								key={shape.id}
 								textGroup={shape}
 								coordX={canvasWidth / 2}
 								canvasName={canvasName}
@@ -189,9 +189,9 @@ function Canvas(props) {
 					if (shape.type === 'emoji') {
 						return (
 							<Text
-								key={shape.emojiID}
+								key={shape.id}
 								{...shape}
-								name={'emoji-uniqueID'}
+								name={shape.id}
 								text={shape.emoji}
 								draggable
 								x={canvasWidth / 2 - 70}

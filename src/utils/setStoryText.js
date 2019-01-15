@@ -3,7 +3,7 @@ import generateUniqueID from './generateUniqueID'
 export default function() {
 	return {
 		type: 'text',
-		textID: generateUniqueID('text'),
+		id: generateUniqueID('text'),
 		fontFamily: 'Montserrat, sans-serif',
 		fontSize: 34,
 		fontStyle: 'normal',

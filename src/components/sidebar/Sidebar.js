@@ -18,7 +18,7 @@ function Sidebar(props) {
 	const currentStory = stories[storyIndex]
 	const [currentText] = currentStory.shapes.filter(shape => {
 		if (shape.type === 'text') {
-			return `${shape.textID}-group` === shapeName
+			return `${shape.id}-group` === shapeName
 		}
 		return false
 	})
