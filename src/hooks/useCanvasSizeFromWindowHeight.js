@@ -13,16 +13,16 @@ function useCanvasSizeFromWindowHeight() {
 		getAspectRatio(window.innerHeight)
 	)
 
-	const handleResize = useCallback(function() {
-		const newSize = getAspectRatio(window.innerHeight)
-		setCanvasSize(newSize)
-	}, [])
+	// const handleResize = useCallback(function() {
+	// 	const newSize = getAspectRatio(window.innerHeight)
+	// 	setCanvasSize(newSize)
+	// }, [])
 
-	useEffect(function() {
-		window.addEventListener('resize', handleResize)
+	// useEffect(function() {
+	// 	window.addEventListener('resize', handleResize)
 
-		return () => window.removeEventListener('resize', handleResize)
-	}, [])
+	// 	return () => window.removeEventListener('resize', handleResize)
+	// }, [])
 
 	return canvasSize
 }

@@ -12,7 +12,7 @@ function AdditionalGraphics(props) {
 			<SectionName>Additional graphics</SectionName>
 
 			<ActionsDiv>
-				<Button> Upload image </Button>
+				<WithCommingSoonButton> Upload image </WithCommingSoonButton>
 				<AddEmoji storeDispatch={storeDispatch} />
 			</ActionsDiv>
 		</SidebarSection>
@@ -22,6 +22,20 @@ function AdditionalGraphics(props) {
 const ActionsDiv = styled.div`
 	display: flex;
 	justify-content: space-between;
+`
+const WithCommingSoonButton = styled(Button)`
+	position: relative;
+	opacity: 1;
+
+	&:hover::after {
+		content: 'Coming Soon!';
+		position: absolute;
+		top: -50%;
+		left: 25%;
+		padding: 0.4rem 0.5rem;
+		width: auto;
+		background-color: lightblue;
+	}
 `
 
 export default React.memo(AdditionalGraphics)

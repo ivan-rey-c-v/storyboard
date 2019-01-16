@@ -55,27 +55,27 @@ function BoardFooter(props) {
 
 	return (
 		<Footer>
-			<ActionButton onClick={handleCopyBoard}>
+			<ActionButton onClick={handleCopyBoard} data-tooltip="Duplicate">
 				<CopySVG />
 			</ActionButton>
-			<ActionButton onClick={handleDownloadBoard}>
+			<ActionButton onClick={handleDownloadBoard} data-tooltip="Download">
 				<DownloadSVG />
 			</ActionButton>
 			<ActionButton
 				disabled={zIndexDisabled}
 				onClick={handleMoveShapeZIndex(-1)}
+				data-tooltip="Send backwards"
 			>
 				<DownSVG />
 			</ActionButton>
 			<ActionButton
 				disabled={zIndexDisabled}
 				onClick={handleMoveShapeZIndex(+1)}
+				data-tooltip="Pull forwards"
 			>
 				<UpSVG />
 			</ActionButton>
-			<ActionButton
-			//
-			>
+			<ActionButton data-tooltip="Delete">
 				<TrashSVG />
 			</ActionButton>
 		</Footer>

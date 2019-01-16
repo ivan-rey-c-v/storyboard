@@ -36,6 +36,7 @@ function TextProperties(props) {
 					onClick={handleToggleProperty}
 					active={currentText.isBold}
 					data-name="isBold"
+					data-tooltip="Bold"
 				>
 					<BoldSVG />
 				</Property>
@@ -43,6 +44,7 @@ function TextProperties(props) {
 					onClick={handleToggleProperty}
 					active={currentText.isItalic}
 					data-name="isItalic"
+					data-tooltip="Italic"
 				>
 					<ItalicSVG />
 				</Property>
@@ -50,6 +52,7 @@ function TextProperties(props) {
 					onClick={handleToggleProperty}
 					active={currentText.isUnderline}
 					data-name="isUnderline"
+					data-tooltip="Underline"
 				>
 					<UnderlineSVG />
 				</Property>
@@ -57,6 +60,7 @@ function TextProperties(props) {
 					onClick={handleToggleProperty}
 					active={currentText.isStrikethrough}
 					data-name="isStrikethrough"
+					data-tooltip="Strikethrough"
 				>
 					<StrikethroughSVG />
 				</StrikeProperty>

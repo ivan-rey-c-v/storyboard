@@ -27,11 +27,9 @@ export const buttonMixin = css`
 					color: rgb(62, 56, 71);
 					background-color: transparent;
 			  `};
-`
 
-export const hoverActive = css`
 	:hover {
-		opacity: 0.75;
+		border-color: var(--color-secondary);
 	}
 	:active {
 		transform: scale(0.97);

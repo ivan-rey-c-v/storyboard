@@ -56,7 +56,6 @@ export const Button = styled.div.attrs({
 	tabIndex: 0
 })`
 	${buttonMixin};
-	${hoverActive};
 `
 export const HiddenEl = styled.div`
 	display: none;

@@ -28,6 +28,20 @@ body {
 	--color-light-hover: #c9e0ff;
 }
 
+[data-tooltip] {
+	position: relative;
+}
+[data-tooltip]:hover::after {
+	content: attr(data-tooltip);
+	position: absolute;
+	bottom: calc(100% + 0.25rem);
+	left: 0;
+	font-size: 0.75rem;
+	padding: 0.25rem;
+	color: #727272;
+	background-color: #f4f4f4;
+	border: 1px solid lightgray;
+}
 `
 
 export default GlobalStyle
