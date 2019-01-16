@@ -18,7 +18,7 @@ function Canvas(props) {
 	} = props
 	const { backgroundImage, shapes, canvasName } = story
 	const [canvasBackgroundImage, setCanvasBackgroundImage] = useState(null)
-	const [imageSize, setImageSize] = useState(null)
+	const [imageSize, setImageSize] = useState()
 	const [withCenterAnchors, setWithCenterAnchors] = useState(true)
 
 	useEffect(
@@ -154,6 +154,7 @@ function Canvas(props) {
 						originalWidth={imageSize.originalWidth}
 					/>
 				)}
+
 				{backgroundImage.colorType !== 'blur' && (
 					<ColoredBox
 						name="background-image"
@@ -162,7 +163,7 @@ function Canvas(props) {
 						fill={backgroundImage.colorFill}
 					/>
 				)}
-				{backgroundImage.type === 'fit' && (
+				{canvasBackgroundImage && backgroundImage.type === 'fit' ? (
 					<FittedImage
 						image={canvasBackgroundImage}
 						name="background-image"
@@ -171,7 +172,7 @@ function Canvas(props) {
 						originalHeight={imageSize.originalHeight}
 						originalWidth={imageSize.originalWidth}
 					/>
-				)}
+				) : null}
 
 				{shapes.map((shape, index) => {
 					if (shape.type === 'text') {

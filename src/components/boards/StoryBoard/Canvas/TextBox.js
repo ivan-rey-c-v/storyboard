@@ -34,8 +34,8 @@ class TextBox extends PureComponent {
 	}
 
 	componentWillUnmount() {
-		this.RectNode.destroy()
-		this.TextNode.destroy()
+		this.rectNode.destroy()
+		this.textNode.destroy()
 	}
 
 	getCoordX = align => {
@@ -78,7 +78,7 @@ class TextBox extends PureComponent {
 		return (
 			<>
 				<Rect
-					ref={node => (this.RectNode = node)}
+					ref={node => (this.rectNode = node)}
 					// name and textIndex is used for attaching Transformer
 					name={name}
 					textIndex={textIndex}

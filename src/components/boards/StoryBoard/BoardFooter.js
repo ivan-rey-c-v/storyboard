@@ -22,12 +22,27 @@ function BoardFooter(props) {
 		[]
 	)
 
-	const handleCopyBoard = useCallback(event => {
-		event.stopPropagation()
-		storeDispatch({
-			type: 'COPY_BOARD'
-		})
-	}, [])
+	const handleCopyBoard = useCallback(
+		event => {
+			event.stopPropagation()
+			storeDispatch({
+				type: 'COPY_STORY_BOARD',
+				storyIndex: boardIndex
+			})
+		},
+		[boardIndex]
+	)
+
+	const handleDeleteBoard = useCallback(
+		event => {
+			event.stopPropagation()
+			storeDispatch({
+				type: 'DELETE_STORY_BOARD',
+				storyIndex: boardIndex
+			})
+		},
+		[boardIndex]
+	)
 
 	const handleDownloadBoard = useCallback(
 		event => {
@@ -45,7 +60,7 @@ function BoardFooter(props) {
 				}, delay)
 			}).then(res => {
 				storeDispatch({
-					type: 'DOWNLOAD_BOARD',
+					type: 'DOWNLOAD_STORY_BOARD',
 					boardIndex: boardIndex
 				})
 			})
@@ -75,7 +90,7 @@ function BoardFooter(props) {
 			>
 				<UpSVG />
 			</ActionButton>
-			<ActionButton data-tooltip="Delete">
+			<ActionButton onClick={handleDeleteBoard} data-tooltip="Delete">
 				<TrashSVG />
 			</ActionButton>
 		</Footer>

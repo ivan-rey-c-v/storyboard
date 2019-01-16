@@ -33,9 +33,15 @@ export default produce((draftState, action) => {
 		}
 
 		case 'DELETE_STORY_BOARD': {
+			const { storyIndex } = action
 			const { stories } = draftState
+
+			if (stories.length === 1) {
+				return // do nothing
+			}
+
 			draftState.stories = stories.filter(
-				story => story.storyID !== action.storyID
+				(story, index) => index !== storyIndex
 			)
 			const { length } = draftState.stories
 			draftState.active.storyIndex = (length + 1) % length
@@ -230,26 +236,23 @@ export default produce((draftState, action) => {
 			return
 		}
 
-		case 'COPY_BOARD': {
+		case 'COPY_STORY_BOARD': {
+			const { storyIndex } = action
 			const length = draftState.stories.length
+			const currentStory = draftState.stories[storyIndex]
 
-			if (length === 3) return
-
-			const { storyIndex } = draftState.active
-			const currentStory = {
-				...draftState.stories[storyIndex],
-				storyID: generateUniqueID('Story')
+			const newStory = {
+				...currentStory,
+				storyID: generateUniqueID('Story'),
+				shapes: currentStory.shapes.map(shape => {
+					return {
+						...shape,
+						id: generateUniqueID(shape.type)
+					}
+				})
 			}
 
-			draftState.stories.push(currentStory)
-			const { shapes } = { ...draftState.stories[storyIndex] }
-			const newShapes = shapes.map(shape => {
-				return {
-					...shape,
-					id: generateUniqueID(shape.type)
-				}
-			})
-			draftState.stories[storyIndex].shapes = newShapes
+			draftState.stories.push(newStory)
 
 			draftState.active = {
 				storyIndex: length,
@@ -259,7 +262,7 @@ export default produce((draftState, action) => {
 			return
 		}
 
-		case 'DOWNLOAD_BOARD': {
+		case 'DOWNLOAD_STORY_BOARD': {
 			const { boardIndex } = action
 
 			const canvasses = [...document.getElementsByTagName('canvas')]
