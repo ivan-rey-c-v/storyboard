@@ -63,6 +63,7 @@ const Container = styled.div`
 	position: relative;
 	display: flex;
 	align-items: center;
+	min-height: 38px;
 `
 const FontSelectDiv = styled.div`
 	width: 100%;

@@ -22,7 +22,8 @@ export const SidebarHeader = styled.header`
 	border-right: 1px solid lightgray;
 `
 export const SidebarFooter = styled.footer`
-	flex: 1;
+	flex-grow: 1;
+	flex-shrink: 0;
 	padding: 1rem 1.5rem;
 	min-height: calc(2.25rem + 2rem);
 	display: flex;
@@ -32,6 +33,7 @@ export const SidebarFooter = styled.footer`
 `
 export const SidebarSections = styled.div`
 	display: flex;
+	flex-shrink: 0;
 	flex-direction: column;
 	border-right: 1px solid lightgray;
 `
@@ -39,6 +41,7 @@ export const SidebarSection = styled.section`
 	padding: 1rem 1.5rem;
 	border-bottom: 1px solid lightgray;
 	display: flex;
+	flex-shrink: 0;
 	flex-direction: column;
 `
 export const SectionName = styled.p`
@@ -65,6 +68,7 @@ export const RowPanel = styled.div`
 	display: flex;
 	align-items: center;
 	height: 38px;
+	min-height: 38px;
 	position: relative;
 `
 export const RowPanelName = styled.p`
