@@ -8,34 +8,29 @@ class TextBox extends PureComponent {
 	}
 
 	componentDidMount() {
-		const { handleSetTextBoxWidth, lineTextIndex } = this.props
-
-		const rectHeight = this.textNode.height()
-		const rectWidth = this.textNode.width()
-		handleSetTextBoxWidth(lineTextIndex, rectWidth)
-
-		this.setState({
-			rectHeight,
-			rectWidth
-		})
+		this.setRectSize()
 	}
 
 	componentDidUpdate() {
-		const { handleSetTextBoxWidth, lineTextIndex } = this.props
-
-		const rectHeight = this.textNode.height()
-		const rectWidth = this.textNode.width()
-		handleSetTextBoxWidth(lineTextIndex, rectWidth)
-
-		this.setState({
-			rectHeight,
-			rectWidth
-		})
+		this.setRectSize()
 	}
 
 	componentWillUnmount() {
 		this.rectNode.destroy()
 		this.textNode.destroy()
+	}
+
+	setRectSize = () => {
+		const { handleSetTextBoxWidth, lineTextIndex } = this.props
+
+		const rectHeight = this.textNode.height()
+		const rectWidth = this.textNode.width()
+		handleSetTextBoxWidth(lineTextIndex, rectWidth)
+
+		this.setState({
+			rectHeight,
+			rectWidth
+		})
 	}
 
 	getCoordX = align => {
@@ -65,13 +60,7 @@ class TextBox extends PureComponent {
 	}
 
 	render() {
-		const {
-			textProperties,
-			lineText,
-			lineTextIndex,
-			name,
-			textIndex
-		} = this.props
+		const { textProperties, lineText, lineTextIndex, name } = this.props
 
 		const coordX = this.getCoordX(textProperties.align)
 
@@ -79,9 +68,8 @@ class TextBox extends PureComponent {
 			<>
 				<Rect
 					ref={node => (this.rectNode = node)}
-					// name and textIndex is used for attaching Transformer
+					// name is used for attaching Transformer
 					name={name}
-					textIndex={textIndex}
 					//
 					x={coordX}
 					offsetY={-(this.state.rectHeight * lineTextIndex)}
@@ -98,9 +86,8 @@ class TextBox extends PureComponent {
 				/>
 				<Text
 					ref={node => (this.textNode = node)}
-					// name and textIndex is used for attaching Transformer
+					// name is used for attaching Transformer
 					name={name}
-					textIndex={textIndex}
 					//
 					x={coordX}
 					offsetY={-(this.state.rectHeight * lineTextIndex)}

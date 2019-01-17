@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import { Stage, Layer, Text } from 'react-konva'
+import { Stage, Layer } from 'react-konva'
 
 import BackgroundImage from './BackgroundImage'
 import ColoredBox from './ColoredBox'
 import FittedImage from './FittedImage'
 import ShapeTransformer from './ShapeTransformer'
 import TextGroup from './TextGroup'
+import Emoji from './Emoji'
 
 function Canvas(props) {
 	const {
@@ -51,7 +52,7 @@ function Canvas(props) {
 	const onStageMouseDown = useCallback(
 		function(e) {
 			const { name } = e.target.attrs
-			console.log({ name })
+
 			// clicked on <Stage /> or <BackgroundImage /> - clear selection
 			if (name === 'canvas-stage' || name === 'background-image') {
 				storeDispatch({
@@ -91,48 +92,75 @@ function Canvas(props) {
 		[boardIndex]
 	)
 
-	const onDragKonvaShape = useCallback(function(pos) {
-		const scaleX = this.scaleX()
-		const width = this.width()
-		const height = this.height()
+	const onDragKonvaShape = useCallback(
+		shapeID =>
+			function(pos) {
+				const scaleX = this.scaleX()
+				const width = this.width()
+				const height = this.height()
 
-		const limit = 0.5
-		const axisXLimit = width * scaleX * limit
-		const leftBoundary = -axisXLimit
-		const rightBoundary = props.canvasWidth - axisXLimit
+				const limit = 0.5
+				const axisXLimit = width * scaleX * limit
+				const leftBoundary = -axisXLimit
+				const rightBoundary = props.canvasWidth - axisXLimit
 
-		const axisYLimit = height * scaleX * limit
-		const topBoundary = -axisYLimit
-		const bottomBoundary = props.canvasHeight - axisYLimit
+				const axisYLimit = height * scaleX * limit
+				const topBoundary = -axisYLimit
+				const bottomBoundary = props.canvasHeight - axisYLimit
 
-		// The new coordinate (x',y') is a result of the standard rotation formula:
+				// The new coordinate (x',y') is a result of the standard rotation formula:
 
-		// y' = y*cos(a) - x*sin(a)
-		// x' = y*sin(a) + x*cos(a)
+				// y' = y*cos(a) - x*sin(a)
+				// x' = y*sin(a) + x*cos(a)
 
-		// where a is the angle of a clockwise rotation.
-		// This assumes the (x,y) is given with respect to the center of rotation.
-		// In other words, (0,0) is the center of rotation.
+				// where a is the angle of a clockwise rotation.
+				// This assumes the (x,y) is given with respect to the center of rotation.
+				// In other words, (0,0) is the center of rotation.
 
-		const newPosX =
-			pos.x < leftBoundary
-				? leftBoundary
-				: pos.x > rightBoundary
-				? rightBoundary
-				: pos.x
+				const newPosX =
+					pos.x < leftBoundary
+						? leftBoundary
+						: pos.x > rightBoundary
+						? rightBoundary
+						: pos.x
 
-		const newPosY =
-			pos.y < topBoundary
-				? topBoundary
-				: pos.y > bottomBoundary
-				? bottomBoundary
-				: pos.y
+				const newPosY =
+					pos.y < topBoundary
+						? topBoundary
+						: pos.y > bottomBoundary
+						? bottomBoundary
+						: pos.y
 
-		return {
-			x: newPosX,
-			y: newPosY
-		}
-	}, [])
+				storeDispatch({
+					type: 'SET_SHAPE_COORD',
+					shapeID,
+					coord: {
+						x: newPosX,
+						y: newPosY
+					}
+				})
+
+				return {
+					x: newPosX,
+					y: newPosY
+				}
+			},
+		[]
+	)
+
+	const handleOnTransform = useCallback(function() {
+		storeDispatch({
+			type: 'SET_SHAPE_COORD',
+			shapeID: this.name(),
+			coord: {
+				x: this.x(),
+				y: this.y(),
+				scaleX: this.scaleX(),
+				scaleY: this.scaleY(),
+				rotation: this.rotation()
+			}
+		})
+	})
 
 	return (
 		<Stage
@@ -182,22 +210,27 @@ function Canvas(props) {
 								textGroup={shape}
 								coordX={canvasWidth / 2}
 								canvasName={canvasName}
-								onDragKonvaShape={onDragKonvaShape}
+								onDragKonvaShape={onDragKonvaShape(shape.id)}
+								onTransform={handleOnTransform}
 							/>
 						)
 					}
 
 					if (shape.type === 'emoji') {
 						return (
-							<Text
+							<Emoji
 								key={shape.id}
 								{...shape}
 								name={shape.id}
 								text={shape.emoji}
 								draggable
-								x={canvasWidth / 2 - 70}
-								y={100}
-								dragBoundFunc={onDragKonvaShape}
+								x={shape.coord.x}
+								y={shape.coord.y}
+								scaleX={shape.coord.scaleX}
+								scaleY={shape.coord.scaleY}
+								rotation={shape.coord.rotation}
+								dragBoundFunc={onDragKonvaShape(shape.id)}
+								onTransform={handleOnTransform}
 							/>
 						)
 					}
@@ -209,7 +242,6 @@ function Canvas(props) {
 					shapeName={shapeName}
 					shapes={story.shapes}
 					withCenterAnchors={withCenterAnchors}
-					// onTransform={onTransform}
 				/>
 			</Layer>
 		</Stage>

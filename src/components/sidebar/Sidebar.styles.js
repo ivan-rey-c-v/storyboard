@@ -1,6 +1,6 @@
 import styled from 'styled-components/macro'
 
-import { buttonMixin, hoverActive } from '../../mixins/button'
+import { buttonMixin } from '../../mixins/button'
 
 const sidebarWidth = 350
 

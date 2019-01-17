@@ -64,7 +64,14 @@ export default produce((draftState, action) => {
 				id: generateUniqueID('emoji'),
 				type: 'emoji',
 				emoji: action.emoji,
-				fontSize: 46
+				fontSize: 46,
+				coord: {
+					x: 50,
+					y: 50,
+					scaleX: 1,
+					scaleY: 1,
+					rotation: 0
+				}
 			}
 			draftState.stories[storyIndex].shapes.push(emoji)
 			return
@@ -226,7 +233,7 @@ export default produce((draftState, action) => {
 			if (newIndex < 0 || newIndex >= shapes.length) {
 				return
 			}
-			console.log({ shapeIndex, newIndex })
+
 			// swap
 			;[shapes[shapeIndex], shapes[newIndex]] = [
 				shapes[newIndex],
@@ -331,6 +338,31 @@ export default produce((draftState, action) => {
 		case 'SET_COLOR_PICKER': {
 			const { colorPickerName } = action
 			draftState.active.colorPickerName = colorPickerName
+			return
+		}
+
+		case 'SET_SHAPE_COORD': {
+			const { shapeID, coord } = action
+			const { storyIndex } = draftState.active
+
+			const currentShapes = draftState.stories[storyIndex].shapes
+
+			draftState.stories[storyIndex].shapes = currentShapes.map(
+				(shape, shapeIndex) => {
+					if (shapeID === shape.id) {
+						return {
+							...shape,
+							coord: {
+								...shape.coord,
+								...coord
+							}
+						}
+					}
+
+					return shape
+				}
+			)
+
 			return
 		}
 

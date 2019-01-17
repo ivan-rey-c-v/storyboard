@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react'
+import { useState } from 'react'
 
 function getAspectRatio(height) {
 	// aspect ratio 16:9
@@ -9,9 +9,8 @@ function getAspectRatio(height) {
 }
 
 function useCanvasSizeFromWindowHeight() {
-	const [canvasSize, setCanvasSize] = useState(
-		getAspectRatio(window.innerHeight)
-	)
+	/*setCanvasSize*/
+	const [canvasSize] = useState(getAspectRatio(window.innerHeight))
 
 	// const handleResize = useCallback(function() {
 	// 	const newSize = getAspectRatio(window.innerHeight)
