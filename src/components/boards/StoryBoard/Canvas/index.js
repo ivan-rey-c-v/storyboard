@@ -160,7 +160,7 @@ function Canvas(props) {
 				rotation: this.rotation()
 			}
 		})
-	})
+	}, [])
 
 	return (
 		<Stage
@@ -208,7 +208,6 @@ function Canvas(props) {
 							<TextGroup
 								key={shape.id}
 								textGroup={shape}
-								coordX={canvasWidth / 2}
 								canvasName={canvasName}
 								onDragKonvaShape={onDragKonvaShape(shape.id)}
 								onTransform={handleOnTransform}

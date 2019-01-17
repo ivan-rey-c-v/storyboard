@@ -18,6 +18,13 @@ export default function() {
 		isBold: false,
 		isItalic: false,
 		isUnderline: false,
-		isStrikethrough: false
+		isStrikethrough: false,
+		coord: {
+			x: 70,
+			y: 70,
+			scaleX: 1,
+			scaleY: 1,
+			rotation: 0
+		}
 	}
 }

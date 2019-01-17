@@ -342,26 +342,28 @@ export default produce((draftState, action) => {
 		}
 
 		case 'SET_SHAPE_COORD': {
-			const { shapeID, coord } = action
+			let { shapeID, coord } = action
+			shapeID = shapeID.includes('group')
+				? shapeID.replace('-group', '')
+				: shapeID
+
 			const { storyIndex } = draftState.active
 
 			const currentShapes = draftState.stories[storyIndex].shapes
 
-			draftState.stories[storyIndex].shapes = currentShapes.map(
-				(shape, shapeIndex) => {
-					if (shapeID === shape.id) {
-						return {
-							...shape,
-							coord: {
-								...shape.coord,
-								...coord
-							}
+			draftState.stories[storyIndex].shapes = currentShapes.map(shape => {
+				if (shapeID === shape.id) {
+					return {
+						...shape,
+						coord: {
+							...shape.coord,
+							...coord
 						}
 					}
-
-					return shape
 				}
-			)
+
+				return shape
+			})
 
 			return
 		}

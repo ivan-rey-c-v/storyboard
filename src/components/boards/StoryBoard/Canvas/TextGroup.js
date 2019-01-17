@@ -18,7 +18,7 @@ class TextGroup extends PureComponent {
 	}
 
 	render() {
-		const { textGroup, coordX, onDragKonvaShape } = this.props
+		const { textGroup, onDragKonvaShape } = this.props
 
 		const { text, id, ...textProperties } = textGroup
 
@@ -28,11 +28,15 @@ class TextGroup extends PureComponent {
 		return (
 			<Group
 				ref={node => (this.groupNode = node)}
-				x={coordX}
-				y={50}
+				x={textGroup.coord.x}
+				y={textGroup.coord.y}
+				scaleX={textGroup.coord.scaleX}
+				scaleY={textGroup.coord.scaleY}
+				rotation={textGroup.coord.rotation}
 				draggable
 				name={`${id}-group`}
 				dragBoundFunc={onDragKonvaShape}
+				onTransform={this.props.onTransform}
 			>
 				{multilineTexts.map((lineText, lineTextIndex) => (
 					<TextBox
