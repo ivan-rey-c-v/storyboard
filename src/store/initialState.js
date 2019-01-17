@@ -1,11 +1,10 @@
 import setStory from '../utils/setStory'
+import { getLocalStorage } from '../utils/localStorage'
 
-const storageName = 'boardstate'
+const stateFromStorage = getLocalStorage()
 
-const localStorageState = window.localStorage.getItem(storageName)
-
-export default (localStorageState
-	? JSON.parse(localStorageState)
+export default (stateFromStorage
+	? stateFromStorage
 	: {
 			active: {
 				storyIndex: 0,

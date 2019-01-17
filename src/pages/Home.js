@@ -5,6 +5,8 @@ import styled from 'styled-components/macro'
 import Sidebar from '../components/sidebar/Sidebar'
 import Boards from '../components/boards/Boards'
 
+import { setToLocalStorage } from '../utils/localStorage'
+
 function Home(props) {
 	const { state, dispatch } = useContext(AppContext)
 
@@ -20,10 +22,10 @@ function Home(props) {
 	}, [])
 
 	useEffect(function() {
-		const stringedState = JSON.stringify(state)
-		const storageName = 'boardstate'
-		window.localStorage.setItem(storageName, stringedState)
+		setToLocalStorage(state)
 	})
+
+	console.log({ state })
 
 	return (
 		<HomePage

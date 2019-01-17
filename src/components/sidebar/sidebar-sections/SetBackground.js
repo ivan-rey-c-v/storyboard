@@ -43,11 +43,13 @@ function SetBackground(props) {
 		function(event) {
 			event.stopPropagation()
 			const imgFile = event.target.files[0]
+
 			storeDispatch({
 				type: 'SET_BACKGROUND_IMAGE',
 				storyIndex,
-				propertyName: 'file',
-				propertyValue: imgFile
+				properties: {
+					file: imgFile
+				}
 			})
 		},
 		// storyIndex should be different with other canvas boards
@@ -60,8 +62,9 @@ function SetBackground(props) {
 			storeDispatch({
 				type: 'SET_BACKGROUND_IMAGE',
 				storyIndex,
-				propertyName: 'file',
-				propertyValue: null
+				properties: {
+					file: null
+				}
 			})
 		},
 		[storyIndex]
@@ -72,8 +75,9 @@ function SetBackground(props) {
 			storeDispatch({
 				type: 'SET_BACKGROUND_IMAGE',
 				storyIndex,
-				propertyName: 'type',
-				propertyValue: option.value
+				properties: {
+					type: option.value
+				}
 			})
 		},
 		[storyIndex]
@@ -84,8 +88,9 @@ function SetBackground(props) {
 			storeDispatch({
 				type: 'SET_BACKGROUND_IMAGE',
 				storyIndex,
-				propertyName: 'colorType',
-				propertyValue: option.value
+				properties: {
+					colorType: option.value
+				}
 			})
 		},
 		[storyIndex]
@@ -96,8 +101,9 @@ function SetBackground(props) {
 			storeDispatch({
 				type: 'SET_BACKGROUND_IMAGE',
 				storyIndex,
-				propertyName: 'colorFill',
-				propertyValue: color.hex
+				properties: {
+					colorFill: color.hex
+				}
 			})
 		},
 		[storyIndex]
@@ -131,7 +137,7 @@ function SetBackground(props) {
 
 			<RowPanel>
 				<StyledRowPanelName active={imgFile ? true : false}>
-					{imgFile
+					{imgFile && imgFile.name
 						? imgFile.name.length >= 20
 							? `${imgFile.name.substring(0, 18)}...`
 							: imgFile.name
