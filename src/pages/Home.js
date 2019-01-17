@@ -1,4 +1,4 @@
-import React, { useContext, useCallback } from 'react'
+import React, { useContext, useCallback, useEffect } from 'react'
 import { AppContext } from '../store/AppContext'
 import styled from 'styled-components/macro'
 
@@ -18,6 +18,12 @@ function Home(props) {
 		event.stopPropagation()
 		event.preventDefault()
 	}, [])
+
+	useEffect(function() {
+		const stringedState = JSON.stringify(state)
+		const storageName = 'boardstate'
+		window.localStorage.setItem(storageName, stringedState)
+	})
 
 	return (
 		<HomePage
