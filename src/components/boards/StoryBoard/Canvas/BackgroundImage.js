@@ -37,7 +37,6 @@ class BackgroundImage extends PureComponent {
 		this.backgroundImageRef.filters()
 		this.backgroundImageRef.blurRadius(0)
 		//const layer = this.backgroundImageRef.getLayer()
-		//console.log({ layer })
 	}
 
 	updateImageFromType = () => {
@@ -54,11 +53,27 @@ class BackgroundImage extends PureComponent {
 	}
 
 	dragOnHorizontally = pos => {
-		const { canvasWidth, width: imageWidth } = this.props
+		const {
+			canvasWidth,
+			width: imageWidth,
+			storeDispatch,
+			storyIndex
+		} = this.props
 		// make sure it is always positive before convert to negative value
 		const leftBoundary = -Math.abs(imageWidth - canvasWidth)
+		const newX =
+			pos.x < leftBoundary ? leftBoundary : pos.x >= 0 ? 0 : pos.x
+
+		storeDispatch({
+			type: 'SET_BACKGROUND_IMAGE',
+			storyIndex,
+			properties: {
+				x: newX
+			}
+		})
+
 		return {
-			x: pos.x < leftBoundary ? leftBoundary : pos.x >= 0 ? 0 : pos.x,
+			x: newX,
 			y: 0
 		}
 	}

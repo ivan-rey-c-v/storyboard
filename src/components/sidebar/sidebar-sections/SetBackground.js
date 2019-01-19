@@ -44,13 +44,21 @@ function SetBackground(props) {
 			event.stopPropagation()
 			const imgFile = event.target.files[0]
 
-			storeDispatch({
-				type: 'SET_BACKGROUND_IMAGE',
-				storyIndex,
-				properties: {
-					file: imgFile
-				}
-			})
+			const reader = new FileReader()
+			reader.readAsDataURL(imgFile)
+			reader.onload = function(event) {
+				storeDispatch({
+					type: 'SET_BACKGROUND_IMAGE',
+					storyIndex,
+					properties: {
+						file: {
+							dataURL: reader.result,
+							name: imgFile.name
+						},
+						x: 0
+					}
+				})
+			}
 		},
 		// storyIndex should be different with other canvas boards
 		[storyIndex]
@@ -165,7 +173,7 @@ function SetBackground(props) {
 						{imgFile && (
 							<ImageDiv
 								as="img"
-								src={window.URL.createObjectURL(imgFile)}
+								src={imgFile.dataURL}
 								alt="background-image"
 							/>
 						)}

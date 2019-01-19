@@ -26,7 +26,7 @@ function Canvas(props) {
 		function() {
 			if (backgroundImage.file) {
 				const newImage = new window.Image()
-				newImage.src = window.URL.createObjectURL(backgroundImage.file)
+				newImage.src = backgroundImage.file.dataURL
 				newImage.onload = () => {
 					// render konva Image when ready
 					const { height, width } = newImage
@@ -176,10 +176,13 @@ function Canvas(props) {
 						name="background-image"
 						type={backgroundImage.type}
 						canvasWidth={props.canvasWidth}
+						x={backgroundImage.x}
 						height={imageSize.height}
 						width={imageSize.width}
 						originalHeight={imageSize.originalHeight}
 						originalWidth={imageSize.originalWidth}
+						storeDispatch={storeDispatch}
+						storyIndex={boardIndex}
 					/>
 				)}
 

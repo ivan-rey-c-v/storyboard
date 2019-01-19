@@ -25,8 +25,6 @@ function Home(props) {
 		setToLocalStorage(state)
 	})
 
-	console.log({ state })
-
 	return (
 		<HomePage
 			onClick={handleOnClick}

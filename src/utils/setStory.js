@@ -7,6 +7,7 @@ export default function() {
 		canvasName: 'storyboard-1',
 		backgroundImage: {
 			file: null,
+			x: 0,
 			type: 'scale',
 			colorType: 'blur',
 			colorFill: 'lightblue',

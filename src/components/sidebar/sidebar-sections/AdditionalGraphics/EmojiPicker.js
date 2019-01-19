@@ -1,10 +1,19 @@
 import React from 'react'
-import { Picker } from 'emoji-mart'
+import { NimblePicker } from 'emoji-mart'
+import data from 'emoji-mart/data/apple.json'
 
-import '../../../../css/emoji-mart.css'
+import 'emoji-mart/css/emoji-mart.css'
 
 function EmojiPicker(props) {
-	return <Picker {...props} emoji="point_up" title="Pick your emoji..." />
+	return (
+		<NimblePicker
+			{...props}
+			emoji="point_up"
+			title="Pick your emoji..."
+			set="apple"
+			data={data}
+		/>
+	)
 }
 
 export default React.memo(EmojiPicker)

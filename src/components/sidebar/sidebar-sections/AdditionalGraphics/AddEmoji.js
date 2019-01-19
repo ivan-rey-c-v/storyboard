@@ -26,7 +26,7 @@ function AddEmoji({ storeDispatch }) {
 		event.preventDefault()
 	}, [])
 
-	const handlePickEmoji = useCallback(function(emoji) {
+	const handlePickEmoji = useCallback(function(emoji, event) {
 		// this callback gets `emoji` obj instead of `event`
 		storeDispatch({ type: 'ADD_EMOJI', emoji: emoji.native })
 		setIsOverlayActive(false)
@@ -35,7 +35,7 @@ function AddEmoji({ storeDispatch }) {
 	return (
 		<div>
 			<EmojiDiv onClick={showOverlay}>
-				<Emoji size={26} emoji="heart_eyes" />
+				<Emoji size={26} emoji="heart_eyes" set="apple" />
 			</EmojiDiv>
 
 			{isOverlayActive && (

@@ -21,7 +21,6 @@ class FittedImage extends PureComponent {
 		const fittedImageYCoord = (canvasHeight - fittedImageHeight) / 2
 		const heightRatio = originalHeight / fittedImageHeight
 		const diff = fittedImageHeight - canvasHeight / 2
-		console.log({ diff })
 
 		const crop =
 			fittedImageHeight > canvasHeight / 2
