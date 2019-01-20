@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import styled, { css } from 'styled-components/macro'
 import Select from 'react-select'
 
-import { ReactComponent as StrikethroughSVG } from '../../../../icons/strikethrough.svg'
+import { ReactComponent as StrikethroughSVG } from '../../../../images/strikethrough.svg'
 import BoldSVG from 'react-feather/dist/icons/bold'
 import ItalicSVG from 'react-feather/dist/icons/italic'
 import UnderlineSVG from 'react-feather/dist/icons/underline'

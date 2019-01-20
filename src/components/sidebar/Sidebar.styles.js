@@ -13,14 +13,28 @@ export const SidebarContainer = styled.aside`
 	flex-direction: column;
 	background-color: white;
 `
-export const SidebarHeader = styled.header`
+export const SubMenuPanel = styled.header`
 	width: 100%;
-	font-size: 1rem;
-	text-align: center;
-	color: var(--color-primary);
-	padding: 0.5rem;
+	height: 80px;
+	flex-shrink: 0;
+	padding: 0 1.5rem;
 	border-right: 1px solid lightgray;
+
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 `
+export const MenuActionDiv = styled.div`
+	cursor: pointer;
+
+	:hover {
+		color: gray;
+	}
+	:active {
+		transform: scale(0.8);
+	}
+`
+
 export const SidebarFooter = styled.footer`
 	flex-grow: 1;
 	flex-shrink: 0;

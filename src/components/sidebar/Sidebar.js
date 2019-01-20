@@ -1,17 +1,14 @@
-import React from 'react'
+import React, { useState, useCallback } from 'react'
 
-import {
-	SidebarContainer,
-	SidebarSections,
-	SidebarHeader
-} from './Sidebar.styles'
-import DownloadFooter from './DownloadFooter'
-import SetBackground from './sidebar-sections/SetBackground'
-import AdditionalGraphics from './sidebar-sections/AdditionalGraphics'
-import AddText from './sidebar-sections/AddText'
+import { SidebarContainer } from './Sidebar.styles'
+
+import SidebarHeader from './SidebarHeader'
+import SubMenu from './SubMenu'
+import SidebarSections from './sidebar-sections/SidebarSections'
 
 function Sidebar(props) {
 	const { state, dispatch } = props
+	const [subMenuOpen, setSubMenuOpen] = useState(false)
 	const { stories } = state
 	const { storyIndex, shapeName, colorPickerName } = state.active
 
@@ -23,30 +20,29 @@ function Sidebar(props) {
 		return false
 	})
 
+	const handleToggleMenu = useCallback(function() {
+		console.log('toggling menu', !subMenuOpen)
+		setSubMenuOpen(!subMenuOpen)
+	})
+
 	return (
 		<SidebarContainer>
-			<SidebarHeader>
-				<h1>story board</h1>
-			</SidebarHeader>
+			<SidebarHeader
+				subMenuOpen={subMenuOpen}
+				handleToggleMenu={handleToggleMenu}
+			/>
 
-			<SidebarSections>
-				<SetBackground
-					backgroundImage={currentStory.backgroundImage}
+			{subMenuOpen ? (
+				<SubMenu />
+			) : (
+				<SidebarSections
+					currentStory={currentStory}
+					currentText={currentText}
 					storeDispatch={dispatch}
 					storyIndex={storyIndex}
 					colorPickerName={colorPickerName}
 				/>
-
-				<AdditionalGraphics storeDispatch={dispatch} />
-
-				<AddText
-					storeDispatch={dispatch}
-					currentText={currentText}
-					colorPickerName={colorPickerName}
-				/>
-			</SidebarSections>
-
-			<DownloadFooter storeDispatch={dispatch} />
+			)}
 		</SidebarContainer>
 	)
 }
