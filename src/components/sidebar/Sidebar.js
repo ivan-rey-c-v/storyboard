@@ -9,19 +9,17 @@ import SidebarSections from './sidebar-sections/SidebarSections'
 function Sidebar(props) {
 	const { state, dispatch } = props
 	const [subMenuOpen, setSubMenuOpen] = useState(false)
-	const { stories } = state
-	const { storyIndex, shapeName, colorPickerName } = state.active
+	const { active, storiesByID, boardsByID } = state
+	const {
+		activeStoryID,
+		activeBoardID,
+		activeTextShapeID,
+		activeColorPickerID
+	} = active
 
-	const currentStory = stories[storyIndex]
-	const [currentText] = currentStory.shapes.filter(shape => {
-		if (shape.type === 'text') {
-			return `${shape.id}-group` === shapeName
-		}
-		return false
-	})
+	const currentStoryBoard = boardsByID[activeBoardID]
 
 	const handleToggleMenu = useCallback(function() {
-		console.log('toggling menu', !subMenuOpen)
 		setSubMenuOpen(!subMenuOpen)
 	})
 
@@ -36,11 +34,12 @@ function Sidebar(props) {
 				<SubMenu />
 			) : (
 				<SidebarSections
-					currentStory={currentStory}
-					currentText={currentText}
+					activeStoryID={activeStoryID}
+					activeBoardID={activeBoardID}
+					activeColorPickerID={activeColorPickerID}
+					currentStoryBoard={currentStoryBoard}
+					activeTextShapeID={activeTextShapeID}
 					storeDispatch={dispatch}
-					storyIndex={storyIndex}
-					colorPickerName={colorPickerName}
 				/>
 			)}
 		</SidebarContainer>

@@ -7,7 +7,12 @@ import Fonts from './text-properties/Fonts'
 import Colors from './text-properties/colors/Colors'
 
 function AddText(props) {
-	const { storeDispatch, currentText, colorPickerName } = props
+	const {
+		storeDispatch,
+		activeTextShapeID,
+		currentTextShape,
+		activeColorPickerID
+	} = props
 
 	const handleAddText = useCallback(function(event) {
 		event.stopPropagation()
@@ -25,27 +30,27 @@ function AddText(props) {
 			<SectionName>Text</SectionName>
 			<Button onClick={handleAddText}>Add text</Button>
 
-			{currentText && (
+			{currentTextShape && (
 				<>
 					<TextArea
-						textValue={currentText.text}
+						textValue={currentTextShape.text}
 						storeDispatch={storeDispatch}
 					/>
 
 					<TextProperties
-						currentText={currentText}
+						currentTextShape={currentTextShape}
 						storeDispatch={storeDispatch}
 					/>
 
 					<Fonts
-						currentText={currentText}
+						currentTextShape={currentTextShape}
 						storeDispatch={storeDispatch}
 					/>
 
 					<Colors
-						currentText={currentText}
+						currentTextShape={currentTextShape}
 						storeDispatch={storeDispatch}
-						colorPickerName={colorPickerName}
+						activeColorPickerID={activeColorPickerID}
 					/>
 				</>
 			)}

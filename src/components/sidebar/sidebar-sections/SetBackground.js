@@ -34,34 +34,34 @@ function SetBackground(props) {
 	const {
 		backgroundImage,
 		storeDispatch,
-		storyIndex,
-		colorPickerName
+		activeBoardID,
+		activeColorPickerID
 	} = props
-	const imgFile = backgroundImage.file
+	const imageFile = backgroundImage.file
 
 	const handleSetBackground = useCallback(
 		function(event) {
 			event.stopPropagation()
-			const imgFile = event.target.files[0]
+			const file = event.target.files[0]
 
 			const reader = new FileReader()
-			reader.readAsDataURL(imgFile)
+			reader.readAsDataURL(file)
 			reader.onload = function(event) {
 				storeDispatch({
 					type: 'SET_BACKGROUND_IMAGE',
-					storyIndex,
+					activeBoardID,
 					properties: {
 						file: {
 							dataURL: reader.result,
-							name: imgFile.name
+							name: file.name
 						},
 						x: 0
 					}
 				})
 			}
 		},
-		// storyIndex should be different with other canvas boards
-		[storyIndex]
+		// activeBoardID should be different with other canvas boards
+		[activeBoardID]
 	)
 
 	const handleRemoveBackground = useCallback(
@@ -69,52 +69,52 @@ function SetBackground(props) {
 			event.stopPropagation()
 			storeDispatch({
 				type: 'SET_BACKGROUND_IMAGE',
-				storyIndex,
+				activeBoardID,
 				properties: {
 					file: null
 				}
 			})
 		},
-		[storyIndex]
+		[activeBoardID]
 	)
 
 	const handleSelectImageType = useCallback(
 		function(option, action) {
 			storeDispatch({
 				type: 'SET_BACKGROUND_IMAGE',
-				storyIndex,
+				activeBoardID,
 				properties: {
 					type: option.value
 				}
 			})
 		},
-		[storyIndex]
+		[activeBoardID]
 	)
 
 	const handleSelectColorBlur = useCallback(
 		function(option, action) {
 			storeDispatch({
 				type: 'SET_BACKGROUND_IMAGE',
-				storyIndex,
+				activeBoardID,
 				properties: {
 					colorType: option.value
 				}
 			})
 		},
-		[storyIndex]
+		[activeBoardID]
 	)
 
 	const handleOnColorChange = useCallback(
 		function(color, event) {
 			storeDispatch({
 				type: 'SET_BACKGROUND_IMAGE',
-				storyIndex,
+				activeBoardID,
 				properties: {
 					colorFill: color.hex
 				}
 			})
 		},
-		[storyIndex]
+		[activeBoardID]
 	)
 
 	const stopPropagation = useCallback(function(event) {
@@ -144,11 +144,11 @@ function SetBackground(props) {
 			</Button>
 
 			<RowPanel>
-				<StyledRowPanelName active={imgFile ? true : false}>
-					{imgFile && imgFile.name
-						? imgFile.name.length >= 20
-							? `${imgFile.name.substring(0, 18)}...`
-							: imgFile.name
+				<StyledRowPanelName active={imageFile ? true : false}>
+					{imageFile && imageFile.name
+						? imageFile.name.length >= 20
+							? `${imageFile.name.substring(0, 18)}...`
+							: imageFile.name
 						: 'Image'}
 				</StyledRowPanelName>
 
@@ -157,7 +157,7 @@ function SetBackground(props) {
 						value={imageTypeValue}
 						options={imageTypeOptions}
 						onChange={handleSelectImageType}
-						isDisabled={imgFile ? false : true}
+						isDisabled={imageFile ? false : true}
 					/>
 				</RowPanelInput>
 				<RowPanelBox as="label" htmlFor="img-file-input">
@@ -170,17 +170,17 @@ function SetBackground(props) {
 					/>
 
 					<ImageDiv>
-						{imgFile && (
+						{imageFile && (
 							<ImageDiv
 								as="img"
-								src={imgFile.dataURL}
+								src={imageFile.dataURL}
 								alt="background-image"
 							/>
 						)}
 					</ImageDiv>
 				</RowPanelBox>
 
-				{imgFile && (
+				{imageFile && (
 					<DeleteDiv onClick={handleRemoveBackground}>
 						<TrashSVG />
 					</DeleteDiv>
@@ -194,7 +194,7 @@ function SetBackground(props) {
 						value={colorTypeValue}
 						options={colorTypeOptions}
 						onChange={handleSelectColorBlur}
-						//isDisabled={imgFile ? false : true}
+						//isDisabled={imageFile ? false : true}
 					/>
 				</RowPanelInput>
 				<RowPanelBox onClick={stopPropagation}>
@@ -205,7 +205,7 @@ function SetBackground(props) {
 							name="image-color-picker"
 							position="bottom"
 							isColorPickerActive={
-								colorPickerName === 'image-color-picker'
+								activeColorPickerID === 'image-color-picker'
 							}
 							color={backgroundImage.colorFill}
 							opacity={backgroundImage.colorOpacity}

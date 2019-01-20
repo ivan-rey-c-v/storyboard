@@ -4,6 +4,6 @@ function guid() {
 		.substring(2)
 }
 
-export default function(name = '') {
-	return `${name}-${guid()}-${guid()}`
+export default function(name = 'storykit') {
+	return `${name}-${guid()}-${guid()}-${guid()}`
 }

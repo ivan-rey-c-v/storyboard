@@ -9,21 +9,27 @@ const AddText = lazy(_ => import('./AddText'))
 
 function SidebarSectionsComponent(props) {
 	const {
-		currentStory,
-		currentText,
-		storeDispatch,
-		storyIndex,
-		colorPickerName
+		activeStoryID,
+		activeBoardID,
+		activeColorPickerID,
+		currentStoryBoard,
+		activeTextShapeID,
+		storeDispatch
 	} = props
+
+	const currentTextShape = activeTextShapeID
+		? currentStoryBoard.shapesByID[activeTextShapeID]
+		: activeTextShapeID
+
 	return (
 		<>
 			<SidebarSections>
 				<Suspense fallback={<FallbackDiv />}>
 					<SetBackground
-						backgroundImage={currentStory.backgroundImage}
+						backgroundImage={currentStoryBoard.backgroundImage}
 						storeDispatch={storeDispatch}
-						storyIndex={storyIndex}
-						colorPickerName={colorPickerName}
+						activeBoardID={activeBoardID}
+						activeColorPickerID={activeColorPickerID}
 					/>
 				</Suspense>
 
@@ -34,8 +40,9 @@ function SidebarSectionsComponent(props) {
 				<Suspense fallback={<FallbackDiv />}>
 					<AddText
 						storeDispatch={storeDispatch}
-						currentText={currentText}
-						colorPickerName={colorPickerName}
+						activeTextShapeID={activeTextShapeID}
+						currentTextShape={currentTextShape}
+						activeColorPickerID={activeColorPickerID}
 					/>
 				</Suspense>
 			</SidebarSections>

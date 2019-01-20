@@ -2,8 +2,8 @@ import produce from 'immer'
 import Filesaver from 'file-saver'
 import JSZip from 'jszip'
 
-import setStory from '../utils/setStory'
-import setStoryText from '../utils/setStoryText'
+import setStory from './setStory'
+import setStoryText from './setStoryText'
 import generateUniqueID from '../utils/generateUniqueID'
 
 export default produce((draftState, action) => {

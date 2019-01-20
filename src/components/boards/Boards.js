@@ -8,25 +8,32 @@ import useCanvasSizeFromWindowHeight from '../../hooks/useCanvasSizeFromWindowHe
 
 function MainSection(props) {
 	const { state, dispatch } = props
-	const { stories } = state
-	const { storyIndex, shapeName } = state.active
+	const { active, storiesByID, boardsByID } = state
+	const { activeStoryID, activeBoardID, activeTextShapeID } = active
 	const { canvasHeight, canvasWidth } = useCanvasSizeFromWindowHeight()
+
+	const { boardsList } = storiesByID
+	const totalBoards = boardsList.length
 
 	return (
 		<MainLayout>
-			{stories.map((story, index) => (
-				<StoryBoard
-					key={story.storyID}
-					canvasHeight={canvasHeight}
-					canvasWidth={canvasWidth}
-					boardIndex={index}
-					shapeName={shapeName}
-					storeDispatch={dispatch}
-					story={story}
-					isCurrentStory={storyIndex === index}
-					storiesLength={stories.length}
-				/>
-			))}
+			{boardsList.map(boardID => {
+				const board = boardsByID[boardID]
+
+				return (
+					<StoryBoard
+						key={boardID}
+						boardID={boardID}
+						board={board}
+						//shapeName={shapeName}
+						isActiveBoard={activeBoardID === boardID}
+						totalBoards={totalBoards}
+						canvasHeight={canvasHeight}
+						canvasWidth={canvasWidth}
+						storeDispatch={dispatch}
+					/>
+				)
+			})}
 
 			<AddBoard
 				canvasHeight={canvasHeight}
