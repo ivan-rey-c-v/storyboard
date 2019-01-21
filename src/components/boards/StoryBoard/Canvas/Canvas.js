@@ -10,14 +10,14 @@ import Emoji from './Emoji'
 
 function Canvas(props) {
 	const {
+		boardID,
+		board,
+		activeTextShapeID,
 		canvasHeight,
 		canvasWidth,
-		story,
-		shapeName,
-		storeDispatch,
-		boardIndex
+		storeDispatch
 	} = props
-	const { backgroundImage, shapes, canvasName } = story
+	const { backgroundImage, shapesList, shapesByID } = board
 	const [canvasBackgroundImage, setCanvasBackgroundImage] = useState(null)
 	const [imageSize, setImageSize] = useState()
 	const [withCenterAnchors, setWithCenterAnchors] = useState(true)
@@ -58,14 +58,14 @@ function Canvas(props) {
 				storeDispatch({
 					type: 'SET_ACTIVE_SHAPE_NAME',
 					name: null,
-					storyIndex: boardIndex
+					storyIndex: boardID
 				})
 				return
 			}
 
 			const clickedOnTransformer =
 				e.target.getParent().className === 'Transformer'
-			if (clickedOnTransformer || name === shapeName) {
+			if (clickedOnTransformer || name === activeTextShapeID) {
 				return // do nothing if it is transformer or current shape
 			}
 
@@ -74,7 +74,7 @@ function Canvas(props) {
 				storeDispatch({
 					type: 'SET_ACTIVE_SHAPE_NAME',
 					name,
-					storyIndex: boardIndex
+					storyIndex: boardID
 				})
 				return
 			}
@@ -84,12 +84,12 @@ function Canvas(props) {
 				storeDispatch({
 					name: name.includes('group') ? name : `${name}-group`,
 					type: 'SET_ACTIVE_SHAPE_NAME',
-					storyIndex: boardIndex
+					storyIndex: boardID
 				})
 				return
 			}
 		},
-		[boardIndex]
+		[boardID]
 	)
 
 	const onDragKonvaShape = useCallback(
@@ -182,7 +182,7 @@ function Canvas(props) {
 						originalHeight={imageSize.originalHeight}
 						originalWidth={imageSize.originalWidth}
 						storeDispatch={storeDispatch}
-						storyIndex={boardIndex}
+						storyIndex={boardID}
 					/>
 				)}
 
@@ -205,13 +205,15 @@ function Canvas(props) {
 					/>
 				) : null}
 
-				{shapes.map((shape, index) => {
+				{shapesList.map((shapeID, index) => {
+					const shape = shapesByID[shapeID]
+
 					if (shape.type === 'text') {
 						return (
 							<TextGroup
 								key={shape.id}
 								textGroup={shape}
-								canvasName={canvasName}
+								boardID={boardID}
 								onDragKonvaShape={onDragKonvaShape(shape.id)}
 								onTransform={handleOnTransform}
 							/>
@@ -241,9 +243,9 @@ function Canvas(props) {
 				})}
 
 				<ShapeTransformer
-					shapeName={shapeName}
-					shapes={story.shapes}
+					activeTextShapeID={activeTextShapeID}
 					withCenterAnchors={withCenterAnchors}
+					//shapes={story.shapes}
 				/>
 			</Layer>
 		</Stage>

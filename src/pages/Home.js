@@ -11,7 +11,7 @@ import styled from 'styled-components/macro'
 import { setToLocalStorage } from '../utils/localStorage'
 
 const Sidebar = lazy(_ => import('../components/sidebar/Sidebar'))
-//const Boards = lazy(_ => import('../components/boards/Boards'))
+const Boards = lazy(_ => import('../components/boards/Boards'))
 
 function Home(props) {
 	const { state, dispatch } = useContext(AppContext)
@@ -41,9 +41,9 @@ function Home(props) {
 			<Suspense fallback={<SidebarFallback />}>
 				<Sidebar state={state} dispatch={dispatch} />
 			</Suspense>
-			{/* <Suspense fallback={<div />}>
+			<Suspense fallback={<div />}>
 				<Boards state={state} dispatch={dispatch} />
-			</Suspense> */}
+			</Suspense>
 		</HomePage>
 	)
 }

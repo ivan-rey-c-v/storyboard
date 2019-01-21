@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components/macro'
 
-import StoryBoard from './StoryBoard'
+import StoryBoard from './StoryBoard/StoryBoard'
 import AddBoard from './AddBoard'
 
 import useCanvasSizeFromWindowHeight from '../../hooks/useCanvasSizeFromWindowHeight'
@@ -12,12 +12,12 @@ function MainSection(props) {
 	const { activeStoryID, activeBoardID, activeTextShapeID } = active
 	const { canvasHeight, canvasWidth } = useCanvasSizeFromWindowHeight()
 
-	const { boardsList } = storiesByID
+	const { boardsList } = storiesByID[activeStoryID]
 	const totalBoards = boardsList.length
 
 	return (
 		<MainLayout>
-			{boardsList.map(boardID => {
+			{boardsList.map((boardID, index) => {
 				const board = boardsByID[boardID]
 
 				return (
@@ -25,9 +25,10 @@ function MainSection(props) {
 						key={boardID}
 						boardID={boardID}
 						board={board}
-						//shapeName={shapeName}
+						canMoveLeft={index === 0 ? false : true}
+						canMoveRight={index + 1 === totalBoards ? false : true}
+						activeTextShapeID={activeTextShapeID}
 						isActiveBoard={activeBoardID === boardID}
-						totalBoards={totalBoards}
 						canvasHeight={canvasHeight}
 						canvasWidth={canvasWidth}
 						storeDispatch={dispatch}
@@ -39,7 +40,7 @@ function MainSection(props) {
 				canvasHeight={canvasHeight}
 				canvasWidth={canvasWidth}
 				storeDispatch={dispatch}
-				newIndex={stories.length}
+				totalBoards={totalBoards}
 			/>
 		</MainLayout>
 	)

@@ -4,26 +4,27 @@ import styled, { css } from 'styled-components/macro'
 import BoardHeader from './BoardHeader'
 import BoardFooter from './BoardFooter'
 
-const Canvas = lazy(_ => import('./Canvas'))
+const Canvas = lazy(_ => import('./Canvas/Canvas'))
 
 function StoryBoard(props) {
 	const {
+		boardID,
+		board,
+		canMoveLeft,
+		canMoveRight,
+		activeTextShapeID,
+		isActiveBoard,
 		canvasHeight,
 		canvasWidth,
-		isCurrentStory,
-		story,
-		shapeName,
-		storeDispatch,
-		boardIndex,
-		storiesLength
+		storeDispatch
 	} = props
 	// isDragging is used for css
 	const [isDragging, setIsDragging] = useState(false)
 
 	const handleMoveBoard = useCallback(
-		(increment, boardIndex) => event => {
+		(increment, boardID) => event => {
 			event.stopPropagation()
-			storeDispatch({ type: 'MOVE_STORY_BOARD', boardIndex, increment })
+			storeDispatch({ type: 'MOVE_STORY_BOARD', boardID, increment })
 		},
 		[]
 	)
@@ -33,15 +34,15 @@ function StoryBoard(props) {
 			event.stopPropagation()
 			storeDispatch({
 				type: 'SELECT_STORY_BOARD',
-				storyIndex: boardIndex
+				storyIndex: boardID
 			})
 		},
-		[boardIndex]
+		[boardID]
 	)
 
 	const handleDeleteBoard = useCallback(function(event) {
 		event.stopPropagation()
-		storeDispatch({ type: 'DELETE_STORY_BOARD', storyID: story.storyID })
+		storeDispatch({ type: 'DELETE_STORY_BOARD', storyID: 'story id' })
 	}, [])
 
 	const handleOnImageDrop = useCallback(function(event) {
@@ -56,7 +57,7 @@ function StoryBoard(props) {
 			storeDispatch({
 				type: 'SET_BACKGROUND_IMAGE',
 				imgFile: file,
-				storyIndex: boardIndex
+				storyIndex: boardID
 			})
 		}
 	}, [])
@@ -71,17 +72,17 @@ function StoryBoard(props) {
 	return (
 		<Container canvasWidth={canvasWidth}>
 			<BoardHeader
-				isCurrentStory={isCurrentStory}
-				boardIndex={boardIndex}
+				isActiveBoard={isActiveBoard}
+				boardID={boardID}
 				handleDeleteBoard={handleDeleteBoard}
-				canMoveLeft={boardIndex === 0 ? false : true}
-				canMoveRight={boardIndex + 1 === storiesLength ? false : true}
+				canMoveLeft={canMoveLeft}
+				canMoveRight={canMoveRight}
 				handleMoveBoard={handleMoveBoard}
 			/>
 
 			<CanvasContainer
 				isdragging={isDragging}
-				isCurrentStory={isCurrentStory}
+				isActiveBoard={isActiveBoard}
 				canvasHeight={canvasHeight}
 				onClick={handleSelectBoard}
 				onDrop={handleOnImageDrop}
@@ -90,17 +91,17 @@ function StoryBoard(props) {
 			>
 				<Suspense fallback={<EmptyDiv />}>
 					<Canvas
-						// canvasHeight/Width, story, shapeName, storeDispatch
+						// canvasHeight/Width, story, activeTextShapeID, storeDispatch
 						{...props}
 					/>
 				</Suspense>
 			</CanvasContainer>
 
 			<BoardFooter
-				shapeName={shapeName}
-				isCurrentStory={isCurrentStory}
+				activeTextShapeID={activeTextShapeID}
+				isActiveBoard={isActiveBoard}
 				storeDispatch={storeDispatch}
-				boardIndex={boardIndex}
+				boardID={boardID}
 			/>
 		</Container>
 	)
@@ -121,7 +122,7 @@ const CanvasContainer = styled.div`
 	outline: 1px solid lightgray;
 
 	${props =>
-		props.isCurrentStory
+		props.isActiveBoard
 			? css`
 					outline: 1px solid var(--color-primary);
 					box-shadow: 2px 2px 8px gray;
