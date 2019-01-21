@@ -17,7 +17,7 @@ const highlightOptions = [
 ]
 
 function Colors(props) {
-	const { currentText, storeDispatch, colorPickerName } = props
+	const { currentText, storeDispatch, activeColorPickerID } = props
 
 	const handleOnColorChange = useCallback(
 		(fillName, opacityName) => (color, event) => {
@@ -47,7 +47,7 @@ function Colors(props) {
 						name="text-color-picker"
 						position="top"
 						isColorPickerActive={
-							colorPickerName === 'text-color-picker'
+							activeColorPickerID === 'text-color-picker'
 						}
 						color={currentText.fill}
 						opacity={currentText.opacity}
@@ -78,7 +78,7 @@ function Colors(props) {
 							name="box-color-picker"
 							position="top"
 							isColorPickerActive={
-								colorPickerName === 'box-color-picker'
+								activeColorPickerID === 'box-color-picker'
 							}
 							color={currentText.boxFill}
 							opacity={currentText.boxOpacity}

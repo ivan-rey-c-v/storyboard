@@ -6,7 +6,7 @@ function DownloadFooter({ storeDispatch }) {
 	const handleDownload = useCallback(function(event) {
 		event.stopPropagation()
 		// remove Transformer selection
-		storeDispatch({ type: 'SET_ACTIVE_SHAPE_NAME', name: null })
+		storeDispatch({ type: 'SET_ACTIVE_SHAPE_ID', shapeID: null })
 
 		const delay = 200
 		new Promise(resolve => {

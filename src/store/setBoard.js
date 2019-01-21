@@ -2,7 +2,7 @@ import generateUniqueID from '../utils/generateUniqueID'
 import setStoryText from './setStoryText'
 
 export default function setBoard(parentStoryID) {
-	const boardID = generateUniqueID('story')
+	const boardID = generateUniqueID('board')
 	const storyText = setStoryText()
 
 	return {

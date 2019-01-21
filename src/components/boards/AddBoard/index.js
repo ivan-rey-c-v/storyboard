@@ -7,7 +7,7 @@ import DownloadSVG from 'react-feather/dist/icons/download'
 import ActionDiv from './ActionDiv'
 
 function AddBoard(props) {
-	const { canvasHeight, canvasWidth, storeDispatch, newIndex } = props
+	const { canvasHeight, canvasWidth, storeDispatch } = props
 	// isDragging is used for css
 	const [isDragging, setIsDragging] = useState(false)
 
@@ -26,11 +26,21 @@ function AddBoard(props) {
 
 		if (file.type.includes('image')) {
 			storeDispatch({ type: 'ADD_STORY_BOARD' })
-			storeDispatch({
-				type: 'SET_BACKGROUND_IMAGE',
-				imgFile: file,
-				storyIndex: newIndex
-			})
+
+			const reader = new FileReader()
+			reader.readAsDataURL(file)
+			reader.onload = function(event) {
+				storeDispatch({
+					type: 'SET_BACKGROUND_IMAGE',
+					properties: {
+						file: {
+							dataURL: reader.result,
+							name: file.name
+						},
+						x: 0
+					}
+				})
+			}
 		}
 	}, [])
 

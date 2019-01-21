@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState, useCallback, useRef } from 'react'
 import { Stage, Layer } from 'react-konva'
 
 import BackgroundImage from './BackgroundImage'
@@ -21,6 +21,7 @@ function Canvas(props) {
 	const [canvasBackgroundImage, setCanvasBackgroundImage] = useState(null)
 	const [imageSize, setImageSize] = useState()
 	const [withCenterAnchors, setWithCenterAnchors] = useState(true)
+	const canvasEl = useRef(null)
 
 	useEffect(
 		function() {
@@ -49,48 +50,42 @@ function Canvas(props) {
 		[backgroundImage.file]
 	)
 
-	const onStageMouseDown = useCallback(
-		function(e) {
-			const { name } = e.target.attrs
+	const onStageMouseDown = useCallback(function(e) {
+		const { name } = e.target.attrs
 
-			// clicked on <Stage /> or <BackgroundImage /> - clear selection
-			if (name === 'canvas-stage' || name === 'background-image') {
-				storeDispatch({
-					type: 'SET_ACTIVE_SHAPE_NAME',
-					name: null,
-					storyIndex: boardID
-				})
-				return
-			}
+		// clicked on <Stage /> or <BackgroundImage /> - clear selection
+		if (name === 'canvas-stage' || name === 'background-image') {
+			storeDispatch({
+				type: 'SET_ACTIVE_SHAPE_ID',
+				shapeID: null
+			})
+			return
+		}
 
-			const clickedOnTransformer =
-				e.target.getParent().className === 'Transformer'
-			if (clickedOnTransformer || name === activeTextShapeID) {
-				return // do nothing if it is transformer or current shape
-			}
+		const clickedOnTransformer =
+			e.target.getParent().className === 'Transformer'
+		if (clickedOnTransformer || name === activeTextShapeID) {
+			return // do nothing if it is transformer or current shape
+		}
 
-			if (name.includes('object') || name.includes('emoji')) {
-				setWithCenterAnchors(false)
-				storeDispatch({
-					type: 'SET_ACTIVE_SHAPE_NAME',
-					name,
-					storyIndex: boardID
-				})
-				return
-			}
+		if (name.includes('object') || name.includes('emoji')) {
+			setWithCenterAnchors(false)
+			storeDispatch({
+				type: 'SET_ACTIVE_SHAPE_ID',
+				shapeID: name
+			})
+			return
+		}
 
-			if (name.includes('text')) {
-				setWithCenterAnchors(true)
-				storeDispatch({
-					name: name.includes('group') ? name : `${name}-group`,
-					type: 'SET_ACTIVE_SHAPE_NAME',
-					storyIndex: boardID
-				})
-				return
-			}
-		},
-		[boardID]
-	)
+		if (name.includes('text')) {
+			setWithCenterAnchors(true)
+			storeDispatch({
+				shapeID: name.includes('group') ? name : `${name}-group`,
+				type: 'SET_ACTIVE_SHAPE_ID'
+			})
+			return
+		}
+	}, [])
 
 	const onDragKonvaShape = useCallback(
 		shapeID =>
@@ -149,6 +144,8 @@ function Canvas(props) {
 	)
 
 	const handleOnTransform = useCallback(function() {
+		console.log('shape name', this.name())
+
 		storeDispatch({
 			type: 'SET_SHAPE_COORD',
 			shapeID: this.name(),
@@ -162,12 +159,21 @@ function Canvas(props) {
 		})
 	}, [])
 
+	useEffect(function() {
+		canvasEl.current.content.children[0].setAttribute('id', boardID)
+		canvasEl.current.content.children[0].setAttribute(
+			'class',
+			'konva-canvas'
+		)
+	}, [])
+
 	return (
 		<Stage
 			name="canvas-stage"
 			height={canvasHeight}
 			width={canvasWidth}
 			onMouseDown={onStageMouseDown}
+			ref={canvasEl}
 		>
 			<Layer>
 				{canvasBackgroundImage && (
@@ -182,7 +188,7 @@ function Canvas(props) {
 						originalHeight={imageSize.originalHeight}
 						originalWidth={imageSize.originalWidth}
 						storeDispatch={storeDispatch}
-						storyIndex={boardID}
+						boardID={boardID}
 					/>
 				)}
 

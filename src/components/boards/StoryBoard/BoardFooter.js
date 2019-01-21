@@ -8,8 +8,9 @@ import DownSVG from 'react-feather/dist/icons/chevrons-down'
 import TrashSVG from 'react-feather/dist/icons/trash-2'
 
 function BoardFooter(props) {
-	const { isCurrentStory, shapeName, storeDispatch, boardIndex } = props
-	const zIndexDisabled = isCurrentStory && shapeName != null ? false : true
+	const { isActiveBoard, activeTextShapeID, storeDispatch, boardID } = props
+	const zIndexDisabled =
+		isActiveBoard && activeTextShapeID != null ? false : true
 
 	const handleMoveShapeZIndex = useCallback(
 		increment => event => {
@@ -27,10 +28,10 @@ function BoardFooter(props) {
 			event.stopPropagation()
 			storeDispatch({
 				type: 'COPY_STORY_BOARD',
-				storyIndex: boardIndex
+				boardID
 			})
 		},
-		[boardIndex]
+		[boardID]
 	)
 
 	const handleDeleteBoard = useCallback(
@@ -38,19 +39,18 @@ function BoardFooter(props) {
 			event.stopPropagation()
 			storeDispatch({
 				type: 'DELETE_STORY_BOARD',
-				storyIndex: boardIndex
+				boardID
 			})
 		},
-		[boardIndex]
+		[boardID]
 	)
 
 	const handleDownloadBoard = useCallback(
 		event => {
 			event.stopPropagation()
 			storeDispatch({
-				type: 'SET_ACTIVE_SHAPE_NAME',
-				name: null,
-				storyIndex: boardIndex
+				type: 'SET_ACTIVE_SHAPE_ID',
+				shapeID: null
 			})
 
 			const delay = 200
@@ -61,11 +61,11 @@ function BoardFooter(props) {
 			}).then(res => {
 				storeDispatch({
 					type: 'DOWNLOAD_STORY_BOARD',
-					boardIndex: boardIndex
+					boardID: boardID
 				})
 			})
 		},
-		[boardIndex]
+		[boardID]
 	)
 
 	return (

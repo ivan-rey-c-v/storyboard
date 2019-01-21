@@ -33,10 +33,7 @@ function ColorSwatch(props) {
 	} = props
 
 	const handleOpenPicker = useCallback(function(event) {
-		storeDispatch({ type: 'SET_COLOR_PICKER', colorPickerName: name })
-		return () => {
-			//storeDispatch({ type: 'SET_COLOR_PICKER', colorPickerName: null })
-		}
+		storeDispatch({ type: 'SET_COLOR_PICKER', colorPickerID: name })
 	}, [])
 
 	return (

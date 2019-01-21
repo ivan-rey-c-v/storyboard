@@ -34,7 +34,7 @@ function SetBackground(props) {
 	const {
 		backgroundImage,
 		storeDispatch,
-		activeBoardID,
+		boardID,
 		activeColorPickerID
 	} = props
 	const imageFile = backgroundImage.file
@@ -49,7 +49,6 @@ function SetBackground(props) {
 			reader.onload = function(event) {
 				storeDispatch({
 					type: 'SET_BACKGROUND_IMAGE',
-					activeBoardID,
 					properties: {
 						file: {
 							dataURL: reader.result,
@@ -60,62 +59,46 @@ function SetBackground(props) {
 				})
 			}
 		},
-		// activeBoardID should be different with other canvas boards
-		[activeBoardID]
+		// boardID should be different with other canvas boards
+		[]
 	)
 
-	const handleRemoveBackground = useCallback(
-		function(event) {
-			event.stopPropagation()
-			storeDispatch({
-				type: 'SET_BACKGROUND_IMAGE',
-				activeBoardID,
-				properties: {
-					file: null
-				}
-			})
-		},
-		[activeBoardID]
-	)
+	const handleRemoveBackground = useCallback(function(event) {
+		event.stopPropagation()
+		storeDispatch({
+			type: 'SET_BACKGROUND_IMAGE',
+			properties: {
+				file: null
+			}
+		})
+	}, [])
 
-	const handleSelectImageType = useCallback(
-		function(option, action) {
-			storeDispatch({
-				type: 'SET_BACKGROUND_IMAGE',
-				activeBoardID,
-				properties: {
-					type: option.value
-				}
-			})
-		},
-		[activeBoardID]
-	)
+	const handleSelectImageType = useCallback(function(option, action) {
+		storeDispatch({
+			type: 'SET_BACKGROUND_IMAGE',
+			properties: {
+				type: option.value
+			}
+		})
+	}, [])
 
-	const handleSelectColorBlur = useCallback(
-		function(option, action) {
-			storeDispatch({
-				type: 'SET_BACKGROUND_IMAGE',
-				activeBoardID,
-				properties: {
-					colorType: option.value
-				}
-			})
-		},
-		[activeBoardID]
-	)
+	const handleSelectColorBlur = useCallback(function(option, action) {
+		storeDispatch({
+			type: 'SET_BACKGROUND_IMAGE',
+			properties: {
+				colorType: option.value
+			}
+		})
+	}, [])
 
-	const handleOnColorChange = useCallback(
-		function(color, event) {
-			storeDispatch({
-				type: 'SET_BACKGROUND_IMAGE',
-				activeBoardID,
-				properties: {
-					colorFill: color.hex
-				}
-			})
-		},
-		[activeBoardID]
-	)
+	const handleOnColorChange = useCallback(function(color, event) {
+		storeDispatch({
+			type: 'SET_BACKGROUND_IMAGE',
+			properties: {
+				colorFill: color.hex
+			}
+		})
+	}, [])
 
 	const stopPropagation = useCallback(function(event) {
 		event.stopPropagation()

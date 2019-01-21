@@ -17,7 +17,7 @@ function BoardHeader(props) {
 		<Header>
 			<SVGButton
 				disabled={canMoveLeft ? false : true}
-				onClick={handleMoveBoard(-1, boardIndex)}
+				onClick={handleMoveBoard(-1)}
 				data-tooltip="Move left"
 			>
 				<ArrowLeftSVG />
@@ -29,7 +29,7 @@ function BoardHeader(props) {
 
 			<SVGButton
 				disabled={canMoveRight ? false : true}
-				onClick={handleMoveBoard(+1, boardIndex)}
+				onClick={handleMoveBoard(+1)}
 				data-tooltip="Move right"
 			>
 				<ArrowRightSVG />

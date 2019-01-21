@@ -25,6 +25,7 @@ function MainSection(props) {
 						key={boardID}
 						boardID={boardID}
 						board={board}
+						boardIndex={index}
 						canMoveLeft={index === 0 ? false : true}
 						canMoveRight={index + 1 === totalBoards ? false : true}
 						activeTextShapeID={activeTextShapeID}
@@ -40,7 +41,6 @@ function MainSection(props) {
 				canvasHeight={canvasHeight}
 				canvasWidth={canvasWidth}
 				storeDispatch={dispatch}
-				totalBoards={totalBoards}
 			/>
 		</MainLayout>
 	)

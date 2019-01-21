@@ -9,7 +9,7 @@ const Canvas = lazy(_ => import('./Canvas/Canvas'))
 function StoryBoard(props) {
 	const {
 		boardID,
-		board,
+		boardIndex,
 		canMoveLeft,
 		canMoveRight,
 		activeTextShapeID,
@@ -22,11 +22,11 @@ function StoryBoard(props) {
 	const [isDragging, setIsDragging] = useState(false)
 
 	const handleMoveBoard = useCallback(
-		(increment, boardID) => event => {
+		increment => event => {
 			event.stopPropagation()
-			storeDispatch({ type: 'MOVE_STORY_BOARD', boardID, increment })
+			storeDispatch({ type: 'MOVE_STORY_BOARD', boardIndex, increment })
 		},
-		[]
+		[boardIndex]
 	)
 
 	const handleSelectBoard = useCallback(
@@ -34,7 +34,7 @@ function StoryBoard(props) {
 			event.stopPropagation()
 			storeDispatch({
 				type: 'SELECT_STORY_BOARD',
-				storyIndex: boardID
+				boardID
 			})
 		},
 		[boardID]
@@ -42,7 +42,7 @@ function StoryBoard(props) {
 
 	const handleDeleteBoard = useCallback(function(event) {
 		event.stopPropagation()
-		storeDispatch({ type: 'DELETE_STORY_BOARD', storyID: 'story id' })
+		storeDispatch({ type: 'DELETE_STORY_BOARD', boardID })
 	}, [])
 
 	const handleOnImageDrop = useCallback(function(event) {
@@ -54,11 +54,20 @@ function StoryBoard(props) {
 		const file = data.files[0]
 
 		if (file.type.includes('image')) {
-			storeDispatch({
-				type: 'SET_BACKGROUND_IMAGE',
-				imgFile: file,
-				storyIndex: boardID
-			})
+			const reader = new FileReader()
+			reader.readAsDataURL(file)
+			reader.onload = function(event) {
+				storeDispatch({
+					type: 'SET_BACKGROUND_IMAGE',
+					properties: {
+						file: {
+							dataURL: reader.result,
+							name: file.name
+						},
+						x: 0
+					}
+				})
+			}
 		}
 	}, [])
 
@@ -74,6 +83,7 @@ function StoryBoard(props) {
 			<BoardHeader
 				isActiveBoard={isActiveBoard}
 				boardID={boardID}
+				boardIndex={boardIndex}
 				handleDeleteBoard={handleDeleteBoard}
 				canMoveLeft={canMoveLeft}
 				canMoveRight={canMoveRight}

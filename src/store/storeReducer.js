@@ -3,59 +3,93 @@ import Filesaver from 'file-saver'
 import JSZip from 'jszip'
 
 import setStory from './setStory'
+import setBoard from './setBoard'
 import setStoryText from './setStoryText'
 import generateUniqueID from '../utils/generateUniqueID'
 
 export default produce((draftState, action) => {
 	switch (action.type) {
 		case 'RESET_ACTIVE': {
-			draftState.active.shapeName = null
-			draftState.active.colorPickerName = null
+			draftState.active.activeTextShapeID = null
+			draftState.active.activeColorPickerID = null
 			return
 		}
 
 		case 'SELECT_STORY_BOARD': {
-			const { storyIndex } = action
-			draftState.active.storyIndex = storyIndex
+			const { boardID } = action
+			draftState.active.activeBoardID = boardID
 			return
 		}
 
 		case 'ADD_STORY_BOARD': {
-			const length = draftState.stories.length
+			const { activeStoryID } = draftState.active
 
-			draftState.stories.push(setStory())
+			const { boardID, data } = setBoard(activeStoryID)
+
 			draftState.active = {
-				storyIndex: length,
-				shapeName: null
+				activeStoryID: activeStoryID,
+				activeBoardID: boardID,
+				activeColorPickerID: null,
+				activeTextShapeID: null
 			}
+			draftState.boardsByID[boardID] = data
+			draftState.storiesByID[activeStoryID].boardsList.push(boardID)
 
 			return
 		}
 
 		case 'DELETE_STORY_BOARD': {
-			const { storyIndex } = action
-			const { stories } = draftState
+			const { boardID } = action
+			const { boardsByID, storiesByID } = draftState
+			const { activeStoryID, activeBoardID } = draftState.active
 
-			if (stories.length === 1) {
+			const { boardsList } = storiesByID[activeStoryID]
+
+			if (boardsList.length === 1) {
 				return // do nothing
 			}
 
-			draftState.stories = stories.filter(
-				(story, index) => index !== storyIndex
+			const { newBoardsList, boardIndex } = boardsList.reduce(
+				(accum, id, index) => {
+					id == boardID
+						? (accum.boardIndex = index)
+						: accum.newBoardsList.push(id)
+					return accum
+				},
+				{
+					newBoardsList: [],
+					boardIndex: null
+				}
 			)
-			const { length } = draftState.stories
-			draftState.active.storyIndex = (length + 1) % length
+
+			draftState.storiesByID[activeStoryID].boardsList = newBoardsList
+			const { [boardID]: toBeDeleted, ...remainingBoards } = boardsByID
+
+			draftState.boardsByID = remainingBoards
+			draftState.storiesByID[activeStoryID].boardsList = newBoardsList
+
+			draftState.active.activeColorPickerID = null
+			draftState.active.activeTextShapeID = null
+			draftState.active.activeBoardID =
+				activeBoardID === boardID
+					? newBoardsList[
+							(boardIndex - 1 + newBoardsList.length) %
+								newBoardsList.length
+					  ]
+					: boardID
 
 			return
 		}
 
 		case 'SET_BACKGROUND_IMAGE': {
-			const { storyIndex, properties } = action
+			const { properties } = action
+			const { boardsByID } = draftState
+			const { activeBoardID } = draftState.active
 
 			const lastBackgroundImage =
-				draftState.stories[storyIndex].backgroundImage
+				boardsByID[activeBoardID].backgroundImage
 
-			draftState.stories[storyIndex].backgroundImage = {
+			draftState.boardsByID[activeBoardID].backgroundImage = {
 				...lastBackgroundImage,
 				...properties
 			}
@@ -64,9 +98,10 @@ export default produce((draftState, action) => {
 		}
 
 		case 'ADD_EMOJI': {
-			const { storyIndex } = draftState.active
+			const { activeBoardID } = draftState.active
+			const emojiID = generateUniqueID('emoji')
 			const emoji = {
-				id: generateUniqueID('emoji'),
+				shapeID: emojiID,
 				type: 'emoji',
 				emoji: action.emoji,
 				fontSize: 46,
@@ -78,234 +113,213 @@ export default produce((draftState, action) => {
 					rotation: 0
 				}
 			}
-			draftState.stories[storyIndex].shapes.push(emoji)
+			draftState.boardsByID[activeBoardID].shapesList.push(emojiID)
+			draftState.boardsByID[activeBoardID].shapesByID[emojiID](emoji)
 			return
 		}
 
-		case 'SET_ACTIVE_SHAPE_NAME': {
-			draftState.active = {
-				storyIndex:
-					action.storyIndex != undefined
-						? action.storyIndex
-						: draftState.active.storyIndex,
-				shapeName: action.name
-			}
+		case 'SET_ACTIVE_SHAPE_ID': {
+			const { shapeID } = action
+			draftState.active.activeTextShapeID = shapeID
 			return
 		}
 
 		case 'ADD_TEXT': {
-			const { storyIndex } = draftState.active
-			const newText = setStoryText()
+			const { activeBoardID } = draftState.active
+			const { shapeID, data } = setStoryText()
 
-			draftState.stories[storyIndex].shapes.push(newText)
-			draftState.active.shapeName = `${newText.id}-group`
+			draftState.boardsByID[activeBoardID].shapesList.push(shapeID)
+			draftState.boardsByID[activeBoardID].shapesByID[shapeID] = data
 
 			return
 		}
 
 		case 'MODIFY_TEXT': {
 			const { properties } = action
-			const { storyIndex, shapeName } = draftState.active
-			const shapes = draftState.stories[storyIndex].shapes
+			const {
+				activeStoryID,
+				activeBoardID,
+				activeTextShapeID
+			} = draftState.active
+			const { boardsByID } = draftState
 
-			const newShapes = shapes.map(shape => {
-				if (`${shape.id}-group` === shapeName) {
-					return {
-						...shape,
-						...properties
-					}
-				} else {
-					return shape
-				}
-			})
-			draftState.stories[storyIndex].shapes = newShapes
+			const lastTextShape =
+				boardsByID[activeBoardID].shapesByID[activeTextShapeID]
+
+			draftState.boardsByID[activeBoardID].shapesByID[
+				activeTextShapeID
+			] = {
+				...lastTextShape,
+				...properties
+			}
 
 			return
 		}
 
 		case 'TOGGLE_TEXT_PROPERTY': {
 			const { propertyName } = action
-			const { storyIndex, shapeName } = draftState.active
+			const { activeBoardID } = draftState.active
+			const { boardsByID } = draftState
 
-			const shapes = draftState.stories[storyIndex].shapes
+			const lastState = boardsByID[activeBoardID][propertyName]
 
-			const newShapes = shapes.map(shape => {
-				if (`${shape.id}-group` === shapeName) {
-					return {
-						...shape,
-						[propertyName]: !shape[propertyName]
-					}
-				} else {
-					return shape
-				}
-			})
-			draftState.stories[storyIndex].shapes = newShapes
+			draftState.boardsByID[activeBoardID][propertyName] = !lastState
 
 			return
 		}
 
-		case 'CHANGE_TEXT_ALIGN': {
-			const { storyIndex, shapeName } = draftState.active
+		// case 'CHANGE_TEXT_ALIGN': {
+		// 	const { storyIndex, shapeName } = draftState.active
 
-			const aligns = ['left', 'center', 'right']
+		// 	const aligns = ['left', 'center', 'right']
 
-			const shapes = draftState.stories[storyIndex].shapes
+		// 	const shapes = draftState.stories[storyIndex].shapes
 
-			const newShapes = shapes.map(shape => {
-				if (`${shape.id}-group` === shapeName) {
-					const { align } = shape
-					const lastAlignIndex = aligns.indexOf(align)
-					const newAlignIndex = (lastAlignIndex + 1) % aligns.length
+		// 	const newShapes = shapes.map(shape => {
+		// 		if (`${shape.id}-group` === shapeName) {
+		// 			const { align } = shape
+		// 			const lastAlignIndex = aligns.indexOf(align)
+		// 			const newAlignIndex = (lastAlignIndex + 1) % aligns.length
 
-					return {
-						...shape,
-						align: aligns[newAlignIndex]
-					}
-				} else {
-					return shape
-				}
-			})
-			draftState.stories[storyIndex].shapes = newShapes
+		// 			return {
+		// 				...shape,
+		// 				align: aligns[newAlignIndex]
+		// 			}
+		// 		} else {
+		// 			return shape
+		// 		}
+		// 	})
+		// 	draftState.stories[storyIndex].shapes = newShapes
 
-			return
-		}
+		// 	return
+		// }
 
-		case 'CHANGE_FONT_SIZE': {
-			const { storyIndex, shapeName } = draftState.active
+		// case 'CHANGE_FONT_SIZE': {
+		// 	const { storyIndex, shapeName } = draftState.active
 
-			const fontSizes = [24, 34, 44, 54]
+		// 	const fontSizes = [24, 34, 44, 54]
 
-			const shapes = draftState.stories[storyIndex].shapes
+		// 	const shapes = draftState.stories[storyIndex].shapes
 
-			const newShapes = shapes.map(shape => {
-				if (`${shape.id}-group` === shapeName) {
-					const { fontSize } = shape
-					const lastFontSizeIndex = fontSizes.indexOf(fontSize)
-					const newFontSizeIndex =
-						(lastFontSizeIndex + 1) % fontSizes.length
+		// 	const newShapes = shapes.map(shape => {
+		// 		if (`${shape.id}-group` === shapeName) {
+		// 			const { fontSize } = shape
+		// 			const lastFontSizeIndex = fontSizes.indexOf(fontSize)
+		// 			const newFontSizeIndex =
+		// 				(lastFontSizeIndex + 1) % fontSizes.length
 
-					return {
-						...shape,
-						fontSize: fontSizes[newFontSizeIndex]
-					}
-				} else {
-					return shape
-				}
-			})
-			draftState.stories[storyIndex].shapes = newShapes
-			return
-		}
+		// 			return {
+		// 				...shape,
+		// 				fontSize: fontSizes[newFontSizeIndex]
+		// 			}
+		// 		} else {
+		// 			return shape
+		// 		}
+		// 	})
+		// 	draftState.stories[storyIndex].shapes = newShapes
+		// 	return
+		// }
 
 		case 'MOVE_STORY_BOARD': {
 			const { boardIndex, increment } = action
 
-			const { stories } = draftState
+			const { activeStoryID } = draftState.active
 			const newIndex = boardIndex + increment
+			const { boardsList } = draftState.storiesByID[activeStoryID]
 			// swap
-			;[stories[boardIndex], stories[newIndex]] = [
-				stories[newIndex],
-				stories[boardIndex]
+			;[boardsList[boardIndex], boardsList[newIndex]] = [
+				boardsList[newIndex],
+				boardsList[boardIndex]
 			]
-
-			draftState.active.storyIndex = boardIndex + increment
-			draftState.active.textIndex = null
-			draftState.active.shapeName = null
 
 			return
 		}
 
 		case 'MOVE_SHAPE_Z_INDEX': {
 			const { increment } = action
-			const { shapeName, storyIndex } = draftState.active
-			const { shapes } = draftState.stories[storyIndex]
-			const shapeIndex = shapes.reduce((accumIndex, shape, index) => {
-				if (accumIndex) return accumIndex
+			const { boardsByID } = draftState
+			const { activeBoardID, activeTextShapeID } = draftState.active
 
-				if (shape.type === 'text') {
-					return `${shape.id}-group` === shapeName
-						? index
-						: accumIndex
-				}
-
-				if (shape.type === 'emoji') {
-					return shape.id === shapeName ? index : accumIndex
-				}
-
-				return accumIndex
-			}, null)
+			const { shapesList } = boardsByID[activeBoardID]
+			const shapeIndex = shapesList.indexOf(activeTextShapeID)
 
 			const newIndex = shapeIndex + increment
-			if (newIndex < 0 || newIndex >= shapes.length) {
+			if (newIndex < 0 || newIndex >= shapesList.length) {
 				return
 			}
 
 			// swap
-			;[shapes[shapeIndex], shapes[newIndex]] = [
-				shapes[newIndex],
-				shapes[shapeIndex]
+			;[shapesList[shapeIndex], shapesList[newIndex]] = [
+				shapesList[newIndex],
+				shapesList[shapeIndex]
 			]
 
 			return
 		}
 
 		case 'COPY_STORY_BOARD': {
-			const { storyIndex } = action
-			const length = draftState.stories.length
-			const currentStory = draftState.stories[storyIndex]
+			const { boardID } = action
+			const { storiesByID, boardsByID } = draftState
+			const { activeBoardID } = draftState.active
 
-			const newStory = {
-				...currentStory,
-				storyID: generateUniqueID('Story'),
-				shapes: currentStory.shapes.map(shape => {
-					return {
-						...shape,
-						id: generateUniqueID(shape.type)
-					}
-				})
-			}
+			const boardData = boardsByID[activeBoardID]
 
-			draftState.stories.push(newStory)
+			const newBoardID = generateUniqueID('board')
+			boardData.boardID = newBoardID
+			const lastShapesByID = newBoardID.shapesByID
+			boardData.shapesByID = {}
 
-			draftState.active = {
-				storyIndex: length,
-				shapeName: null
-			}
+			boardData.shapesList = boardData.shapesList.map(shapeID => {
+				let newShapeID
+				if (shapeID.includes('text')) {
+					newShapeID = generateUniqueID('text')
+				}
+				if (shapeID.includes('emoji')) {
+					newShapeID = generateUniqueID('text')
+				}
+				boardData.shapesByID[newShapeID] = {
+					...lastShapesByID[shapeID],
+					shapeID: newShapeID
+				}
+				return newShapeID
+			})
 
 			return
 		}
 
 		case 'DOWNLOAD_STORY_BOARD': {
-			const { boardIndex } = action
+			const { boardID } = action
 
-			const canvasses = [...document.getElementsByTagName('canvas')]
+			const canvas = document.getElementById(boardID)
 
-			canvasses.forEach((canvas, index) => {
-				if (index === boardIndex) {
-					const { height, width } = canvas
-					const aspectRatio = width / height
+			const { height, width } = canvas
+			const aspectRatio = width / height
 
-					//create a new canvas
-					const newCanvas = document.createElement('canvas')
+			//create a new canvas
+			const newCanvas = document.createElement('canvas')
 
-					//set dimensions
-					const newHeight = 1980
-					const newWidth = newHeight * aspectRatio
-					newCanvas.height = newHeight
-					newCanvas.width = newWidth
+			//set dimensions
+			const newHeight = 1980
+			const newWidth = newHeight * aspectRatio
+			newCanvas.height = newHeight
+			newCanvas.width = newWidth
 
-					const context = newCanvas.getContext('2d')
-					context.drawImage(canvas, 0, 0, newWidth, newHeight)
-					newCanvas.toBlob(function(blob) {
-						Filesaver.saveAs(blob, 'storyboard.png')
-					})
-				}
+			const context = newCanvas.getContext('2d')
+			context.drawImage(canvas, 0, 0, newWidth, newHeight)
+			newCanvas.toBlob(function(blob) {
+				Filesaver.saveAs(blob, 'storyboard.png')
 			})
 
 			return
 		}
 
 		case 'DOWNLOAD_ALL_BOARDS': {
-			const canvasses = [...document.getElementsByTagName('canvas')]
+			const { activeStoryID } = draftState.active
+			const { storyName } = draftState.storiesByID[activeStoryID]
+
+			const canvasses = [
+				...document.getElementsByClassName('konva-canvas')
+			]
 
 			const zip = new JSZip()
 
@@ -335,40 +349,33 @@ export default produce((draftState, action) => {
 			})
 
 			zip.generateAsync({ type: 'blob' }).then(content => {
-				Filesaver.saveAs(content, 'storyboard.zip')
+				Filesaver.saveAs(content, `${storyName}.zip`)
 			})
 			return
 		}
 
 		case 'SET_COLOR_PICKER': {
-			const { colorPickerName } = action
-			draftState.active.colorPickerName = colorPickerName
+			const { colorPickerID } = action
+			draftState.active.activeColorPickerID = colorPickerID
 			return
 		}
 
 		case 'SET_SHAPE_COORD': {
 			let { shapeID, coord } = action
-			shapeID = shapeID.includes('group')
-				? shapeID.replace('-group', '')
-				: shapeID
+			// shapeID = shapeID.includes('group')
+			// 	? shapeID.replace('-group', '')
+			// 	: shapeID
 
-			const { storyIndex } = draftState.active
+			const { activeBoardID } = draftState.active
+			const { boardsByID } = draftState
 
-			const currentShapes = draftState.stories[storyIndex].shapes
+			const lastCoord =
+				boardsByID[activeBoardID].shapesByID[shapeID].coord
 
-			draftState.stories[storyIndex].shapes = currentShapes.map(shape => {
-				if (shapeID === shape.id) {
-					return {
-						...shape,
-						coord: {
-							...shape.coord,
-							...coord
-						}
-					}
-				}
-
-				return shape
-			})
+			boardsByID[activeBoardID].shapesByID[shapeID].coord = {
+				...lastCoord,
+				...coord
+			}
 
 			return
 		}
