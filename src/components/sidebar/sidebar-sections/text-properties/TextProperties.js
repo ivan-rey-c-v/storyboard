@@ -14,7 +14,7 @@ const alignOptions = [
 ]
 
 function TextProperties(props) {
-	const { storeDispatch, currentText } = props
+	const { storeDispatch, currentTextShape } = props
 
 	const handleToggleProperty = useCallback(function(event) {
 		const propertyName = event.currentTarget.getAttribute('data-name')
@@ -34,7 +34,7 @@ function TextProperties(props) {
 			<PropertyDiv>
 				<Property
 					onClick={handleToggleProperty}
-					active={currentText.isBold}
+					active={currentTextShape.isBold}
 					data-name="isBold"
 					data-tooltip="Bold"
 				>
@@ -42,7 +42,7 @@ function TextProperties(props) {
 				</Property>
 				<Property
 					onClick={handleToggleProperty}
-					active={currentText.isItalic}
+					active={currentTextShape.isItalic}
 					data-name="isItalic"
 					data-tooltip="Italic"
 				>
@@ -50,7 +50,7 @@ function TextProperties(props) {
 				</Property>
 				<Property
 					onClick={handleToggleProperty}
-					active={currentText.isUnderline}
+					active={currentTextShape.isUnderline}
 					data-name="isUnderline"
 					data-tooltip="Underline"
 				>
@@ -58,7 +58,7 @@ function TextProperties(props) {
 				</Property>
 				<StrikeProperty
 					onClick={handleToggleProperty}
-					active={currentText.isStrikethrough}
+					active={currentTextShape.isStrikethrough}
 					data-name="isStrikethrough"
 					data-tooltip="Strikethrough"
 				>
@@ -72,7 +72,7 @@ function TextProperties(props) {
 					onChange={handleSelectAlign}
 					options={alignOptions}
 					value={alignOptions.filter(
-						option => option.value === currentText.align
+						option => option.value === currentTextShape.align
 					)}
 				/>
 			</AlignDiv>

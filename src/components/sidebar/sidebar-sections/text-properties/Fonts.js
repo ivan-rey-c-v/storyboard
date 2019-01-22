@@ -18,7 +18,7 @@ const fontOptionStyle = {
 }
 
 function FontAndColor(props) {
-	const { currentText, storeDispatch } = props
+	const { currentTextShape, storeDispatch } = props
 
 	const handleSelectFont = useCallback(function(option, action) {
 		const properties = {
@@ -28,7 +28,7 @@ function FontAndColor(props) {
 	}, [])
 
 	const [fontValue] = fontOptions.filter(
-		font => font.value === currentText.fontFamily
+		font => font.value === currentTextShape.fontFamily
 	)
 
 	return (
@@ -48,7 +48,7 @@ function FontAndColor(props) {
 					name="fontSize"
 					onChange={handleSelectFont}
 					value={fontSizeOptions.filter(
-						option => option.value === currentText.fontSize
+						option => option.value === currentTextShape.fontSize
 					)}
 					options={fontSizeOptions}
 				/>

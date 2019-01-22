@@ -68,23 +68,31 @@ function Canvas(props) {
 			return // do nothing if it is transformer or current shape
 		}
 
-		if (name.includes('object') || name.includes('emoji')) {
-			setWithCenterAnchors(false)
-			storeDispatch({
-				type: 'SET_ACTIVE_SHAPE_ID',
-				shapeID: name
-			})
-			return
-		}
+		const isTextGroup = name.includes('text')
 
-		if (name.includes('text')) {
-			setWithCenterAnchors(true)
-			storeDispatch({
-				shapeID: name.includes('group') ? name : `${name}-group`,
-				type: 'SET_ACTIVE_SHAPE_ID'
-			})
-			return
-		}
+		setWithCenterAnchors(isTextGroup ? true : false)
+		storeDispatch({
+			type: 'SET_ACTIVE_SHAPE_ID',
+			shapeID: isTextGroup ? name.replace('-group', '') : name
+		})
+		return
+		// if (name.includes('object') || name.includes('emoji')) {
+		// 	setWithCenterAnchors(false)
+		// 	storeDispatch({
+		// 		type: 'SET_ACTIVE_SHAPE_ID',
+		// 		shapeID: name
+		// 	})
+		// 	return
+		// }
+
+		// if (name.includes('text')) {
+		// 	setWithCenterAnchors(true)
+		// 	storeDispatch({
+		// 		shapeID: name.includes('group') ? name : `${name}-group`,
+		// 		type: 'SET_ACTIVE_SHAPE_ID'
+		// 	})
+		// 	return
+		// }
 	}, [])
 
 	const onDragKonvaShape = useCallback(
@@ -144,11 +152,14 @@ function Canvas(props) {
 	)
 
 	const handleOnTransform = useCallback(function() {
-		console.log('shape name', this.name())
+		const name = this.name()
+		const shapeID = name.includes('group')
+			? name.replace('-group', '')
+			: name
 
 		storeDispatch({
 			type: 'SET_SHAPE_COORD',
-			shapeID: this.name(),
+			shapeID,
 			coord: {
 				x: this.x(),
 				y: this.y(),
@@ -217,10 +228,10 @@ function Canvas(props) {
 					if (shape.type === 'text') {
 						return (
 							<TextGroup
-								key={shape.id}
+								key={shapeID}
 								textGroup={shape}
 								boardID={boardID}
-								onDragKonvaShape={onDragKonvaShape(shape.id)}
+								onDragKonvaShape={onDragKonvaShape(shapeID)}
 								onTransform={handleOnTransform}
 							/>
 						)
@@ -229,9 +240,9 @@ function Canvas(props) {
 					if (shape.type === 'emoji') {
 						return (
 							<Emoji
-								key={shape.id}
+								key={shapeID}
 								{...shape}
-								name={shape.id}
+								name={shapeID}
 								text={shape.emoji}
 								draggable
 								x={shape.coord.x}
@@ -239,7 +250,7 @@ function Canvas(props) {
 								scaleX={shape.coord.scaleX}
 								scaleY={shape.coord.scaleY}
 								rotation={shape.coord.rotation}
-								dragBoundFunc={onDragKonvaShape(shape.id)}
+								dragBoundFunc={onDragKonvaShape(shapeID)}
 								onTransform={handleOnTransform}
 							/>
 						)

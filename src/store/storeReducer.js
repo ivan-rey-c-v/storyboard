@@ -114,7 +114,7 @@ export default produce((draftState, action) => {
 				}
 			}
 			draftState.boardsByID[activeBoardID].shapesList.push(emojiID)
-			draftState.boardsByID[activeBoardID].shapesByID[emojiID](emoji)
+			draftState.boardsByID[activeBoardID].shapesByID[emojiID] = emoji
 			return
 		}
 
@@ -130,6 +130,7 @@ export default produce((draftState, action) => {
 
 			draftState.boardsByID[activeBoardID].shapesList.push(shapeID)
 			draftState.boardsByID[activeBoardID].shapesByID[shapeID] = data
+			draftState.active.activeTextShapeID = shapeID
 
 			return
 		}
@@ -158,12 +159,15 @@ export default produce((draftState, action) => {
 
 		case 'TOGGLE_TEXT_PROPERTY': {
 			const { propertyName } = action
-			const { activeBoardID } = draftState.active
+			const { activeBoardID, activeTextShapeID } = draftState.active
 			const { boardsByID } = draftState
 
-			const lastState = boardsByID[activeBoardID][propertyName]
+			const currentTextShape =
+				boardsByID[activeBoardID].shapesByID[activeTextShapeID]
 
-			draftState.boardsByID[activeBoardID][propertyName] = !lastState
+			const lastState = currentTextShape[propertyName]
+
+			currentTextShape[propertyName] = !lastState
 
 			return
 		}
@@ -260,13 +264,13 @@ export default produce((draftState, action) => {
 		case 'COPY_STORY_BOARD': {
 			const { boardID } = action
 			const { storiesByID, boardsByID } = draftState
-			const { activeBoardID } = draftState.active
+			const { activeStoryID, activeBoardID } = draftState.active
 
-			const boardData = boardsByID[activeBoardID]
+			const boardData = { ...boardsByID[activeBoardID] }
 
 			const newBoardID = generateUniqueID('board')
 			boardData.boardID = newBoardID
-			const lastShapesByID = newBoardID.shapesByID
+			const lastShapesByID = { ...boardData.shapesByID }
 			boardData.shapesByID = {}
 
 			boardData.shapesList = boardData.shapesList.map(shapeID => {
@@ -283,6 +287,9 @@ export default produce((draftState, action) => {
 				}
 				return newShapeID
 			})
+
+			storiesByID[activeStoryID].boardsList.push(newBoardID)
+			boardsByID[newBoardID] = boardData
 
 			return
 		}
@@ -362,9 +369,6 @@ export default produce((draftState, action) => {
 
 		case 'SET_SHAPE_COORD': {
 			let { shapeID, coord } = action
-			// shapeID = shapeID.includes('group')
-			// 	? shapeID.replace('-group', '')
-			// 	: shapeID
 
 			const { activeBoardID } = draftState.active
 			const { boardsByID } = draftState

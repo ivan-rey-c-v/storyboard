@@ -17,7 +17,7 @@ const highlightOptions = [
 ]
 
 function Colors(props) {
-	const { currentText, storeDispatch, activeColorPickerID } = props
+	const { currentTextShape, storeDispatch, activeColorPickerID } = props
 
 	const handleOnColorChange = useCallback(
 		(fillName, opacityName) => (color, event) => {
@@ -49,8 +49,8 @@ function Colors(props) {
 						isColorPickerActive={
 							activeColorPickerID === 'text-color-picker'
 						}
-						color={currentText.fill}
-						opacity={currentText.opacity}
+						color={currentTextShape.fill}
+						opacity={currentTextShape.opacity}
 						storeDispatch={storeDispatch}
 						handleOnColorChange={handleOnColorChange(
 							'fill',
@@ -64,7 +64,7 @@ function Colors(props) {
 				<RowPanelInput>
 					<StyledSelect
 						value={
-							currentText.hasBoxHighlight
+							currentTextShape.hasBoxHighlight
 								? { label: 'Highlight' }
 								: { label: 'None' }
 						}
@@ -73,15 +73,15 @@ function Colors(props) {
 					/>
 				</RowPanelInput>
 				<RowPanelBox>
-					{currentText.hasBoxHighlight ? (
+					{currentTextShape.hasBoxHighlight ? (
 						<ColorSwatch
 							name="box-color-picker"
 							position="top"
 							isColorPickerActive={
 								activeColorPickerID === 'box-color-picker'
 							}
-							color={currentText.boxFill}
-							opacity={currentText.boxOpacity}
+							color={currentTextShape.boxFill}
+							opacity={currentTextShape.boxOpacity}
 							storeDispatch={storeDispatch}
 							handleOnColorChange={handleOnColorChange(
 								'boxFill',
