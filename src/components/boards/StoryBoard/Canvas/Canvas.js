@@ -71,28 +71,12 @@ function Canvas(props) {
 		const isTextGroup = name.includes('text')
 
 		setWithCenterAnchors(isTextGroup ? true : false)
+
 		storeDispatch({
 			type: 'SET_ACTIVE_SHAPE_ID',
 			shapeID: isTextGroup ? name.replace('-group', '') : name
 		})
 		return
-		// if (name.includes('object') || name.includes('emoji')) {
-		// 	setWithCenterAnchors(false)
-		// 	storeDispatch({
-		// 		type: 'SET_ACTIVE_SHAPE_ID',
-		// 		shapeID: name
-		// 	})
-		// 	return
-		// }
-
-		// if (name.includes('text')) {
-		// 	setWithCenterAnchors(true)
-		// 	storeDispatch({
-		// 		shapeID: name.includes('group') ? name : `${name}-group`,
-		// 		type: 'SET_ACTIVE_SHAPE_ID'
-		// 	})
-		// 	return
-		// }
 	}, [])
 
 	const onDragKonvaShape = useCallback(
@@ -136,6 +120,7 @@ function Canvas(props) {
 
 				storeDispatch({
 					type: 'SET_SHAPE_COORD',
+					boardID,
 					shapeID,
 					coord: {
 						x: newPosX,
@@ -159,6 +144,7 @@ function Canvas(props) {
 
 		storeDispatch({
 			type: 'SET_SHAPE_COORD',
+			boardID,
 			shapeID,
 			coord: {
 				x: this.x(),

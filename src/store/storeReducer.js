@@ -76,20 +76,22 @@ export default produce((draftState, action) => {
 							(boardIndex - 1 + newBoardsList.length) %
 								newBoardsList.length
 					  ]
-					: boardID
+					: activeBoardID
 
 			return
 		}
 
 		case 'SET_BACKGROUND_IMAGE': {
-			const { properties } = action
+			const { boardID, properties } = action
 			const { boardsByID } = draftState
 			const { activeBoardID } = draftState.active
 
-			const lastBackgroundImage =
-				boardsByID[activeBoardID].backgroundImage
+			// using this case: (set-background-image) in Konva image does not trigger the select-board case first
+			const boardIDToUse = boardID == undefined ? activeBoardID : boardID
 
-			draftState.boardsByID[activeBoardID].backgroundImage = {
+			const lastBackgroundImage = boardsByID[boardIDToUse].backgroundImage
+
+			draftState.boardsByID[boardIDToUse].backgroundImage = {
 				...lastBackgroundImage,
 				...properties
 			}
@@ -279,7 +281,7 @@ export default produce((draftState, action) => {
 					newShapeID = generateUniqueID('text')
 				}
 				if (shapeID.includes('emoji')) {
-					newShapeID = generateUniqueID('text')
+					newShapeID = generateUniqueID('emoji')
 				}
 				boardData.shapesByID[newShapeID] = {
 					...lastShapesByID[shapeID],
@@ -368,15 +370,14 @@ export default produce((draftState, action) => {
 		}
 
 		case 'SET_SHAPE_COORD': {
-			let { shapeID, coord } = action
+			// boardID is needed since select_story_board does not trigger before this
+			let { boardID, shapeID, coord } = action
 
-			const { activeBoardID } = draftState.active
 			const { boardsByID } = draftState
 
-			const lastCoord =
-				boardsByID[activeBoardID].shapesByID[shapeID].coord
+			const lastCoord = boardsByID[boardID].shapesByID[shapeID].coord
 
-			boardsByID[activeBoardID].shapesByID[shapeID].coord = {
+			boardsByID[boardID].shapesByID[shapeID].coord = {
 				...lastCoord,
 				...coord
 			}

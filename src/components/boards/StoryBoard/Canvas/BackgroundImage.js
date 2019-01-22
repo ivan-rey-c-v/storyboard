@@ -53,7 +53,12 @@ class BackgroundImage extends PureComponent {
 	}
 
 	dragOnHorizontally = pos => {
-		const { canvasWidth, width: imageWidth, storeDispatch } = this.props
+		const {
+			canvasWidth,
+			width: imageWidth,
+			storeDispatch,
+			boardID
+		} = this.props
 		// make sure it is always positive before convert to negative value
 		const leftBoundary = -Math.abs(imageWidth - canvasWidth)
 		const newX =
@@ -61,6 +66,7 @@ class BackgroundImage extends PureComponent {
 
 		storeDispatch({
 			type: 'SET_BACKGROUND_IMAGE',
+			boardID,
 			properties: {
 				x: newX
 			}
