@@ -139,11 +139,7 @@ export default produce((draftState, action) => {
 
 		case 'MODIFY_TEXT': {
 			const { properties } = action
-			const {
-				activeStoryID,
-				activeBoardID,
-				activeTextShapeID
-			} = draftState.active
+			const { activeBoardID, activeTextShapeID } = draftState.active
 			const { boardsByID } = draftState
 
 			const lastTextShape =
@@ -266,9 +262,9 @@ export default produce((draftState, action) => {
 		case 'COPY_STORY_BOARD': {
 			const { boardID } = action
 			const { storiesByID, boardsByID } = draftState
-			const { activeStoryID, activeBoardID } = draftState.active
+			const { activeStoryID } = draftState.active
 
-			const boardData = { ...boardsByID[activeBoardID] }
+			const boardData = { ...boardsByID[boardID] }
 
 			const newBoardID = generateUniqueID('board')
 			boardData.boardID = newBoardID
@@ -382,6 +378,77 @@ export default produce((draftState, action) => {
 				...coord
 			}
 
+			return
+		}
+
+		case 'ADD_STORY': {
+			const { storiesList, storiesByID, boardsByID } = draftState
+
+			const story = setStory(storiesList.length + 1)
+			const board = setBoard(story.storyID)
+
+			storiesList.push(story.storyID)
+			storiesByID[story.storyID] = story.data
+
+			boardsByID[board.boardID] = board.data
+			storiesByID[story.storyID].boardsList.push(board.boardID)
+			return
+		}
+
+		case 'SELECT_STORY': {
+			const { storyID } = action
+			const { active, storiesByID } = draftState
+
+			active.activeStoryID = storyID
+			active.activeColorPickerID = null
+			active.activeTextShapeID = null
+			// the first board should be the active boardID
+			active.activeBoardID = storiesByID[storyID].boardsList[0]
+			return
+		}
+
+		case 'DELETE_STORY': {
+			const { storyID } = action
+			const { active, storiesByID, storiesList } = draftState
+
+			if (storiesList.length === 1) {
+				return // do nothing if only 1 left
+			}
+
+			const { filteredStoriesList, storyIndex } = storiesList.reduce(
+				(accum, id, index) => {
+					id === storyID
+						? (accum.storyIndex = index)
+						: accum.filteredStoriesList.push(id)
+					return accum
+				},
+				{
+					filteredStoriesList: [],
+					storyIndex: null
+				}
+			)
+			const { [storyID]: toBeDeleted, ...remaningStories } = storiesByID
+			draftState.storiesByID = remaningStories
+			draftState.storiesList = filteredStoriesList
+
+			const { length } = filteredStoriesList
+
+			const newActiveStoryID =
+				filteredStoriesList[(storyIndex - 1 + length) % length]
+
+			active.activeStoryID = newActiveStoryID
+			active.activeColorPickerID = null
+			active.activeTextShapeID = null
+			// the first board should be the active boardID
+			active.activeBoardID = storiesByID[newActiveStoryID].boardsList[0]
+			return
+		}
+
+		case 'CHANGE_STORY_NAME': {
+			const { storyID, storyName } = action
+			const { storiesByID } = draftState
+
+			storiesByID[storyID].storyName = storyName
 			return
 		}
 

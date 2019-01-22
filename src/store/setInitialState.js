@@ -3,7 +3,7 @@ import setStory from './setStory'
 import setBoard from './setBoard'
 
 export default function setInitialState() {
-	const story = setStory()
+	const story = setStory(1)
 	const board = setBoard(story.storyID)
 
 	const state = {

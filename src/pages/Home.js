@@ -28,7 +28,7 @@ function Home(props) {
 	}, [])
 
 	useEffect(function() {
-		//	setToLocalStorage(state)
+		setToLocalStorage(state)
 	})
 
 	return (

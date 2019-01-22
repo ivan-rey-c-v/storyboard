@@ -1,6 +1,6 @@
 import React, { lazy, Suspense, useState, useCallback } from 'react'
 import { Emoji } from 'emoji-mart'
-import styled from 'styled-components'
+import styled from 'styled-components/macro'
 
 import { Button } from '../../Sidebar.styles'
 

@@ -13,7 +13,7 @@ export const SidebarContainer = styled.aside`
 	flex-direction: column;
 	background-color: white;
 `
-export const SubMenuPanel = styled.header`
+export const SubMenuPanel = styled.div`
 	width: 100%;
 	height: 80px;
 	flex-shrink: 0;
@@ -23,6 +23,16 @@ export const SubMenuPanel = styled.header`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+`
+export const AnimatedSubMenuPanel = styled(SubMenuPanel)`
+	border-right: none;
+	border-bottom: 1px solid lightgray;
+	--color-hover: #f4f9f9;
+	cursor: pointer;
+
+	:hover {
+		background-color: var(--color-hover);
+	}
 `
 export const MenuActionDiv = styled.div`
 	cursor: pointer;

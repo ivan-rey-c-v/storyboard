@@ -31,37 +31,28 @@ const colorTypeOptions = [
 ]
 
 function SetBackground(props) {
-	const {
-		backgroundImage,
-		storeDispatch,
-		boardID,
-		activeColorPickerID
-	} = props
+	const { backgroundImage, storeDispatch, activeColorPickerID } = props
 	const imageFile = backgroundImage.file
 
-	const handleSetBackground = useCallback(
-		function(event) {
-			event.stopPropagation()
-			const file = event.target.files[0]
+	const handleSetBackground = useCallback(function(event) {
+		event.stopPropagation()
+		const file = event.target.files[0]
 
-			const reader = new FileReader()
-			reader.readAsDataURL(file)
-			reader.onload = function(event) {
-				storeDispatch({
-					type: 'SET_BACKGROUND_IMAGE',
-					properties: {
-						file: {
-							dataURL: reader.result,
-							name: file.name
-						},
-						x: 0
-					}
-				})
-			}
-		},
-		// boardID should be different with other canvas boards
-		[]
-	)
+		const reader = new FileReader()
+		reader.readAsDataURL(file)
+		reader.onload = function(event) {
+			storeDispatch({
+				type: 'SET_BACKGROUND_IMAGE',
+				properties: {
+					file: {
+						dataURL: reader.result,
+						name: file.name
+					},
+					x: 0
+				}
+			})
+		}
+	}, [])
 
 	const handleRemoveBackground = useCallback(function(event) {
 		event.stopPropagation()

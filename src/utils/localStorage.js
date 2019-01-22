@@ -1,4 +1,4 @@
-const storageName = 'storyboard'
+const storageName = 'storykit-v0.1'
 
 export function setToLocalStorage(state) {
 	window.localStorage.setItem(storageName, JSON.stringify(state))

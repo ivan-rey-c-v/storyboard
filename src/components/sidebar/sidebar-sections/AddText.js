@@ -7,12 +7,7 @@ import Fonts from './text-properties/Fonts'
 import Colors from './text-properties/colors/Colors'
 
 function AddText(props) {
-	const {
-		storeDispatch,
-		activeTextShapeID,
-		currentTextShape,
-		activeColorPickerID
-	} = props
+	const { storeDispatch, currentTextShape, activeColorPickerID } = props
 
 	const handleAddText = useCallback(function(event) {
 		event.stopPropagation()

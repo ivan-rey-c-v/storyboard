@@ -9,7 +9,6 @@ const AddText = lazy(_ => import('./AddText'))
 
 function SidebarSectionsComponent(props) {
 	const {
-		activeStoryID,
 		activeBoardID,
 		activeColorPickerID,
 		currentStoryBoard,
@@ -40,7 +39,6 @@ function SidebarSectionsComponent(props) {
 				<Suspense fallback={<FallbackDiv />}>
 					<AddText
 						storeDispatch={storeDispatch}
-						activeTextShapeID={activeTextShapeID}
 						currentTextShape={currentTextShape}
 						activeColorPickerID={activeColorPickerID}
 					/>
