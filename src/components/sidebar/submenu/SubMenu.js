@@ -46,7 +46,7 @@ function SubMenu(props) {
 
 	return (
 		<StyledSidebarSections>
-			<CreateStoryPanel onClick={handleAddStory}>
+			<CreateStoryPanel onClick={handleAddStory} delayIndex={0}>
 				<div>
 					<PlusSVG />
 				</div>
@@ -56,13 +56,14 @@ function SubMenu(props) {
 
 			<StoriesDiv>
 				<OverflowDiv>
-					{storiesList.map(storyID => {
+					{storiesList.map((storyID, index) => {
 						const story = storiesByID[storyID]
 						const isCurrentStoryID = storyID === activeStoryID
 						return (
 							<StoryPanel
 								key={storyID}
 								story={story}
+								index={index}
 								isCurrentStoryID={isCurrentStoryID}
 								handleSelectStory={handleSelectStory(storyID)}
 								handleDeleteStory={handleDeleteStory(storyID)}
@@ -80,6 +81,7 @@ function SubMenu(props) {
 
 const StyledSidebarSections = styled(SidebarSections)`
 	flex-grow: 1;
+	overflow: hidden;
 `
 const CreateStoryPanel = styled(AnimatedSubMenuPanel)`
 	border-top: 1px solid lightgray;

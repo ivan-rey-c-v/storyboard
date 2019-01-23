@@ -19,6 +19,7 @@ export const SubMenuPanel = styled.div`
 	flex-shrink: 0;
 	padding: 0 1.5rem;
 	border-right: 1px solid lightgray;
+	background-color: white;
 
 	display: flex;
 	align-items: center;
@@ -29,9 +30,27 @@ export const AnimatedSubMenuPanel = styled(SubMenuPanel)`
 	border-bottom: 1px solid lightgray;
 	--color-hover: #f4f9f9;
 	cursor: pointer;
+	transition: transform 100ms ease-in;
+	transform: translateY(-100%);
+	opacity: 0;
+	animation: dropdown 400ms forwards;
+	animation-delay: ${({ delayIndex }) => delayIndex * 250}ms;
 
 	:hover {
 		background-color: var(--color-hover);
+	}
+
+	@keyframes dropdown {
+		0% {
+			transform: translateY(-100%);
+			opacity: 1;
+			z-index: -1;
+		}
+		100% {
+			transform: translateY(0);
+			opacity: 1;
+			z-index: 1;
+		}
 	}
 `
 export const MenuActionDiv = styled.div`

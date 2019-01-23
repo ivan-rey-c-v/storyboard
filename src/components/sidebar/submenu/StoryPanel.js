@@ -9,6 +9,7 @@ import TrashSVG from 'react-feather/dist/icons/trash-2'
 function StoryPanel(props) {
 	const {
 		story,
+		index,
 		isCurrentStoryID,
 		handleSelectStory,
 		handleDeleteStory,
@@ -21,7 +22,10 @@ function StoryPanel(props) {
 	}, [])
 
 	return (
-		<AnimatedSubMenuPanel onClick={handleSelectStory}>
+		<AnimatedSubMenuPanel
+			onClick={handleSelectStory}
+			delayIndex={index + 1}
+		>
 			<div>
 				<FileSVG />
 			</div>
