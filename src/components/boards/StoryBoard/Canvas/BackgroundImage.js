@@ -1,5 +1,5 @@
-import React, { PureComponent } from 'react'
 import Konva from 'konva'
+import React, { PureComponent } from 'react'
 import { Image } from 'react-konva'
 
 // use React Class since Konva can't use useCallback(react16.7)

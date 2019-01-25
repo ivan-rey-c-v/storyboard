@@ -1,11 +1,10 @@
-import produce from 'immer'
 import Filesaver from 'file-saver'
+import produce from 'immer'
 import JSZip from 'jszip'
-
-import setStory from './setStory'
-import setBoard from './setBoard'
-import setStoryText from './setStoryText'
 import generateUniqueID from '../utils/generateUniqueID'
+import setBoard from './setBoard'
+import setStory from './setStory'
+import setStoryText from './setStoryText'
 
 export default produce((draftState, action) => {
 	switch (action.type) {
@@ -122,6 +121,7 @@ export default produce((draftState, action) => {
 
 		case 'SET_ACTIVE_SHAPE_ID': {
 			const { shapeID } = action
+
 			draftState.active.activeTextShapeID = shapeID
 			return
 		}

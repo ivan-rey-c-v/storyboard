@@ -1,12 +1,10 @@
-import React, { useEffect, useState, useCallback, useRef } from 'react'
-import { Stage, Layer } from 'react-konva'
-
+import React, { useCallback, useState } from 'react'
 import BackgroundImage from './BackgroundImage'
 import ColoredBox from './ColoredBox'
 import FittedImage from './FittedImage'
+import KonvaStage from './KonvaStage'
+import ShapesList from './ShapesList'
 import ShapeTransformer from './ShapeTransformer'
-import TextGroup from './TextGroup'
-import Emoji from './Emoji'
 
 function Canvas(props) {
 	const {
@@ -15,40 +13,12 @@ function Canvas(props) {
 		activeTextShapeID,
 		canvasHeight,
 		canvasWidth,
-		storeDispatch
+		storeDispatch,
+		imageSize,
+		canvasBackgroundImage
 	} = props
 	const { backgroundImage, shapesList, shapesByID } = board
-	const [canvasBackgroundImage, setCanvasBackgroundImage] = useState(null)
-	const [imageSize, setImageSize] = useState()
 	const [withCenterAnchors, setWithCenterAnchors] = useState(true)
-	const canvasEl = useRef(null)
-
-	useEffect(
-		function() {
-			if (backgroundImage.file) {
-				const newImage = new window.Image()
-				newImage.src = backgroundImage.file.dataURL
-				newImage.onload = () => {
-					// render konva Image when ready
-					const { height, width } = newImage
-					const aspectRatio = width / height
-
-					setImageSize({
-						originalHeight: height,
-						originalWidth: width,
-						height: canvasHeight,
-						width: canvasHeight * aspectRatio
-					})
-					setCanvasBackgroundImage(newImage)
-				}
-			} else {
-				// dont render konva Image
-				setCanvasBackgroundImage(null)
-			}
-		},
-		// called everytime backgroundImage changes
-		[backgroundImage.file]
-	)
 
 	const onStageMouseDown = useCallback(function(e) {
 		const { name } = e.target.attrs
@@ -64,8 +34,8 @@ function Canvas(props) {
 
 		const clickedOnTransformer =
 			e.target.getParent().className === 'Transformer'
-		if (clickedOnTransformer || name === activeTextShapeID) {
-			return // do nothing if it is transformer or current shape
+		if (clickedOnTransformer) {
+			return // do nothing if it is transformer
 		}
 
 		const isTextGroup = name.includes('text')
@@ -156,102 +126,63 @@ function Canvas(props) {
 		})
 	}, [])
 
-	useEffect(function() {
-		canvasEl.current.content.children[0].setAttribute('id', boardID)
-		canvasEl.current.content.children[0].setAttribute(
-			'class',
-			'konva-canvas'
-		)
-	}, [])
-
 	return (
-		<Stage
+		<KonvaStage
 			name="canvas-stage"
+			boardID={boardID}
 			height={canvasHeight}
 			width={canvasWidth}
 			onMouseDown={onStageMouseDown}
-			ref={canvasEl}
 		>
-			<Layer>
-				{canvasBackgroundImage && (
-					<BackgroundImage
-						image={canvasBackgroundImage}
-						name="background-image"
-						type={backgroundImage.type}
-						canvasWidth={props.canvasWidth}
-						x={backgroundImage.x}
-						height={imageSize.height}
-						width={imageSize.width}
-						originalHeight={imageSize.originalHeight}
-						originalWidth={imageSize.originalWidth}
-						storeDispatch={storeDispatch}
-						boardID={boardID}
-					/>
-				)}
-
-				{backgroundImage.colorType !== 'blur' && (
-					<ColoredBox
-						name="background-image"
-						width={props.canvasWidth}
-						height={props.canvasHeight}
-						fill={backgroundImage.colorFill}
-					/>
-				)}
-				{canvasBackgroundImage && backgroundImage.type === 'fit' ? (
-					<FittedImage
-						image={canvasBackgroundImage}
-						name="background-image"
-						canvasWidth={props.canvasWidth}
-						canvasHeight={props.canvasHeight}
-						originalHeight={imageSize.originalHeight}
-						originalWidth={imageSize.originalWidth}
-					/>
-				) : null}
-
-				{shapesList.map((shapeID, index) => {
-					const shape = shapesByID[shapeID]
-
-					if (shape.type === 'text') {
-						return (
-							<TextGroup
-								key={shapeID}
-								textGroup={shape}
-								boardID={boardID}
-								onDragKonvaShape={onDragKonvaShape(shapeID)}
-								onTransform={handleOnTransform}
-							/>
-						)
-					}
-
-					if (shape.type === 'emoji') {
-						return (
-							<Emoji
-								key={shapeID}
-								{...shape}
-								name={shapeID}
-								text={shape.emoji}
-								draggable
-								x={shape.coord.x}
-								y={shape.coord.y}
-								scaleX={shape.coord.scaleX}
-								scaleY={shape.coord.scaleY}
-								rotation={shape.coord.rotation}
-								dragBoundFunc={onDragKonvaShape(shapeID)}
-								onTransform={handleOnTransform}
-							/>
-						)
-					}
-
-					return null
-				})}
-
-				<ShapeTransformer
-					activeTextShapeID={activeTextShapeID}
-					withCenterAnchors={withCenterAnchors}
-					//shapes={story.shapes}
+			{canvasBackgroundImage && (
+				<BackgroundImage
+					image={canvasBackgroundImage}
+					name="background-image"
+					type={backgroundImage.type}
+					canvasWidth={props.canvasWidth}
+					x={backgroundImage.x}
+					height={imageSize.height}
+					width={imageSize.width}
+					originalHeight={imageSize.originalHeight}
+					originalWidth={imageSize.originalWidth}
+					storeDispatch={storeDispatch}
+					boardID={boardID}
 				/>
-			</Layer>
-		</Stage>
+			)}
+
+			{backgroundImage.colorType !== 'blur' && (
+				<ColoredBox
+					name="background-image"
+					width={props.canvasWidth}
+					height={props.canvasHeight}
+					fill={backgroundImage.colorFill}
+				/>
+			)}
+			{canvasBackgroundImage && backgroundImage.type === 'fit' ? (
+				<FittedImage
+					image={canvasBackgroundImage}
+					name="background-image"
+					canvasWidth={props.canvasWidth}
+					canvasHeight={props.canvasHeight}
+					originalHeight={imageSize.originalHeight}
+					originalWidth={imageSize.originalWidth}
+				/>
+			) : null}
+
+			<ShapesList
+				boardID={boardID}
+				shapesList={shapesList}
+				shapesByID={shapesByID}
+				onDragKonvaShape={onDragKonvaShape}
+				handleOnTransform={handleOnTransform}
+			/>
+
+			<ShapeTransformer
+				activeTextShapeID={activeTextShapeID}
+				withCenterAnchors={withCenterAnchors}
+				//board={board}
+			/>
+		</KonvaStage>
 	)
 }
 

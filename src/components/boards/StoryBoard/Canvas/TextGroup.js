@@ -1,7 +1,6 @@
+import produce from 'immer'
 import React, { PureComponent } from 'react'
 import { Group } from 'react-konva'
-import produce from 'immer'
-
 import TextBox from './TextBox'
 
 class TextGroup extends PureComponent {

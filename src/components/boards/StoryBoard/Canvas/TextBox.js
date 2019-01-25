@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import { Text, Rect } from 'react-konva'
+import { Rect, Text } from 'react-konva'
 
 class TextBox extends PureComponent {
 	state = {

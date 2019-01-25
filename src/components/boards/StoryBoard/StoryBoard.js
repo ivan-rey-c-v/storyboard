@@ -1,13 +1,13 @@
-import React, { lazy, Suspense, useCallback, useState } from 'react'
+import React, { lazy, Suspense, useCallback, useEffect, useState } from 'react'
 import styled, { css } from 'styled-components/macro'
-
-import BoardHeader from './BoardHeader'
 import BoardFooter from './BoardFooter'
+import BoardHeader from './BoardHeader'
 
 const Canvas = lazy(_ => import('./Canvas/Canvas'))
 
 function StoryBoard(props) {
 	const {
+		board,
 		boardID,
 		boardIndex,
 		canMoveLeft,
@@ -20,6 +20,37 @@ function StoryBoard(props) {
 	} = props
 	// isDragging is used for css
 	const [isDragging, setIsDragging] = useState(false)
+	const [imageSize, setImageSize] = useState()
+	const [canvasBackgroundImage, setCanvasBackgroundImage] = useState(null)
+
+	const { backgroundImage } = board
+
+	useEffect(
+		function() {
+			if (backgroundImage.file && backgroundImage.file.dataURL) {
+				const newImage = new window.Image()
+				newImage.src = backgroundImage.file.dataURL
+				newImage.onload = () => {
+					// render konva Image when ready
+					const { height, width } = newImage
+					const aspectRatio = width / height
+
+					setImageSize({
+						originalHeight: height,
+						originalWidth: width,
+						height: canvasHeight,
+						width: canvasHeight * aspectRatio
+					})
+					setCanvasBackgroundImage(newImage)
+				}
+			} else {
+				// dont render konva Image
+				setCanvasBackgroundImage(null)
+			}
+		},
+		// called everytime backgroundImage changes
+		[backgroundImage.file]
+	)
 
 	const handleMoveBoard = useCallback(
 		increment => event => {
@@ -78,6 +109,33 @@ function StoryBoard(props) {
 		setIsDragging(true)
 	}, [])
 
+	useEffect(
+		function() {
+			if (backgroundImage.file && backgroundImage.file.dataURL) {
+				const newImage = new window.Image()
+				newImage.src = backgroundImage.file.dataURL
+				newImage.onload = () => {
+					// render konva Image when ready
+					const { height, width } = newImage
+					const aspectRatio = width / height
+
+					setImageSize({
+						originalHeight: height,
+						originalWidth: width,
+						height: canvasHeight,
+						width: canvasHeight * aspectRatio
+					})
+					setCanvasBackgroundImage(newImage)
+				}
+			} else {
+				// dont render konva Image
+				setCanvasBackgroundImage(null)
+			}
+		},
+		// called everytime backgroundImage changes
+		[backgroundImage.file]
+	)
+
 	return (
 		<Container canvasWidth={canvasWidth}>
 			<BoardHeader
@@ -103,6 +161,8 @@ function StoryBoard(props) {
 					<Canvas
 						// canvasHeight/Width, story, activeTextShapeID, storeDispatch
 						{...props}
+						imageSize={imageSize}
+						canvasBackgroundImage={canvasBackgroundImage}
 					/>
 				</Suspense>
 			</CanvasContainer>
